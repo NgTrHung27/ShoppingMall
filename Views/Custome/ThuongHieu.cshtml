@@ -1,0 +1,99 @@
+@{
+    Layout = "_CustomeLayout";
+}
+@using QLTTTM.models
+@inject DataSQLContext dbContext;
+@model List<QLTTTM.models.DoiTac>
+
+
+<div class="brands">
+    <div class="text-center">
+        <div class="brand-header">
+            <span class="material-symbols-outlined">
+                auto_awesome
+            </span>
+            <i class="fa-solid fa-star"></i>
+            <span class="material-symbols-outlined">
+                auto_awesome
+            </span>
+            THƯƠNG HIỆU
+            <span class="material-symbols-outlined">
+                auto_awesome
+            </span>
+            <i class="fa-solid fa-star"></i>
+            <span class="material-symbols-outlined">
+                auto_awesome
+            </span>
+        </div>
+
+        <div class="type-brand">
+            @ViewBag.tenloadt
+        </div>
+    </div>
+
+    <div class="brand-content">
+        <div class="container">
+            <div class="row" data-aos="zoom-out-down" data-aos-duration="1500">
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-3">
+                        <a href="@item.DIRECTION" style="text-decoration: none; color: black;" >
+                            <div class="card card-brand">
+                                    <img src="@item.IMAGEPATH" alt="">
+                                    <div class="content-brand-bottom">
+                                    <div class="title-content-brand">
+                                        <h3>@item.TENDT</h3>
+
+                                        @if (ViewBag.tenloadt != "")
+                                        {
+                                            <p>
+                                                @ViewBag.tenloadt
+                                            </p>
+                                        }
+                                        else
+                                        {
+                                            var loaidt = dbContext.LoaiDoiTacs.ToList();
+                                            foreach (var i in loaidt)
+                                            {
+                                                if (item.MALOAIDOITAC == i.MALOAIDT)
+                                                {
+                                                    <p>
+                                                        @i.TENLOAI
+                                                    </p>
+                                                }
+                                            }
+                                        }
+
+                                    </div>
+                                    <hr>
+                                    <div class="position-brand">
+                                        <p>
+                                            @item.EMAIL
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+
+                }
+
+
+
+
+
+
+
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+</div>
+</div>

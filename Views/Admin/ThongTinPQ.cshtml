@@ -1,0 +1,281 @@
+@using Microsoft.EntityFrameworkCore
+@using System.Data
+@using QLTTTM.models;
+@model QLTTTM.models.DataSQLContext
+@{
+    Layout = "_AdminLayout";
+
+}
+@{
+    List<ChucVu> chucVus = Model.ChucVus.ToList();
+    List<ChucNang> chucNangs = Model.ChucNangs.ToList();
+    List<PhanQuyen> phanQuyens = Model.PhanQuyens.OrderByDescending(x => x.ID).ToList();
+
+}
+
+
+
+
+
+
+<div class="content-wrapper">
+    <div class="page-header">
+        <h3 class="page-title" style="font-weight:bold;font-size:30px;color:#ab8221">
+            <span class="me-2">
+                <i class="fa-solid fa-user-lock"></i> </span>Quản Lý Phân Quyền
+        </h3>
+
+    </div>
+
+
+
+    <h2>Danh Sách Các Quyền</h2>
+
+
+
+    <!-- Table thông tin đối tác  -->
+    <div id="Doitac" class="table-info">
+        <h3 style="margin: 20px; color:#343a40;font-weight:700">
+            <i class="fa-solid fa-circle-info" style="color: #343a40;font-size:20px"></i>
+            Thông tin phân quyền
+        </h3>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Mã Phân Quyền</th>
+                    <th>Mã Chức Vụ</th>
+                    <th>Tên Chức Vụ</th>
+                    <th>Mã Chức Năng</th>
+                    <th>Tên Chức Năng</th>
+                    <th>Chức Năng</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in phanQuyens)
+                {
+                    var cv = chucVus.Find(x => x.MACV == item.MACV);
+                    var cn = chucNangs.Find(x => x.MACN == item.MACN);
+                    <tr>
+                        <td>@("HTCPQ" + item.ID)</td>
+                        <td>@("HTCCV" + item.MACV)</td>
+                        <td>@cv.TENCV</td>
+                        <td>
+                            @("HTCCN" + item.MACN)
+                        </td>
+                        <td>
+                            @cn.TENCN
+                        </td>
+                        <td class="action-buttons">
+                            @using (Html.BeginForm("XoaPQ", "Admin", new { ID = item.ID }, FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="remove"
+                                    onclick="return confirm('Bạn có chắc chắn muốn xóa quyền này không?')">
+                                    <span class="material-symbols-outlined">
+                                        do_not_disturb_on
+                                    </span>
+                                </button>
+                            }
+                        </td>
+
+                    </tr>
+                }
+
+
+
+            </tbody>
+        </table>
+
+    </div>
+
+
+    <!-- Button để mở modal -->
+    <button class="add add-nv" data-bs-toggle="modal" data-bs-target="#exampleModalToggle">Thêm Phân Quyền</button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+        tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Form để nhập thông tin -->
+                <form id="addPermissionForm" method="post" asp-action="ThemPhanQuyen" asp-controller="Admin">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Thêm Phân Quyền</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <select id="partner-type" name="macv" style="padding : 5px">
+                            <option value="">Chọn loại chức vụ</option>
+                            @foreach (var l in chucVus)
+                            {
+                                if (l != null)
+                                {
+                                    <option value="@l.MACV">@l.TENCV</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="modal-body">
+                        <select id="partner-type" name="macn" style="padding : 5px">
+                            <option value="">Chọn loại chức năng</option>
+                            @foreach (var l in chucNangs)
+                            {
+                                if (l != null)
+                                {
+                                    <option value="@l.MACN">@l.TENCN</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+
+                    <div class="modal-body">
+                        <input type="text"  name="noidung" style="padding : 10px" placeholder="Thêm ghi chú ..."></input>
+                    </div>
+
+
+                    <div class="modal-footer">
+                        <!-- Nút submit form -->
+                        <button type="submit" class="btn btn-primary">Thêm</button>
+                    </div>
+                </form>
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+    <h2>Danh Sách Các Chức Vụ</h2>
+
+
+
+    <!-- Table thông tin đối tác  -->
+    <div id="Doitac" class="table-info">
+        <h3 style="margin: 20px; color:#343a40;font-weight:700">
+            <i class="fa-solid fa-circle-info" style="color: #343a40;font-size:20px"></i>
+            Thông tin chức vụ
+        </h3>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Mã Chức Vụ</th>
+                    <th>Tên Chức Vụ</th>
+                    <th>Chức Năng</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in chucVus)
+                {
+
+                    <tr>
+                        <td>@("HTCCV" + item.MACV)</td>
+                        <td>@item.TENCV</td>
+                        <td class="action-buttons">
+                            @using (Html.BeginForm("XoaCV", "Admin", new { macv = item.MACV }, FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="remove"
+                                    onclick="return confirm('Bạn có chắc chắn muốn xóa chức vụ này không?')">
+                                    <span class="material-symbols-outlined">
+                                        do_not_disturb_on
+                                    </span>
+                                </button>
+                            }
+                        </td>
+
+                    </tr>
+                }
+
+
+
+            </tbody>
+        </table>
+
+    </div>
+
+
+
+    <!-- Button để mở modal -->
+    <button class="add add-nv" data-bs-toggle="modal" data-bs-target="#themchucvu">Thêm Chức Vụ</button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="themchucvu" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Form để nhập thông tin -->
+                <form id="addPermissionForm" method="post" asp-action="ThemCV" asp-controller="Admin">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Thêm Chức Vụ</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+
+                    <div class="modal-body">
+                        <input type="text" name="tencv" style="padding : 10px ; width: 100%;"
+                            placeholder="Thêm chức vụ ..."></input>
+                    </div>
+
+
+                    <div class="modal-footer">
+                        <!-- Nút submit form -->
+                        <button type="submit" class="btn btn-primary">Thêm</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <h2>Danh Sách Các Chức Năng</h2>
+
+
+
+    <!-- Table thông tin đối tác  -->
+    <div id="Doitac" class="table-info">
+        <h3 style="margin: 20px; color:#343a40;font-weight:700">
+            <i class="fa-solid fa-circle-info" style="color: #343a40;font-size:20px"></i>
+            Thông tin chức năng
+        </h3>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Mã Chức Năng</th>
+                    <th>Tên Chức Năng</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in chucNangs)
+                {
+
+                    <tr>
+                        <td>@("HTCCN" + item.MACN)</td>
+                        <td>@item.TENCN</td>
+                    </tr>
+                }
+
+
+
+            </tbody>
+        </table>
+
+    </div>
+
+
+
+</div>

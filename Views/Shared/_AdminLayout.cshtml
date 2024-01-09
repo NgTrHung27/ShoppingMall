@@ -1,0 +1,285 @@
+@using QLTTTM.models
+@inject DataSQLContext dbContext
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Admin</title>
+  <link rel="stylesheet" href="~/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="~/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="~/css/style.css">
+  <link rel="stylesheet" href="~/css/admin.css">
+  <link rel="stylesheet" href="~/css/FormAddUpdate.css">
+  <link rel="stylesheet" href="~/css/Login.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+  <link rel="shortcut icon" href="~/images/logo_htc.png" />
+</head>
+
+<body>
+  <div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-pngtent-center">
+        <a class="navbar-brand brand-logo" href=""><img src="~/images/logoHTC.svg" alt="logo" /></a>
+        <a class="navbar-brand brand-logo-mini" href=""><img src="~/images/logo-mini.svg" alt="logo" /></a>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-stretch">
+        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+          <span class="mdi mdi-menu"></span>
+        </button>
+
+        <div class="search-field d-none d-md-block">
+          <form class="d-flex align-items-center h-100" action="#">
+            <div class="input-group">
+              <div class="input-group-prepend bg-transparent">
+                <i class="input-group-text border-0 mdi mdi-magnify"></i>
+
+              </div>
+              <input type="text" class="form-control bg-transparent border-0" placeholder="Search projects">
+            </div>
+          </form>
+        </div>
+        <ul class="navbar-nav navbar-nav-right">
+
+          <li class="nav-item d-none d-lg-block full-screen-link">
+            <a class="nav-link">
+              <i class="mdi mdi-fullscreen" id="fullscreen-button"></i>
+            </a>
+          </li>
+
+
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+          data-toggle="offcanvas">
+          <span class="mdi mdi-menu"></span>
+        </button>
+      </div>
+    </nav>
+
+
+
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+      <!-- partial:partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          @{
+            int? manv = Context.Session.GetInt32("MANV"); // Retrieve MANV from the session
+            if (manv.HasValue)
+            {
+              var nhanvien = dbContext.NhanViens
+              .Where(nv => nv.MANV == manv.Value) // Replace "MANV" with your actual property name
+              .FirstOrDefault(); // Retrieve the first matching employee
+
+
+
+              if (nhanvien != null)
+              {
+                var chucvu = dbContext.ChucVus
+                .Where(nv => nv.MACV == nhanvien.MACV) // Replace "MANV" with your actual property name
+                .FirstOrDefault(); // Retrieve the first matching employee
+                <li class="nav-item nav-profile">
+
+
+                  <a href="@Url.Action("TrangChu" , "Admin", new {MANV = manv})" class="nav-link">
+                    <div class="nav-profile-image">
+
+                      <img src="@nhanvien.AVATAR" alt="profile">
+                      <span class="login-status online"></span>
+                      <!--change to offline or busy as needed-->
+                    </div>
+                    <div class="nav-profile-text d-flex flex-column">
+                      <span class="font-weight-bold mb-2">@nhanvien.HOTEN</span>
+                      <span class="text-secondary text-small">@chucvu.TENCV</span>
+                    </div>
+                    <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+
+                  </a>
+                </li>
+
+
+                <li class="nav-item">
+                  <a class="nav-link" href="@Url.Action("TrangChu" , "Admin", new { MANV = manv})">
+                    <span class="menu-title">Home</span>
+                    <i class="mdi mdi-home menu-icon"></i>
+                  </a>
+                </li>
+
+
+              }
+            }
+
+          }
+
+
+
+
+
+
+
+
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#general-pages" aria-expanded="false"
+              aria-controls="general-pages">
+              <span class="menu-title">Tables</span>
+              <i class="menu-arrow"></i>
+              <i class="mdi mdi-table-large menu-icon"></i>
+            </a>
+
+
+
+            <div class="collapse" id="general-pages">
+              <ul class="nav flex-column sub-menu">
+                @{
+                  if (manv.HasValue)
+                  {
+                    var nhanvien = dbContext.NhanViens
+                    .Where(nv => nv.MANV == manv.Value) // Replace "MANV" with your actual property name
+                    .FirstOrDefault(); // Retrieve the first matching employee
+
+                    if (nhanvien != null)
+                    {
+                      var chucvu = dbContext.ChucVus
+                      .Where(cv => cv.MACV == nhanvien.MACV)
+                      .FirstOrDefault();
+                      if (chucvu != null)
+                      {
+                        var phanquyen = dbContext.PhanQuyens
+                        .Where(pq => pq.MACV == chucvu.MACV)
+                        .ToList();
+
+                        foreach (var item in phanquyen)
+                        {
+                          if (item.MACN == 1)
+                          {
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("ThongTinNV","Admin")"> Quản Lý Nhân Sự </a>
+                            </li>
+                          }
+                          if (item.MACN == 2)
+                          {
+                            <li class="nav-item"> <a class="nav-link" href="@Url.Action("ThongTinSK","Admin")"> Quản Lý Sự Kiện </a>
+                            </li>
+                          }
+
+                          if (item.MACN == 3)
+                          {
+                            <li class="nav-item"> <a class="nav-link" href="@Url.Action("ThongTinMB","Admin")"> Quản Lý Mặt Bằng
+                              </a></li>
+                          }
+
+
+                          if (item.MACN == 4)
+                          {
+                            <li class="nav-item"> <a class="nav-link" href="@Url.Action("ThongTinDT","Admin")"> Quản Lý Đối Tác </a>
+                            </li>
+                          }
+
+                          if (item.MACN == 5)
+                          {
+                            <li class="nav-item"> <a class="nav-link" href="@Url.Action("ThongTinKT","Admin")"> Quản Lý Khách Thuê
+                              </a></li>
+                          }
+
+
+                          if (item.MACN == 6)
+                          {
+                            <li class="nav-item"> <a class="nav-link" href="@Url.Action("ThongTinPQ","Admin")"> Quản Lý Phân Quyền
+                              </a></li>
+                          }
+
+
+                        }
+                      }
+
+
+
+                    }
+
+
+                  }
+
+
+                }
+
+              </ul>
+            </div>
+
+
+          </li>
+
+
+          <li class="nav-item">
+            <a class="nav-link" href="@Url.Action("Logout","Admin")">
+              <span class="menu-title">Log Out</span>
+              <i class="fa-solid fa-right-from-bracket menu-icon"></i>
+            </a>
+
+
+
+          </li>
+
+
+
+
+
+        </ul>
+
+      </nav>
+
+
+      <div class="main-panel">
+
+
+        @RenderBody()
+        <!-- content-wrapper ends -->
+        <!-- partial:partials/_footer.html -->
+        <footer class="footer">
+          <div class="container-fluid d-flex justify-content-between">
+            <span class="text-muted d-block text-center text-sm-start d-sm-inline-block">© 2023 Quyền sở hữu thuộc Công
+              Ty TNHH Đầu tư Xây dựng Anh Cường.</span>
+          </div>
+
+          <div class="container-fluid d-flex justify-content-between">
+            <span class="text-muted d-block text-center text-sm-start d-sm-inline-block">Giấy chứng nhận Đăng ký Kinh
+              doanh số 0123456789 do Sở Kế hoạch và Đầu tư TP. Hồ Chí Minh cấp ngày 19/10/2003</span>
+          </div>
+
+          <div class="container-fluid d-flex ">
+            <span class="text-muted d-block text-center text-sm-start d-sm-inline-block" style="padding: 5px;"><i
+                class="fa-solid fa-newspaper"></i></span>
+            <span class="text-muted d-block text-center text-sm-start d-sm-inline-block" style="padding: 5px;"><i
+                class="fa-solid fa-lock"></i></span>
+          </div>
+
+
+
+        </footer>
+        <!-- partial -->
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+
+  <script src="~/js/vendor.bundle.base.js"></script>
+
+  <script src="~/js/jquery.cookie.js" type="text/javascript"></script>
+
+  <script src="~/js/off-canvas.js"></script>
+  <script src="~/js/hoverable-collapse.js"></script>
+  <script src="~/js/misc.js"></script>
+  <script src="~/js/dashboard.js"></script>
+  <script src="~/js/todolist.js"></script>
+</body>
+
+</html>

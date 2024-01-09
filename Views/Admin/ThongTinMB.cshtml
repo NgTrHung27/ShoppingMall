@@ -1,0 +1,167 @@
+@{
+    Layout = "_AdminLayout";
+}
+@using QLTTTM.models
+
+@model List<QLTTTM.models.MatBang>
+
+
+
+<div class="content-wrapper">
+    <div class="page-header">
+        <h3 class="page-title" style="font-weight:bold;font-size:30px;color:#ab8221">
+            <span class="me-2">
+                <i class="fa-solid fa-landmark" style="color: #ab8221;"></i>
+            </span> Quản Lý Thông Tin Mặt Bằng
+        </h3>
+    </div>
+
+    <!-- Table thông tin Mat bang chua thue  -->
+    <div id="Doitac" class="table-info">
+        <h3 style="margin: 20px; color:#343a40;font-weight:700">
+            <i class="fa-solid fa-circle-info" style="color: #343a40;font-size:20px"></i>
+            Thông tin mặt bằng chưa thuê
+        </h3>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Mã Mặt Bằng</th>
+                    <th>Tên Mặt Bằng</th>
+                    <th>Diện Tích</th>
+                    <th>Giá Tiền</th>
+                    <th>Trạng Thái</th>
+                    <th>Mô Tả</th>
+                    <th>Thao Tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OrderByDescending(x => x.MAMB))
+                {
+                    if (!item.TRANGTHAI)
+                    {
+                        <tr>
+                            <td>@("HTCMB" + item.MAMB)</td>
+                            <td>@item.TENMB</td>
+                            <td>@(item.DIENTICH + "m²")</td>
+                            <td>@(item.GIATIEN + " VNĐ")</td>
+                            <td>
+                                Chưa được thuê 
+                            </td>
+
+                            <td>@item.MOTA</td>
+
+
+                            <td class="action-buttons">
+                                @using (Html.BeginForm("XoaMB", "FunctionMB", new { mamb = item.MAMB }, FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="remove"
+                                        onclick="return confirm('Bạn có chắc chắn muốn xóa mặt bằng này không?')">
+                                        <span class="material-symbols-outlined">
+                                            do_not_disturb_on
+                                        </span>
+                                    </button>
+                                }
+                        
+                                <button class="edit">
+                                    <span class="material-symbols-outlined"
+                                        onclick="location.href = '@Url.Action("CapNhatMB","FunctionMB",new { mamb = item.MAMB })'">edit</span>
+                                </button>
+                            </td>
+
+                        </tr>
+                    }
+                }
+
+
+            </tbody>
+        </table>
+        <button class="add add-nv" onclick="location.href = '@Url.Action("ThemMB","FunctionMB")'">
+            <span class="material-symbols-outlined">person_add</span> Thêm Mới
+        </button>
+
+
+
+    </div>
+
+
+
+    <!-- Table thông tin Mat bang da thue   -->
+    <div id="Doitac" class="table-info">
+        <h3 style="margin: 20px; color:#343a40;font-weight:700">
+            <i class="fa-solid fa-circle-info" style="color: #343a40;font-size:20px"></i>
+            Thông tin mặt bằng đã thuê
+        </h3>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Mã Mặt Bằng</th>
+                    <th>Tên Mặt Bằng</th>
+                    <th>Diện Tích</th>
+                    <th>Giá Tiền</th>
+                    <th>Trạng Thái</th>
+                    <th>Mô Tả</th>
+                    <th>Thao Tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OrderByDescending(x => x.MAMB))
+                {
+                    if (item.TRANGTHAI)
+                    {
+                        <tr>
+                            <td>@("HTCMB" + item.MAMB)</td>
+                            <td>@item.TENMB</td>
+                            <td>@(item.DIENTICH + "m²")</td>
+                            <td>@(item.GIATIEN + " VNĐ")</td>
+                            <td>
+                                Đã được thuê
+                            </td>
+
+                            <td>@item.MOTA</td>
+
+
+                            <td class="action-buttons">
+                                @* @using (Html.BeginForm("XoaMB", "FunctionMB", new { mamb = item.MAMB }, FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="remove"
+                                        onclick="return confirm('Bạn có chắc chắn muốn xóa mặt bằng này không?')">
+                                        <span class="material-symbols-outlined">
+                                            do_not_disturb_on
+                                        </span>
+                                    </button>
+                                } *@
+                                
+                                
+                                <button class="edit">
+                                    <span class="material-symbols-outlined"
+                                        onclick="location.href = '@Url.Action("CapNhatMB","FunctionMB",new { mamb = item.MAMB })'">edit</span>
+                                </button>
+                            </td>
+
+                        </tr>
+                    }
+                }
+
+
+            </tbody>
+
+
+
+        </table>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+</div>

@@ -1,0 +1,23 @@
+@{
+    Layout = "_CustomeLayout";
+}
+@model QLTTTM.models.SuKien
+
+<div class="wrapper wrapper-mb">
+    <header>
+        <h1>Chi Tiết Sự Kiện</h1>
+    </header>
+
+    <section class="property-detail">
+        <div class="image-detail" data-aos="fade-right" data-aos-duration="2000 ">
+            <img src="@Model.IMAGEPATH" alt="Sự kiện">
+        </div>
+        <div class="property-info" data-aos="fade-left" data-aos-duration="2000">
+            <h2>@Model.TENSK</h2>
+            <p>Loại SK: @(Model.LOAISK )</p>
+            <p>Thời Gian: @(Model.THOIGIAN )</p>
+            <p>Vị Trí: @Model.VITRI</p>
+            <p>Mô tả: @Model.MOTA</p>
+        </div>
+    </section>
+</div>

@@ -1,0 +1,263 @@
+@using QLTTTM.models
+@inject DataSQLContext dbContext
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kolker+Brush&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="~/css/header.css">
+    <link rel="stylesheet" href="~/css/main.css">
+    <link rel="stylesheet" href="~/css/footer.css">
+    <link rel="stylesheet" href="~/css/thuonghieu.css">
+    <link rel="stylesheet" href="~/css/tieudiem.css">
+    <link rel="stylesheet" href="~/css/uudai.css">
+    <link rel="stylesheet" href="~/css/MatBang.css">
+    <link rel="stylesheet" href="~/css/ChiTietMB.css">
+    <link rel="stylesheet" href="~/css/FormAddUpdate.css">
+
+    <link rel="shortcut icon" href="~/images/logo_htc.png" />
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Thêm class stuck and sticky vào div "header-wrapper" -->
+    <script>
+        $(document).ready(function () {
+            $(window).scroll(function () {
+                //Khai báo biến để trỏ tới các phần tử trong HTML :
+                var header_wrapper = document.getElementById("header-wrapper");
+                var menu_header_icon = document.getElementById("menu-list-header")
+
+                //Kiểm tra sroll và add thêm 1 class vào chỗ ID tương ứng : 
+                if ($(this).scrollTop()) {
+                    header_wrapper.classList.add("stuck")
+                    header_wrapper.classList.add("sticky")
+                }
+                else {
+                    header_wrapper.classList.remove("stuck")
+                    header_wrapper.classList.remove("sticky")
+                }
+
+                if ($(this).scrollTop()) {
+                    menu_header_icon.classList.add("change-color")
+                }
+                else {
+                    menu_header_icon.classList.remove("change-color")
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="header-wrapper" class="header-wrapper">
+            <header class="header">
+                <a href="@Url.Action("TrangChu","Custome")" class="logo">
+                    <img src="~/images/logo_htc.png" alt="">
+                </a>
+
+                <div id="header-bottom" class="menu">
+                    <div class="menuitem"><a class="itemtitle" href="@Url.Action("TieuDiem","Custome")">TIÊU ĐIỂM</a>
+                    </div>
+                    <div class="menuitem dropdown"><a class="itemtitle"
+                            href="@Url.Action("ThuongHieu","Custome",new{maloai = 0})">THƯƠNG HIỆU</a>
+
+                        <span class="material-symbols-outlined icon_drop" style="font-size: 14px;">
+                            expand_circle_down
+                        </span>
+
+                        <div class="dropdown-content">
+                            @{
+                                var loaidt = dbContext.LoaiDoiTacs.ToList();
+                                foreach (var item in loaidt)
+                                {
+                                    <a href="@Url.Action("ThuongHieu","Custome",new{maloai = item.MALOAIDT})">@item.TENLOAI</a>
+                                }
+                            }
+                        </div>
+                    </div>
+                    <div class="menuitem"><a class="itemtitle" href="@Url.Action("UuDai","Custome")">ƯU ĐÃI</a></div>
+                    <div class="menuitem"><a class="itemtitle" href="#">ĐẾN HTC MALL</a></div>
+
+                    <!-- Biểu tượng tìm kiếm -->
+                    <i id="searchIcon" class="fa-solid fa-magnifying-glass fa-beat-fade search-icon" 
+                    style="color: #333; font-weight : 800;"></i>
+                    <!-- Ô tìm kiếm ẩn -->
+                    <div class="search-box" id="searchBox">
+                        <input id="searchInput" type="text" class="search-input" 
+                        autocomplete="off"
+                        placeholder="Nhập từ khóa tìm kiếm...">
+                        <div id="searchResults" class="search-results"></div>
+
+                        <!-- Nút để thoát khỏi chế độ tìm kiếm -->
+                        <div class="close-button" id="closeButton">&times;</div>
+                    </div>
+
+                    <!-- Các nội dung khác của trang web -->
+
+                    <script>
+                        $(document).ready(function () {
+                            // Bắt sự kiện khi biểu tượng tìm kiếm được nhấn
+                            $("#searchIcon").click(function (e) {
+                                e.stopPropagation(); // Ngăn chặn sự kiện click từ việc lan truyền lên các phần tử cha
+                                $("#searchBox").toggleClass("active"); // Hiển thị/ẩn ô tìm kiếm
+                                $(".search-input").focus(); // Tự động đặt trọng tâm vào ô tìm kiếm khi hiển thị
+                                $("html, body").css("overflow", "hidden"); // Ngăn chặn cuộn trang web
+                            });
+
+                            // Bắt sự kiện khi người dùng mất trọng tâm ra khỏi ô tìm kiếm để thoát chế độ active
+                            $(".search-input").blur(function () {
+                                if (!$(this).val()) { // Kiểm tra nếu ô tìm kiếm trống thì mới ẩn
+                                    $("#searchBox").removeClass("active");
+                                    $("html, body").css("overflow", "auto"); // Cho phép cuộn trang web lại khi ô tìm kiếm bị ẩn
+                                }
+                            });
+
+                            // Bắt sự kiện khi người dùng nhập vào ô tìm kiếm
+                            $("#searchInput").on("input", function () {
+                                var query = $(this).val();
+
+                                // Thực hiện tìm kiếm gần đúng khi có ít nhất 2 ký tự được nhập
+                                if (query.length >= 1) {
+                                    $.ajax({
+                                        url: "/Custome/Search",
+                                        method: "GET",
+                                        data: { query: query },
+                                        success: function (data) {
+                                            $("#searchResults").html(data);
+                                        }
+                                    });
+                                } else {
+                                    // Nếu query ngắn hơn 2 ký tự, xóa kết quả hiển thị
+                                    $("#searchResults").empty();
+                                }
+                            });
+
+                            // Bắt sự kiện khi nút đóng được nhấn
+                            $("#closeButton").click(function () {
+                                $("#searchBox").removeClass("active"); // Ẩn ô tìm kiếm
+                                $("#searchInput").val(""); // Xóa nội dung trong input
+                                $("#searchResults").empty(); // Xóa kết quả tìm kiếm
+                                $("html, body").css("overflow", "auto"); // Cho phép cuộn trang web lại khi ô tìm kiếm bị ẩn
+                            });
+                        });
+                    </script>
+
+
+
+
+                </div>
+
+
+                <nav class="navbar">
+                    <div class="dropdown drop-down-menu">
+                        <button type="button" class="btn btn-primary drop-menu-icon" data-bs-toggle="dropdown">
+                            <span id="menu-list-header" class="material-symbols-outlined custom-menu-icon">
+                                lists
+                            </span>
+                        </button>
+                        <ul class="dropdown-menu custom-drop-show">
+                            <li><a class="dropdown-item item-drop" href="#">
+                                    <div class="itemheader">
+                                        <span class="material-symbols-outlined icon-header">
+                                            alarm_on
+                                        </span>
+                                        GIỜ HOẠT ĐỘNG
+                                    </div>
+                                </a></li>
+                            <li><a class="dropdown-item" href="#">
+                                    <div class="itemheader">
+                                        <span class="material-symbols-outlined icon-header">
+                                            credit_score
+                                        </span>
+                                        TIỆN ÍCH
+                                    </div>
+                                </a></li>
+                            <li><a class="dropdown-item" href="@Url.Action("MatBang" , "Custome")">
+                                    <div class="itemheader">
+                                        <span class="material-symbols-outlined icon-header">
+                                            location_city
+                                        </span>
+                                        SƠ ĐỒ HẠ TẦNG
+                                    </div>
+                                </a></li>
+
+                            <li><a class="dropdown-item" href="#">
+                                    <div class="itemheader">
+                                        <span class="material-symbols-outlined icon-header">
+                                            distance
+                                        </span>
+                                        LIÊN HỆ
+                                    </div>
+                                </a></li>
+                        </ul>
+                    </div>
+                </nav>
+
+            </header>
+
+        </div>
+
+        @RenderBody()
+
+        <div class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="menu-secondary">
+                        <ul>
+                            <li>
+                                <a href="#">Điều khoản sử dụng</a>
+                            </li>
+                            <li>
+                                <a href="#">Chính sách bảo mật</a>
+                            </li>
+                            <li>
+                                <a href="#">Sitemap</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="copy-right">
+                        <span>© 2023 Quyền sở hữu thuộc Công Ty TNHH Đầu tư Xây dựng Anh Cường.</span>
+                    </div>
+                    <div class="copy-right above">
+                        <span>Giấy chứng nhận Đăng ký Kinh doanh số 0123456789 do Sở Kế hoạch và Đầu tư TP. Hồ Chí Minh
+                            cấp ngày 19/10/2003</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <script>
+        AOS.init();
+    </script>
+</body>
+
+</html>

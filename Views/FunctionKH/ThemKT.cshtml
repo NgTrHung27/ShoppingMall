@@ -1,0 +1,205 @@
+@{
+    Layout="_AdminLayout";
+}
+@using QLTTTM.models
+@model QLTTTM.models.KhachHangAndHopDong
+@* @{
+    if (ViewBag.kh != null)
+    {
+        var kh = ViewBag.kh as KhachHang;
+        if (kh != null)
+        {
+            Model.KHModels = kh;
+        }
+        else
+        {
+            <p>Đối tượng kh không hợp lệ.</p>
+        }
+    }
+} *@
+
+
+
+<div class="content-wrapper">
+    @* <div class="page-header">
+        <h3 class="page-title" style="font-weight:bold;font-size:30px;color:#ab8221">
+            <span class="me-2">
+                <i class="fa-solid fa-gift" style="color: #ab8221;"></i>
+            </span> Quản Lý Thông Tin Sự Kiện
+        </h3>
+    </div> *@
+
+    <div class="form_add_update">
+        <h2>Thêm Hợp Đồng Khách Thuê</h2>   
+        
+        <form asp-action="ThemKT" asp-controller="FunctionKH" method="post" enctype="multipart/form-data">
+
+           
+            @Html.ValidationSummary()
+
+            <div class="form-group">
+                <input type="hidden" id="address" name="KHModels.MAKH" asp-for="KHModels.MAKH" value="@Model.KHModels.MAKH">
+                <span asp-validation-for="KHModels.MAKH" class="text-danger"></span>
+            </div>
+
+
+
+            <div class="form-group">
+                <label asp-for="KHModels.HOTEN">Họ và Tên:</label>
+                <input type="text" id="name" name="KHModels.HOTEN" asp-for="KHModels.HOTEN">
+                <span asp-validation-for="KHModels.HOTEN" class="text-danger"></span>
+            </div>
+
+
+
+
+
+
+            <div class="form-group">
+                <label asp-for="KHModels.NGAYSINH">Ngày Sinh:</label>
+                <input type="date" id="ngaysinh" name="KHModels.NGAYSINH" asp-for="KHModels.NGAYSINH"> 
+                <span asp-validation-for="KHModels.NGAYSINH" class="text-danger"></span>
+            </div>
+
+
+
+
+
+            <div class="form-group">
+                <label asp-for="KHModels.GIOITINH">Giới Tính:</label>
+                <select id="gender" name="KHModels.GIOITINH" asp-for="KHModels.GIOITINH">
+                    <option value="">Chọn giới tính</option>
+                    <option value="true">Nam</option>
+                    <option value="false">Nữ</option>
+                </select>
+                <span asp-validation-for="KHModels.GIOITINH" class="text-danger"></span>
+            </div>
+
+
+
+
+            <div class="form-group">
+                <label asp-for="KHModels.SDT">Số Điện Thoại:</label>
+                <input id="phone" name="KHModels.SDT" asp-for="KHModels.SDT" type="tel" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                <span asp-validation-for="KHModels.SDT" class="text-danger"></span>
+            </div>
+
+
+
+
+            <div class="form-group">
+                <label asp-for="KHModels.EMAIL">Email:</label>
+                <input type="text" id="email" name="KHModels.EMAIL" asp-for="KHModels.EMAIL">
+                <span asp-validation-for="KHModels.EMAIL" class="text-danger"></span>
+            </div>
+             
+
+
+
+
+            <div class="form-group">
+                <label asp-for="KHModels.DIACHI">Địa Chỉ:</label>
+                <input type="text" id="address" name="KHModels.DIACHI" asp-for="KHModels.DIACHI">
+                <span asp-validation-for="KHModels.DIACHI" class="text-danger"></span>
+            </div>
+
+
+
+            
+
+            <div class="form-group">
+                <input type="hidden" id="address" name="KHModels.TRANGTHAI" asp-for="KHModels.TRANGTHAI" value="true">
+                <span asp-validation-for="KHModels.TRANGTHAI" class="text-danger"></span>
+            </div>
+
+
+
+
+            <div class="form-group">
+                <input type="hidden" id="address" name="KHModels.MAMB" asp-for="KHModels.MAMB" value="@Model.KHModels.MAMB">
+                <span asp-validation-for="KHModels.MAMB" class="text-danger"></span>
+            </div>
+
+
+
+            @* <div class="form-group">
+                <input type="hidden" id="address" name="HDModels.MAHD" asp-for="HDModels.MAHD" value="HDModels.MAHD">
+                <span asp-validation-for="HDModels.MAHD" class="text-danger"></span>
+            </div> *@
+
+
+
+            <div class="form-group">
+                <label asp-for="HDModels.TENHDDT">Tên Hợp Đồng:</label>
+                <input type="text" id="address" name="HDModels.TENHDDT" asp-for="HDModels.TENHDDT">
+                <span asp-validation-for="HDModels.TENHDDT" class="text-danger"></span>
+            </div>
+
+
+
+
+            <div class="form-group">
+                <input type="hidden" id="address" name="HDModels.LOAIHOPDONG" asp-for="HDModels.LOAIHOPDONG" value="Hợp Đồng Thuê Mặt Bằng">
+                <span asp-validation-for="HDModels.LOAIHOPDONG" class="text-danger"></span>
+            </div>
+
+            
+
+
+            <div class="form-group">
+                <label asp-for="HDModels.THOIHAN">Thời Hạn Hợp Đồng (Trong ... năm):</label>
+                <input type="text" id="address" name="HDModels.THOIHAN" asp-for="HDModels.THOIHAN">
+                <span asp-validation-for="HDModels.THOIHAN" class="text-danger"></span>
+            </div>
+
+
+
+
+
+            <div class="form-group">
+                <label asp-for="HDModels.HIEULUC">Hiệu Lực Hợp Đồng (Bắt đầu từ ngày : ...):</label>
+                <input type="date" id="address" name="HDModels.HIEULUC" asp-for="HDModels.HIEULUC">
+                <span asp-validation-for="HDModels.HIEULUC" class="text-danger"></span>
+            </div>
+
+
+
+
+
+            <div class="form-group">
+                <label asp-for="HDModels.NOIDUNG">Nội Dung:</label>
+                <textarea id="description" name="HDModels.NOIDUNG" rows="8" asp-for="HDModels.NOIDUNG"></textarea>
+                <span asp-validation-for="HDModels.NOIDUNG" class="text-danger"></span>
+            </div>
+
+
+             @{
+                int? manv = Context.Session.GetInt32("MANV");
+                if (manv != null)
+                {
+                    <div class="form-group">
+                        <input type="hidden" id="ngaysinh" name="HDModels.MANV" asp-for="HDModels.MANV" value="@manv">
+                        <span asp-validation-for="HDModels.MANV" class="text-danger"></span>
+                    </div>
+                }
+            }
+
+            
+           
+
+
+
+            <div class="cover_submit">
+                <button type="submit" class="btn-submit">Thêm</button>
+            </div>
+
+
+
+            
+        </form>
+
+
+    </div>
+
+       
+</div>

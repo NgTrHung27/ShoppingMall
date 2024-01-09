@@ -1,0 +1,161 @@
+@{
+    Layout = "_AdminLayout";
+}
+@using QLTTTM.models
+@model QLTTTM.models.DataSQLContext
+@{
+    List<NhanVien> list_nv = Model.NhanViens.OrderByDescending(nv => nv.MANV).ToList();
+    List<Account> list_account = Model.Accounts.OrderByDescending(acc => acc.ID).ToList();
+}
+
+
+@if (TempData.ContainsKey("SuccessMessage"))
+{
+    <div class="alert alert-success">
+    @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData.ContainsKey("ErrorMessage"))
+{
+    <div class="alert alert-danger">
+    @TempData["ErrorMessage"]
+    </div>
+}
+
+<div class="content-wrapper">
+    <div class="page-header">
+        <h3 class="page-title" style="font-weight:bold;font-size:30px;color:#ab8221">
+            <span class="me-2">
+                <i class="fa-solid fa-users" style="color: #ab8221;"></i>
+            </span> Quản Lý Thông Tin Nhân Sự
+        </h3>
+    </div>
+
+    <!-- Table thông tin đối tác  -->
+    <div id="Doitac" class="table-info">
+        <h3 style="margin: 20px; color:#343a40;font-weight:700">
+            <i class="fa-solid fa-circle-info" style="color: #343a40;font-size:20px"></i>
+            Thông tin nhân viên
+        </h3>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Mã Nhân Viên</th>
+                    <th>Họ và Tên</th>
+                    <th>Giới Tính</th>
+                    <th>Email</th>
+                    <th>Số Điện Thoại</th>
+                    <th>Chức Vụ</th>
+                    <th>Thao Tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in list_nv)
+                {
+                    int? manv = Context.Session.GetInt32("MANV");
+                    <tr>
+                        <td>@("HTCNV" + item.MANV)</td>
+                        <td>@item.HOTEN</td>
+                        <td>
+                            @{
+                                var gioitinh = item.GIOITINH ? "Nam" : "Nữ";
+                            }
+                            @gioitinh
+                        </td>
+                        <td>@item.EMAIL</td>
+                        <td>@item.SDT</td>
+                        <td>
+                            @{
+                                ChucVu chucvu = Model.ChucVus.SingleOrDefault(cv => cv.MACV == item.MACV);
+                            }
+                            @chucvu.TENCV
+                        </td>
+                        <td class="action-buttons">
+                            @if (item.MANV != manv && item.MANV != 1)
+                            {
+                                @using (Html.BeginForm("XoaNV", "FunctionNV", new { MANV = item.MANV }, FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="remove"
+                                        onclick="return confirm('Bạn có chắc chắn muốn xóa nhân viên này không?')">
+                                        <span class="material-symbols-outlined">
+                                            do_not_disturb_on
+                                        </span>
+                                    </button>
+                                }
+                            }
+                            @* <button class="remove" onclick="return confirm('Bạn có chắc chắn muốn xóa nhân viên này
+                        không?') ? window.location.href = '@Url.Action("XoaNV", "Function")' : false;">
+                        <span class="material-symbols-outlined">do_not_disturb_on</span>
+                        </button> *@
+                            <button class="edit">
+                                <span class="material-symbols-outlined"
+                                    onclick="location.href = '@Url.Action("CapNhatNV","FunctionNV",new { manv = item.MANV })'">edit</span>
+                            </button>
+                        </td>
+
+                    </tr>
+                }
+
+
+
+            </tbody>
+        </table>
+        <button class="add add-nv" onclick="location.href = '@Url.Action("ThemNV","FunctionNV")'">
+            <span class="material-symbols-outlined">person_add</span> Thêm Mới
+        </button>
+    </div>
+
+
+
+    <!-- Table thông tin đối tác  -->
+    <div id="Doitac" class="table-info">
+        <h3 style="margin: 20px; color:#343a40;font-weight:700">
+            <i class="fa-solid fa-circle-info" style="color: #343a40;font-size:20px"></i>
+            Thông tin tài khoản
+        </h3>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Tài Khoản</th>
+                    <th>Mật Khẩu</th>
+                    <th>Mã Nhân Viên</th>
+                    <th>Tên Nhân Viên</th>
+                    <th>Thao Tác</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in list_account)
+                {
+                    <tr>
+                        <td>@item.TAIKHOAN</td>
+                        <td>@item.MATKHAU</td>
+                        <td>@("HTCNV" + item.MANV)</td>
+                        <td>
+                            @{
+                                NhanVien nhanVien = Model.NhanViens.SingleOrDefault(nv => nv.MANV == item.MANV);
+                            }
+                            @nhanVien.HOTEN
+                        </td>
+                        <td class="action-buttons">
+                            <button class="edit">
+                                <span class="material-symbols-outlined"
+                                    onclick="location.href = '@Url.Action("CapNhatAcc","FunctionNV",new { id = item.ID })'">edit</span>
+                            </button>
+                        </td>
+
+                    </tr>
+                }
+
+
+
+            </tbody>
+        </table>
+
+    </div>
+
+
+
+</div>

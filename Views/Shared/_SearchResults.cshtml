@@ -1,0 +1,45 @@
+@using QLTTTM.models
+@model List<object>
+
+@if (Model.Count > 0)
+{
+    <ul data-aos="fade-up" data-aos-duration="1500">
+    @foreach (var item in Model)
+        {
+            if (item is MatBang)
+            {
+                var matBang = item as MatBang;
+                <li>
+                    <a href="@Url.Action("ChiTietMB","Custome",new{ mamb = matBang.MAMB})">
+                        <img src="@matBang.IMAGEPATH" alt="Hình ảnh mặt bằng">
+                        @matBang.TENMB
+                    </a>
+                </li>
+            }
+            if (item is SuKien)
+            {
+                var suKien = item as SuKien;
+                <li>
+                    <a href="">
+                        <img src="@suKien.IMAGEPATH" alt="Hình ảnh sự kiện">
+                        @suKien.TENSK
+                    </a>
+                </li>
+            }
+            if (item is DoiTac)
+            {
+                var doiTac = item as DoiTac;
+                <li>
+                    <a href="@Url.Action("ThuongHieu","Custome",new{ madt = doiTac.MALOAIDOITAC })">
+                        <img src="@doiTac.IMAGEPATH" alt="Hình ảnh đối tác">
+                        @doiTac.TENDT
+                    </a>
+                </li>
+            }
+        }
+    </ul>
+}
+else
+{
+    <p style="font-size:20px; font-weight:700">Không tìm thấy kết quả</p>
+}

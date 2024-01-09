@@ -1,0 +1,134 @@
+@{
+    Layout="_AdminLayout";
+}
+@using QLTTTM.models
+@model QLTTTM.models.SuKien
+
+<div class="content-wrapper">
+    @* <div class="page-header">
+        <h3 class="page-title" style="font-weight:bold;font-size:30px;color:#ab8221">
+            <span class="me-2">
+                <i class="fa-solid fa-gift" style="color: #ab8221;"></i>
+            </span> Quản Lý Thông Tin Sự Kiện
+        </h3>
+    </div> *@
+
+    <div class="form_add_update">
+        <h2>Cập Nhật Sự Kiện</h2>
+        <form asp-controller="FunctionSK"  asp-action="CapNhatSK" method="post" enctype="multipart/form-data">
+            @Html.ValidationSummary()
+
+            <div class="form-group">
+                <input type="hidden" asp-for="MASK" value="@Model.MASK">
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="TENSK">Tên Sự Kiện:</label>
+                <input type="text" id="name" name="TENSK" asp-for="TENSK">
+                <span asp-validation-for="TENSK" class="text-danger"></span>
+            </div>
+
+
+
+           <div class="form-group">
+                <select id="gender" name="LOAISK" asp-for="LOAISK">
+                    <option value="">Chọn loại sự kiện</option>
+                    <option value="UD">Ưu Đãi</option>
+                    <option value="TD">Tiêu Điểm</option>
+                    <option value="NB">Nổi Bật</option>
+                </select>
+                <span asp-validation-for="LOAISK" class="text-danger"></span>
+            </div>
+
+
+
+
+
+            <div class="form-group">
+                <label asp-for="THOIGIAN">Thời gian diễn ra (Từ ... ngày - ... ngày):</label>
+                <input id="giatien" name="THOIGIAN" asp-for="THOIGIAN" type="text">
+                <span asp-validation-for="THOIGIAN" class="text-danger"></span>
+            </div>
+
+
+
+
+
+            <div class="form-group">
+                <label asp-for="VITRI">Vị trí diễn ra sự kiện:</label>
+                <input type="text" id="address" name="VITRI" asp-for="VITRI">
+                <span asp-validation-for="VITRI" class="text-danger"></span>
+            </div>
+
+
+
+           
+           
+             
+
+            <div class="form-group">
+                <label asp-for="MOTA">Mô Tả:</label>
+                <textarea id="description" name="MOTA" rows="8" asp-for="MOTA"></textarea>
+                <span asp-validation-for="MOTA" class="text-danger"></span>
+            </div>
+
+
+
+          
+
+            <div class="form-group">
+                <label asp-for="IMAGEPATH">Hình Ảnh Tiêu Đề:</label>
+                <input type="file" id="image" accept="image/*" name="tieude" asp-for="IMAGEPATH">
+                <span asp-validation-for="IMAGEPATH" class="text-danger"></span>
+
+            </div>
+            
+
+
+            <div class="form-group">
+                <label asp-for="IMAGEPATH1">Hình Ảnh Chủ Đạo:</label>
+                <input type="file" id="image" accept="image/*" name="chudao" asp-for="IMAGEPATH1">
+                <span asp-validation-for="IMAGEPATH1" class="text-danger"></span>
+
+            </div>
+
+
+
+            <div class="form-group">
+                <label asp-for="IMAGEPATH2">Hình Ảnh Nội Dung:</label>
+                <input type="file" id="image" accept="image/*" name="noidung" asp-for="IMAGEPATH2" multiple>
+                <span asp-validation-for="IMAGEPATH2" class="text-danger"></span>
+            </div>
+     
+            <div class="form-group">
+                <select id="gender" name="TRANGTHAI" asp-for="TRANGTHAI">
+                    <option value="">Chọn trạng thái</option>
+                    <option value="true">Đã Được Duyệt</option>
+                    <option value="false">Chưa Được Duyệt</option>
+                </select>
+                <span asp-validation-for="TRANGTHAI" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <input type="hidden" asp-for="MANV" value="1">
+                @* <select id="gender" name="TRANGTHAI" asp-for="TRANGTHAI">
+                    <option value="">Chọn trạng thái</option>
+                    <option value="true">Đã Được Duyệt</option>
+                    <option value="false">Chưa Được Duyệt</option>
+                </select> *@
+                <span asp-validation-for="MANV" class="text-danger"></span>
+            </div>
+
+            
+            <div class="cover_submit">
+                <button type="submit" class="btn-submit">Cập Nhật</button>
+            </div>
+        </form>
+
+
+    </div>
+
+        
+</div>

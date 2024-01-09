@@ -1,0 +1,180 @@
+@{
+    Layout = "_AdminLayout";
+}
+
+@using QLTTTM.models
+@model QLTTTM.models.DataSQLContext
+@{
+    List<KhachHang> list_kh = Model.KhachHangs.ToList();
+    List<HopDongMatBang> list_hdmb = Model.HopDongMatBangs.OrderByDescending(x => x.ID).ToList();
+}
+
+
+<div class="content-wrapper">
+    <div class="page-header">
+        <h3 class="page-title" style="font-weight:bold;font-size:30px;color:#ab8221">
+            <span class="me-2">
+                <i class="fa-solid fa-map-location-dot" style="color: #ab8221;"></i>
+            </span> Quản Lý Thông Tin Khách thuê
+        </h3>
+    </div>
+
+
+    <!-- Table thông tin đối tác  -->
+    <div id="Doitac" class="table-info">
+        <h3 style="margin: 20px; color:#343a40;font-weight:700">
+            <i class="fa-solid fa-circle-info" style="color: #343a40;font-size:20px"></i>
+            Thông tin khách thuê
+        </h3>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Mã Khách Hàng</th>
+                    <th>Tên Khách Hàng</th>
+                    <th>Giới Tính</th>
+                    <th>Email</th>
+                    <th>Số Điện Thoại</th>
+                    <th>Địa Chỉ</th>
+                    <th>Trạng Thái</th>
+                    <th>Thao Tác</th>
+                </tr>
+            </thead>
+
+
+            <tbody>
+
+                @foreach (var item in list_kh)
+                {
+                    if (!item.TRANGTHAI)
+                    {
+                        <tr>
+                            <td>@("HTCKT" + item.MAKH)</td>
+                            <td>@item.HOTEN</td>
+                            <td>
+                                @{
+                                    var gioitinh = item.GIOITINH ? "Nam" : "Nữ";
+                                }
+                                @gioitinh
+                            </td>
+                            <td>@item.EMAIL</td>
+                            <td>@item.SDT</td>
+                            <td>@item.DIACHI</td>
+                            <td>
+                                <form asp-action="ChangeStatusKH" asp-controller="FunctionKH" method="post">
+                                    <input type="hidden" name="makh" value="@item.MAKH" />
+                                    <input type="checkbox" @(item.TRANGTHAI ? "checked" : "") onchange="this.form.submit()" />
+                                </form>
+                            </td>
+
+
+
+                            <td class="action-buttons">
+                                @using (Html.BeginForm("XoaKT", "FunctionKH", new { makh = item.MAKH }, FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="remove"
+                                        onclick="return confirm('Bạn có chắc chắn muốn xóa khách hàng này không?')">
+                                        <span class="material-symbols-outlined">
+                                            do_not_disturb_on
+                                        </span>
+                                    </button>
+                                }
+
+
+                            </td>
+
+                        </tr>
+                    }
+                }
+
+
+
+            </tbody>
+        </table>
+
+
+    </div>
+
+
+    <!-- Table thông tin đối tác  -->
+    <div id="Doitac" class="table-info">
+        <h3 style="margin: 20px; color:#343a40;font-weight:700">
+            <i class="fa-solid fa-circle-info" style="color: #343a40;font-size:20px"></i>
+            Thông tin hợp đồng khách thuê
+        </h3>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Mã Hợp Đồng</th>
+                    <th>Tên Hợp Đồng</th>
+                    <th>Mã Khách Hàng</th>
+                    <th>Tên Mặt Bằng</th>
+                    <th>Thời Hạn</th>
+                    <th>Hiệu Lực</th>
+                    <th>Trạng Thái</th>
+                    <th>Thao Tác</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in list_hdmb)
+                {
+                    var hd = Model.HopDongs.SingleOrDefault(x => x.MAHD == item.MAHD);
+                    var KH = Model.KhachHangs.SingleOrDefault(m => m.MAKH == item.MAKH);
+                    if (KH.TRANGTHAI)
+                    {
+                        <tr>
+                            <td>@("HTCHDMB" + item.MAHD)</td>
+                            <td>@hd.TENHDDT</td>
+                            <td>@("HTCKH" + item.MAKH)</td>
+                            <td>
+                                @{
+                                    var tenmb = Model.MatBangs.SingleOrDefault(m => m.MAMB == item.MAMB);
+                                }
+                                @tenmb.TENMB
+                            </td>
+                            <td>@hd.THOIHAN</td>
+                            <td>@("Bắt đầu có hiệu lực từ ngày " + hd.HIEULUC)</td>
+
+                            <td>
+                                <form asp-action="ChangeStatusKH" asp-controller="FunctionKH" method="post">
+                                    <input type="hidden" name="makh" asp-for="@item.MAKH" value="@item.MAKH" />
+                                    <input type="checkbox" @(KH.TRANGTHAI ? "checked" : "") onchange="this.form.submit()" />
+                                </form>
+                            </td>
+
+                            <td class="action-buttons">
+                                @using (Html.BeginForm("XoaHDKH", "FunctionKH", new { mahdkh = item.MAHD }, FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="remove"
+                                        onclick="return confirm('Bạn có chắc chắn muốn xóa hợp đồng mặt bằng này không?')">
+                                        <span class="material-symbols-outlined">
+                                            do_not_disturb_on
+                                        </span>
+                                    </button>
+                                }
+
+
+                                <button class="edit">
+                                    <span class="material-symbols-outlined"
+                                        onclick="location.href = '@Url.Action("CapNhatHDKH","FunctionKH",new { mahdkh = item.MAHD})'">edit</span>
+                                </button>
+                            </td>
+
+                        </tr>
+                    }
+
+                }
+
+
+            </tbody>
+        </table>
+
+
+
+    </div>
+
+
+
+</div>

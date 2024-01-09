@@ -1,0 +1,26 @@
+@{
+    Layout = "_CustomeLayout";
+}
+@model QLTTTM.models.MatBang
+
+<div class="wrapper wrapper-mb">
+    <header>
+        <h1>Chi Tiết Mặt Bằng</h1>
+    </header>
+
+    <section class="property-detail">
+        <div class="property-image" data-aos="fade-right" data-aos-duration="2000">
+            <img src="@Model.IMAGEPATH" alt="Mặt bằng 1">
+        </div>
+
+        <div class="property-info" data-aos="fade-left" data-aos-duration="2000">
+            <h2>@Model.TENMB</h2>
+            <p>Diện tích: @(Model.DIENTICH + "m²")</p>
+            <p>Giá: @(Model.GIATIEN + " VNĐ")</p>
+            <p>Vị Trí: @Model.VITRI</p>
+            <p>Mô tả: @Model.MOTA</p>
+            <a href="@Url.Action("ThemLH","FunctionKH" , new {MAMB = Model.MAMB})" class="contact-button">Liên Hệ
+                Ngay</a>
+        </div>
+    </section>
+</div>

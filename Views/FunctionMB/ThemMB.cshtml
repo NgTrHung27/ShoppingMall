@@ -1,0 +1,161 @@
+@{
+    Layout = "_AdminLayout";
+}
+@using QLTTTM.models
+@model QLTTTM.models.MatBang
+@inject DataSQLContext dbContext
+@{
+    var tang1 = "Tầng 1";
+    var tang2 = "Tầng 2";
+    var tang3 = "Tầng 3";
+    var tang4 = "Tầng 4";
+    var tang5 = "Tầng 5";
+
+    var mb_tang1 = dbContext.MatBangs.Where(item => item.VITRI.ToLower().Contains(tang1.ToLower())).ToList();
+    var mb_tang2 = dbContext.MatBangs.Where(item => item.VITRI.ToLower().Contains(tang2.ToLower())).ToList();
+    var mb_tang3 = dbContext.MatBangs.Where(item => item.VITRI.ToLower().Contains(tang3.ToLower())).ToList();
+    var mb_tang4 = dbContext.MatBangs.Where(item => item.VITRI.ToLower().Contains(tang4.ToLower())).ToList();
+    var mb_tang5 = dbContext.MatBangs.Where(item => item.VITRI.ToLower().Contains(tang5.ToLower())).ToList();
+
+    int count_tang1 = mb_tang1.Count;
+    int count_tang2 = mb_tang2.Count;
+    int count_tang3 = mb_tang3.Count;
+    int count_tang4 = mb_tang4.Count;
+    int count_tang5 = mb_tang5.Count;
+
+}
+
+<div class="content-wrapper">
+    @* <div class="page-header">
+    <h3 class="page-title" style="font-weight:bold;font-size:30px;color:#ab8221">
+    <span class="me-2">
+    <i class="fa-solid fa-gift" style="color: #ab8221;"></i>
+    </span> Quản Lý Thông Tin Sự Kiện
+    </h3>
+    </div> *@
+
+    <div class="form_add_update">
+        <h2>Thêm Mặt Bằng</h2>
+        <form asp-action="ThemMB" asp-controller="FunctionMB" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label asp-for="TENMB">Tên Mặt Bằng:</label>
+                <input type="text" id="name" name="TENMB" asp-for="TENMB">
+                <span asp-validation-for="TENMB" class="text-danger"></span>
+            </div>
+
+
+
+            <div class="form-group">
+                <label asp-for="DIENTICH">Diện Tích:</label>
+                <input id="dientich" name="DIENTICH" asp-for="DIENTICH" type="number" min="0" inputmode="numeric"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                <span asp-validation-for="DIENTICH" class="text-danger"></span>
+            </div>
+
+
+
+
+
+            <div class="form-group">
+                <label asp-for="GIATIEN">Giá Tiền:</label>
+                <input id="giatien" name="GIATIEN" asp-for="GIATIEN" type="number" min="0" inputmode="numeric"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                <span asp-validation-for="GIATIEN" class="text-danger"></span>
+            </div>
+
+
+
+
+
+            <div class="form-group">
+                <label asp-for="VITRI">Vị Trí:</label>
+                <select id="gender" name="VITRI" asp-for="VITRI">
+                    <option value="">Chọn vị trí</option>
+
+                    @if (count_tang1 < 8 || count_tang1 == 7)
+                    {
+                        <option value="Tầng 1">Tầng 1</option>
+                    }
+                    @if (count_tang2 < 8 || count_tang2 == 7)
+                    {
+                        <option value="Tầng 2">Tầng 2</option>
+
+                    }
+                    @if (count_tang3 < 8 || count_tang3 == 7)
+                    {
+                        <option value="Tầng 3">Tầng 3</option>
+                    }
+                    @if (count_tang4 < 8 || count_tang4 == 7)
+                    {
+                        <option value="Tầng 4">Tầng 4</option>
+
+                    }
+                    @if (count_tang5 < 8 || count_tang5 == 7)
+                    {
+                        <option value="Tầng 5">Tầng 5</option>
+
+                    }
+                </select>
+                <span asp-validation-for="VITRI" class="text-danger"></span>
+            </div>
+
+
+
+            <div class="form-group">
+                <input type="hidden" asp-for="TRANGTHAI" value="false">
+                @* <select id="gender" name="TRANGTHAI" asp-for="TRANGTHAI">
+                <option value="">Chọn trạng thái</option>
+                <option value="true">Đã Được Thuê</option>
+                <option value="false">Chưa Được Thuê</option>
+                </select> *@
+                <span asp-validation-for="TRANGTHAI" class="text-danger"></span>
+            </div>
+
+
+
+
+            <div class="form-group">
+                <label asp-for="MOTA">Mô Tả:</label>
+                <textarea id="description" name="MOTA" rows="8" asp-for="MOTA"></textarea>
+                <span asp-validation-for="MOTA" class="text-danger"></span>
+            </div>
+
+
+
+            <div class="form-group">
+                <label asp-for="IMAGEPATH">Hình Ảnh Tiêu Đề:</label>
+                <input type="file" id="image" accept="image/*" name="tieude" asp-for="IMAGEPATH">
+                <span asp-validation-for="IMAGEPATH" class="text-danger"></span>
+
+            </div>
+
+
+
+            <div class="form-group">
+                <label asp-for="IMAGEPATH1">Hình Ảnh Chủ Đạo:</label>
+                <input type="file" id="image" accept="image/*" name="chudao" asp-for="IMAGEPATH1">
+                <span asp-validation-for="IMAGEPATH1" class="text-danger"></span>
+
+            </div>
+
+
+
+            <div class="form-group">
+                <label asp-for="IMAGEPATH2">Hình Ảnh Nội Dung:</label>
+                <input type="file" id="image" accept="image/*" name="noidung" asp-for="IMAGEPATH2" multiple>
+                <span asp-validation-for="IMAGEPATH2" class="text-danger"></span>
+            </div>
+
+
+
+
+            <div class="cover_submit">
+                <button type="submit" class="btn-submit">Thêm</button>
+            </div>
+        </form>
+
+
+    </div>
+
+
+</div>

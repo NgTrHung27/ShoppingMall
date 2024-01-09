@@ -1,0 +1,312 @@
+@{
+    Layout="_AdminLayout";
+}
+@using QLTTTM.models
+@model List<QLTTTM.models.SuKien>
+
+<div class="content-wrapper">
+    <div class="page-header">
+        <h3 class="page-title" style="font-weight:bold;font-size:30px;color:#ab8221">
+            <span class="me-2">
+                <i class="fa-solid fa-gift" style="color: #ab8221;"></i>
+            </span> Quản Lý Thông Tin Sự Kiện
+        </h3>
+    </div>
+
+
+    
+
+    @* Table sự kiện chưa được duyệt *@
+    <div id="Doitac" class="table-info">
+        <h3 style="margin: 20px; color:#343a40;font-weight:700">
+                    <i class="fa-solid fa-circle-info" style="color: #343a40;font-size:20px"></i>
+                    Thông tin sự kiện Chưa Duyệt
+                </h3>
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Mã Sự Kiện</th>
+                            <th>Tên Sự Kiện</th>
+                            <th>Loại Sự Kiện</th>
+                            <th>Hình Ảnh</th>
+                            <th>Mô Tả</th>
+                            <th>Trạng Thái</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       @foreach(var item in Model.OrderByDescending(x => x.MASK)){
+                            if(item.TRANGTHAI == false){
+                                <tr>
+                                    <td>@("HTCSK"+item.MASK)</td>
+                                    <td>@item.TENSK</td>
+                                    <td>
+                                        @{
+                                            var tenloai = "";
+                                            if(item.LOAISK == "UD"){
+                                                tenloai = "Ưu Đãi";
+                                            }else if(item.LOAISK == "NB"){
+                                                tenloai = "Nổi Bật";
+                                            }else {
+                                                tenloai = "Tiêu Điểm";
+                                            }
+                                        }
+                                        @tenloai
+                                    </td>
+                                    <td>@item.IMAGEPATH</td>
+                                    <td>@item.MOTA</td>
+                                    <td>
+                                        <form asp-action="ChangeStatusSK" asp-controller="FunctionSK" method="post">
+                                                <input type="hidden" name="mask" asp-for="@item.MASK" value="@item.MASK" />
+                                                <input type="checkbox" @(item.TRANGTHAI ? "checked" : "") onchange="this.form.submit()"/>
+                                        </form>
+                                    </td>
+                                    <td class="action-buttons">
+                                                    @using (Html.BeginForm("XoaSK", "FunctionSK", new { mask = item.MASK }, FormMethod.Post))
+                                                    {
+                                                        @Html.AntiForgeryToken()
+                                                        <button type="submit" class="remove" onclick="return confirm('Bạn có chắc chắn muốn xóa sự kiện này không?')">
+                                                            <span class="material-symbols-outlined">
+                                                                do_not_disturb_on
+                                                            </span>
+                                                        </button>
+                                                    }
+                                                    @* <button class="remove" onclick="return confirm('Bạn có chắc chắn muốn xóa nhân viên này không?') ? window.location.href = '@Url.Action("XoaNV", "Function")' : false;">
+                                                        <span class="material-symbols-outlined">do_not_disturb_on</span>
+                                                    </button> *@
+                                                    <button class="edit">
+                                                        <span class="material-symbols-outlined" onclick="location.href = '@Url.Action("CapNhatSK","FunctionSK",new { mask = item.MASK })'">edit</span>
+                                                    </button>
+                                    </td>
+                                    
+                                </tr>
+                            }
+                       }
+
+                
+                    </tbody>
+                </table>
+                <button class="add add-nv" onclick="location.href = '@Url.Action("ThemSK","FunctionSK")'">
+                    <span class="material-symbols-outlined">person_add</span> Thêm Mới
+                </button>
+
+    </div>
+
+
+
+
+
+
+
+
+     <!-- Table thông tin sự kiện Uu Dai-->
+    <div id="Doitac" class="table-info">
+        <h3 style="margin: 20px; color:#343a40;font-weight:700">
+                    <i class="fa-solid fa-circle-info" style="color: #343a40;font-size:20px"></i>
+                    Thông tin sự kiện Ưu Đãi
+                </h3>
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Mã Sự Kiện</th>
+                            <th>Tên Sự Kiện</th>
+                            <th>Loại Sự Kiện</th>
+                            <th>Hình Ảnh</th>
+                            <th>Mô Tả</th>
+                            <th>Trạng Thái</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       @foreach(var item in Model.OrderByDescending(x => x.MASK)){
+                            if(item.LOAISK == "UD" && item.TRANGTHAI == true){
+                                <tr>
+                                    <td>@("HTCSK"+item.MASK)</td>
+                                    <td>@item.TENSK</td>
+                                    <td>
+                                        Ưu Đãi
+                                    </td>
+                                    <td>@item.IMAGEPATH</td>
+                                    <td>@item.MOTA</td>
+                                    <td>
+                                        <form asp-action="ChangeStatusSK" asp-controller="FunctionSK" method="post">
+                                                <input type="hidden" name="mask" asp-for="@item.MASK" value="@item.MASK" />
+                                                <input type="checkbox" @(item.TRANGTHAI ? "checked" : "") onchange="this.form.submit()"/>
+                                        </form>
+                                    </td>
+                                    <td class="action-buttons">
+                                                    @using (Html.BeginForm("XoaSK", "FunctionSK", new { mask = item.MASK }, FormMethod.Post))
+                                                    {
+                                                        @Html.AntiForgeryToken()
+                                                        <button type="submit" class="remove" onclick="return confirm('Bạn có chắc chắn muốn xóa sự kiện này không?')">
+                                                            <span class="material-symbols-outlined">
+                                                                do_not_disturb_on
+                                                            </span>
+                                                        </button>
+                                                    }
+                                                    @* <button class="remove" onclick="return confirm('Bạn có chắc chắn muốn xóa nhân viên này không?') ? window.location.href = '@Url.Action("XoaNV", "Function")' : false;">
+                                                        <span class="material-symbols-outlined">do_not_disturb_on</span>
+                                                    </button> *@
+                                                    <button class="edit">
+                                                        <span class="material-symbols-outlined" onclick="location.href = '@Url.Action("CapNhatSK","FunctionSK",new { mask = item.MASK })'">edit</span>
+                                                    </button>
+                                    </td>
+                                    
+                                </tr>
+                            }
+                       }
+
+                
+                    </tbody>
+                </table>
+
+
+
+    </div>
+
+
+    @* Table sự kiện Nổi Bật *@
+    <div id="Doitac" class="table-info">
+        <h3 style="margin: 20px; color:#343a40;font-weight:700">
+                    <i class="fa-solid fa-circle-info" style="color: #343a40;font-size:20px"></i>
+                    Thông tin sự kiện Nổi Bật
+                </h3>
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Mã Sự Kiện</th>
+                            <th>Tên Sự Kiện</th>
+                            <th>Loại Sự Kiện</th>
+                            <th>Hình Ảnh</th>
+                            <th>Mô Tả</th>
+                            <th>Trạng Thái</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       @foreach(var item in Model.OrderByDescending(x => x.MASK)){
+                            if(item.LOAISK == "NB" && item.TRANGTHAI == true){
+                                <tr>
+                                    <td>@("HTCSK"+item.MASK)</td>
+                                    <td>@item.TENSK</td>
+                                    <td>
+                                        Nổi Bật
+                                    </td>
+                                    <td>@item.IMAGEPATH</td>
+                                    <td>@item.MOTA</td>
+                                    <td>
+                                        <form asp-action="ChangeStatusSK" asp-controller="FunctionSK" method="post">
+                                                <input type="hidden" name="mask" asp-for="@item.MASK" value="@item.MASK" />
+                                                <input type="checkbox" @(item.TRANGTHAI ? "checked" : "") onchange="this.form.submit()"/>
+                                        </form>
+                                    </td>
+                                    <td class="action-buttons">
+                                                    @using (Html.BeginForm("XoaSK", "FunctionSK", new { mask = item.MASK }, FormMethod.Post))
+                                                    {
+                                                        @Html.AntiForgeryToken()
+                                                        <button type="submit" class="remove" onclick="return confirm('Bạn có chắc chắn muốn xóa sự kiện này không?')">
+                                                            <span class="material-symbols-outlined">
+                                                                do_not_disturb_on
+                                                            </span>
+                                                        </button>
+                                                    }
+                                                    @* <button class="remove" onclick="return confirm('Bạn có chắc chắn muốn xóa nhân viên này không?') ? window.location.href = '@Url.Action("XoaNV", "Function")' : false;">
+                                                        <span class="material-symbols-outlined">do_not_disturb_on</span>
+                                                    </button> *@
+                                                    <button class="edit">
+                                                        <span class="material-symbols-outlined" onclick="location.href = '@Url.Action("CapNhatSK","FunctionSK",new { mask = item.MASK })'">edit</span>
+                                                    </button>
+                                    </td>
+                                    
+                                </tr>
+                            }
+                       }
+
+                
+                    </tbody>
+                </table>
+               
+
+    </div>
+      
+
+
+    
+
+    @* Table sự kiện Tiêu Điểm *@
+
+    <div id="Doitac" class="table-info">
+        <h3 style="margin: 20px; color:#343a40;font-weight:700">
+                    <i class="fa-solid fa-circle-info" style="color: #343a40;font-size:20px"></i>
+                    Thông tin sự kiện Tiêu Điểm
+                </h3>
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Mã Sự Kiện</th>
+                            <th>Tên Sự Kiện</th>
+                            <th>Loại Sự Kiện</th>
+                            <th>Hình Ảnh</th>
+                            <th>Mô Tả</th>
+                            <th>Trạng Thái</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       @foreach(var item in Model.OrderByDescending(x => x.MASK)){
+                            if(item.LOAISK == "TD" && item.TRANGTHAI == true){
+                                <tr>
+                                    <td>@("HTCSK"+item.MASK)</td>
+                                    <td>@item.TENSK</td>
+                                    <td>
+                                        Tiêu Điểm
+                                    </td>
+                                    <td>@item.IMAGEPATH</td>
+                                    <td>@item.MOTA</td>
+                                    <td>
+                                        <form asp-action="ChangeStatusSK" asp-controller="FunctionSK" method="post">
+                                                <input type="hidden" name="mask" asp-for="@item.MASK" value="@item.MASK" />
+                                                <input type="checkbox" @(item.TRANGTHAI ? "checked" : "") onchange="this.form.submit()"/>
+                                        </form>
+                                    </td>
+                                    <td class="action-buttons">
+                                                    @using (Html.BeginForm("XoaSK", "FunctionSK", new { mask = item.MASK }, FormMethod.Post))
+                                                    {
+                                                        @Html.AntiForgeryToken()
+                                                        <button type="submit" class="remove" onclick="return confirm('Bạn có chắc chắn muốn xóa sự kiện này không?')">
+                                                            <span class="material-symbols-outlined">
+                                                                do_not_disturb_on
+                                                            </span>
+                                                        </button>
+                                                    }
+                                                    @* <button class="remove" onclick="return confirm('Bạn có chắc chắn muốn xóa nhân viên này không?') ? window.location.href = '@Url.Action("XoaNV", "Function")' : false;">
+                                                        <span class="material-symbols-outlined">do_not_disturb_on</span>
+                                                    </button> *@
+                                                    <button class="edit">
+                                                        <span class="material-symbols-outlined" onclick="location.href = '@Url.Action("CapNhatSK","FunctionSK",new { mask = item.MASK })'">edit</span>
+                                                    </button>
+                                    </td>
+                                    
+                                </tr>
+                            }
+                       }
+
+                
+                    </tbody>
+                </table>
+               
+
+
+    </div>
+
+
+
+
+
+
+    
+            
+
+
+          
+</div>

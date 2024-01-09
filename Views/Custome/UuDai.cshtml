@@ -1,0 +1,47 @@
+@{
+    Layout = "_CustomeLayout";
+}
+@model List<QLTTTM.models.SuKien>
+
+
+<div class="sale">
+    <div class="text-center">
+        <div class="sale-header">
+            <span class="material-symbols-outlined">
+                auto_awesome
+            </span>
+            <i class="fa-solid fa-star"></i>
+            <span class="material-symbols-outlined">
+                auto_awesome
+            </span>
+            ƯU ĐÃI
+            <span class="material-symbols-outlined">
+                auto_awesome
+            </span>
+            <i class="fa-solid fa-star"></i>
+            <span class="material-symbols-outlined">
+                auto_awesome
+            </span>
+        </div>
+    </div>
+
+    <div class="sale-content">
+        <div class="container">
+            <div class="row" data-aos="flip-up" data-aos-duration="1500">
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-4">
+                        <div class="img-sale">
+                            <img src="@item.IMAGEPATH" alt="">
+                        </div>
+                    </div>
+                }
+
+
+
+
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,69 @@
+@{
+    Layout = "_CustomeLayout";
+}
+
+@model List<QLTTTM.models.SuKien>
+
+<div class="focus">
+    <div class="text-center">
+        <div class="focus-header">
+            <span class="material-symbols-outlined">
+                auto_awesome
+            </span>
+            <i class="fa-solid fa-star"></i>
+            <span class="material-symbols-outlined">
+                auto_awesome
+            </span>
+            TIÊU ĐIỂM
+            <span class="material-symbols-outlined">
+                auto_awesome
+            </span>
+            <i class="fa-solid fa-star"></i>
+            <span class="material-symbols-outlined">
+                auto_awesome
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="focus-content">
+    <div class="container">
+        <div class="row" data-aos="fade-up" data-aos-duration="2000">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4">
+                    <div class="card card-focus">
+                        <div class="card-img-focus">
+                            <img src="@item.IMAGEPATH" alt="">
+                        </div>
+
+                        <div class="content-focus-bottom">
+                            <div class="title-content-focus">
+                                <h3>@item.TENSK</h3>
+                            </div>
+
+                            <hr>
+
+                            <div class="content-focus-bot">
+                                <p>
+                                    @item.MOTA
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            }
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+</div>

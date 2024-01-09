@@ -1,0 +1,340 @@
+:root {
+    --main-color: #d3ad7f;
+    --black: #13131a;
+    --bg: white;
+    --border: .1rem solid rgba(255,255,255,.3);
+}
+#wrapper{
+  background-color: #fff;
+  position: relative;
+}
+
+
+/* CHANGE SROLL BAR */
+body::-webkit-scrollbar-thumb{
+  background-image: linear-gradient(-45deg, #6a5af9, #d66efd);
+  border-radius: 50px;
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+div{
+  display: block;
+}
+body{
+  font-family: 'Roboto',sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.header-wrapper .stuck{
+  box-shadow: 1px 1px 10px rgba(0,0,0,0.15);
+} 
+.stuck {
+  top: 0;
+  /* position: fixed; */
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  animation: stuckMoveDown 1.5s;
+}
+.stuck .header .navbar a{
+  color: black;
+}
+
+.sticky{
+  background: white;
+  opacity: 1;
+}
+.stuck .menu .menuitem .itemtitle{
+  color : black
+}
+
+.stuck .menu .menuitem .itemtitle:hover{
+    color : rgb(171, 130, 33);
+  }
+
+.header-wrapper{
+  width: 100%;
+  z-index: 30;
+  position: fixed; 
+  background-size: cover;
+  background-position: 50% 0;
+  transition: all 0.5s ease-in-out;
+}
+.header {
+    font-family: 'Roboto',sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 3%;
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    height:150px;
+    border-bottom:0.00005px solid rgb(171,130,33);
+}
+
+@keyframes stuckMoveDown{
+  0%{
+    transform: translateY(-100%);
+  }
+  100%{
+    transform: translateY(0);
+  }
+}
+    .header .logo img {
+        height: 100px;
+        width: 150px;
+        border-radius: 50%;
+    }
+
+    .header .navbar a {
+        text-decoration: none;
+        font-size: 15px;
+        font-weight: 600;
+        color: black;
+        transition: 0.3s ease-in-out;
+    }
+
+        .header .navbar a:hover {
+            color: rgb(171,130,33);
+            border-bottom: 2px solid rgb(171,130,33);
+            background-color: rgba(0, 0, 0, 0);
+        }
+.navbar .drop-down-menu{
+  border-radius: 0;
+}
+.navbar .dropdown .drop-menu-icon{
+  background-color:rgba(0, 0, 0, 0);
+  border: none;
+  height: 45px;
+  border-radius: 0;
+}
+
+.navbar .dropdown .drop-menu-icon .custom-menu-icon{
+  color: #333;
+  font-size: 35px;
+  transition: 0.5s linear;
+}
+.navbar .dropdown .drop-menu-icon .change-color{
+  color : black;
+}
+.navbar .dropdown .drop-menu-icon .custom-menu-icon:hover{
+  opacity: 0.95;
+  color: gray;
+}
+.custom-drop-show[data-bs-popper] {
+  top: 100%;
+  left: -120px;
+  background-color: #FDF8F2;
+  border: 2px solid rgb(171,130,33);
+  border-radius: 10px;
+}
+.custom-drop-show li{
+  padding: 10px;
+}
+.menu {
+    text-align: center;
+    color: rgb(217,217,217);
+    display: flex;
+    justify-content: center;
+    min-height: 43px;
+    z-index:9;
+    position: relative;
+}
+
+.menuitem {
+    padding: 10px 30px;
+    font-size: 15px;
+    line-height: 20px;
+    font-weight: 700;
+    font-family: 'Roboto', sans-serif;
+    display: inline-block;
+    margin: 0 10px; /* Điều chỉnh khoảng cách giữa các tiêu đề */
+  
+  
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  .dropdown-content a {
+    display: block;
+    color:rgb(193, 189, 189);
+    text-decoration: none;
+    padding: 5px 10px;
+    transition: 1s ease;
+    border-bottom: 2px solid #ccc;
+  }
+  .dropdown-content a:last-child {
+    border-bottom: none;
+  }
+  
+  .dropdown-content a:hover {
+    background-color: #ddd;
+    color: #13131a;
+  }
+
+  .itemtitle{
+    color:#333;
+    text-decoration: none;
+    padding: 5px 0;
+    transition: all 0.2s ease;
+  }
+  .itemtitle:hover{
+    color: rgb(171,130,33);
+  }
+.itemheader{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.icon-header{
+  color: rgb(171,130,33);
+}
+
+/* Style cho ô tìm kiếm ẩn */
+.search-box {
+    display: none;
+    background-color: rgba(0, 0, 0, 0.7); /* Làm tối nền phía sau */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    flex-direction: column; /* Đặt layout cho search-box thành cột */
+    justify-content: flex-start; /* Đặt justification cho đầu cột */
+    align-items: center; /* Đặt alignment cho giữa cột */
+    overflow-y: auto; /* Cho phép scroll khi nội dung quá dài */
+}
+
+/* Style cho ô tìm kiếm hiện */
+.search-box.active {
+    display: flex;
+    justify-content: center; /* Đặt justification cho đầu cột */
+    align-items: center; /* Đặt alignment cho giữa cột */
+    overflow-y: hidden; /* Ngăn chặn scroll trong box active */
+}
+
+/* Style cho biểu tượng tìm kiếm */
+.search-icon {
+    cursor: pointer;
+    font-size: 25px;
+    color: rgb(171, 130, 31);
+}
+
+
+.search-input {
+    width: 100%;
+    padding: 20px;
+    font-size: 25px;
+    font-weight: 700;
+    width: 600px;
+    border-radius: 40px;
+    border: 2px solid rgb(171, 130, 33);
+    background-color: transparent; /* Đặt nền trong suốt */
+    color: white;
+
+     /* Màu khi input được focus */
+     outline: none; /* Loại bỏ viền focus mặc định */
+     transition: border-color 0.3s; /* Hiệu ứng chuyển tiếp cho viền */
+
+     /* Màu focus khi input được focus */
+     &:focus {
+         border-color: rgb(171, 130, 33); /* Thay đổi màu của viền focus khi input được focus */
+     }
+}
+
+.search-results {
+    margin-top: 15px;
+    width: 605px;
+    max-height: 430px;
+    overflow-y: auto;
+}
+
+/* Đặt màu nền cho thanh cuộn */
+.search-results::-webkit-scrollbar {
+    width: 10px; /* Độ rộng của thanh cuộn */
+}
+
+/* Đặt màu nền cho "búa cuộn" (thumb) */
+.search-results::-webkit-scrollbar-thumb {
+    background-color: rgba(171, 130, 33, 0.5); /* Màu nền trong suốt */
+    border-radius: 10px; /* Độ cong viền */
+}
+
+
+.search-results ul {
+    list-style: none; /* Loại bỏ dấu chấm */
+    padding: 0; /* Xóa khoảng cách đệm bên trái */
+}
+
+.search-results li {
+    width: 98%;
+    height: 80px;
+    text-align: left; /* Căn giữa nội dung của từng mục */
+    line-height: 60px; /* Để căn giữa theo chiều dọc */
+    background-color: transparent;
+    border: 1px solid rgb(171, 130, 33);
+    margin: 20px 5px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    white-space: nowrap; /* Ngăn các từ bị ngắt */
+    text-overflow: ellipsis; /* Hiển thị dấu ... nếu văn bản vượt quá */
+    overflow: hidden; /* Ẩn phần vượt quá */
+}
+
+.search-results a {
+    text-decoration: none;
+    color: #FDF8F2;
+    font-size: 20px;
+    font-weight: 800;
+   text-align: center;
+}
+
+/* CSS để điều chỉnh kích thước của hình ảnh */
+.search-results li a img {
+    width: 60px; /* Điều chỉnh chiều rộng */
+    height: 60px; /* Điều chỉnh chiều cao */
+    margin-right: 10px; /* Tạo khoảng cách với tên mặt bằng */
+    vertical-align: middle;
+    object-fit: contain; /* Zoom lại để fit với thẻ card */
+}
+
+
+/* Thêm class cho <html> khi ô tìm kiếm được kích hoạt */
+.search-active-html {
+    overflow: hidden;
+}
+
+.close-button {
+    font-size: 30px;
+    font-weight: 900;
+    cursor: pointer;
+}

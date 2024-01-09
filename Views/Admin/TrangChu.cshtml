@@ -1,0 +1,124 @@
+@using Microsoft.EntityFrameworkCore
+@using System.Data
+@using QLTTTM.models;
+@model QLTTTM.models.NhanVien
+@{
+    Layout = "_AdminLayout";
+}
+
+<style>
+    /* CSS cho trang cá nhân */
+
+
+    .profile-container {
+        max-width: 95%;
+        margin: 0 auto;
+        padding: 10px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        text-align: center;
+        @*display:flex;/*SửdụngFlexboxđểcăngiữanộidung*/flex-direction:column;/*Hiểnthịnộidungtheocộtdọc*/align-items:center;/*Căngiữatheochiềungang*/justify-content:center;*@
+        /* Căn giữa theo chiều dọc */
+    }
+
+    .profile-image {
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin: 20px auto;
+    }
+
+    .profile-name {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #ab8221;
+    }
+
+    .profile-bio {
+        font-size: 18px;
+        margin-bottom: 20px;
+        font-style: italic;
+
+    }
+
+    .profile-info {
+        font-size: 20px;
+        margin-bottom: 10px;
+        white-space: nowrap;
+        /* Ngăn ngừng ngắt dòng */
+        overflow: hidden;
+        /* Ẩn phần dư thừa của nội dung */
+        text-overflow: ellipsis;
+        /* Hiển thị dấu ... khi nội dung không vừa */
+        text-align: left;
+        font-weight: 700;
+    }
+
+    .fix-col {
+        /* Căn nội dung sang bên trái */
+
+    }
+</style>
+
+
+<div class="content-wrapper">
+    <div class="page-header">
+        <h3 class="page-title" style="font-weight:bold;font-size:30px;color:#ab8221">
+            <span class="me-2">
+                <i class="fa-solid fa-house" style="color: #ab8221;"></i>
+            </span>Home
+        </h3>
+
+
+    </div>
+
+
+
+    <div class="profile-container">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="@Model.AVATAR" alt="Avatar" class="profile-image">
+            </div>
+            <div class="col-md-6 fix-col">
+                <h1 class="profile-name">@Model.HOTEN</h1>
+                @{
+                    ChucVu chucVu = (ChucVu)ViewBag.CV;
+                    <p class="profile-bio">
+                        @chucVu.TENCV
+                    </p>
+                }
+
+                <p class="profile-info">
+                    Ngày sinh : @Model.NGAYSINH.ToString("dd/MM/yyyy")
+                </p>
+                <p class="profile-info">
+                    Ngày vào làm : @Model.NGAYVAOLAM.ToString("dd/MM/yyyy")
+                </p>
+                <p class="profile-info">CCCD : @Model.CCCD</p>
+                <p class="profile-info">Số điện thoại : @Model.SDT</p>
+                <p class="profile-info">Địa chỉ : @Model.DIACHI</p>
+                <p class="profile-info">Email : @Model.EMAIL</p>
+                <!-- Thêm các thông tin khác về người dùng tại đây -->
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>

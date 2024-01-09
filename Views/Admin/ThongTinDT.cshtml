@@ -1,0 +1,136 @@
+@{
+    Layout="_AdminLayout";
+}
+
+@using QLTTTM.models
+@model QLTTTM.models.DataSQLContext
+@{
+    List<DoiTac> list_dt = Model.DoiTacs.OrderByDescending(x => x.MADT).ToList();
+    List<HopDongDoiTac> list_hddt = Model.HopDongDoiTacs.OrderByDescending(x => x.MADT).ToList();
+    
+}
+
+<div class="content-wrapper">
+    <div class="page-header">
+        <h3 class="page-title" style="font-weight:bold;font-size:30px;color:#ab8221">
+            <span class="me-2">
+                <i class="fa-regular fa-handshake" style="color: #ab8221;"></i>
+            </span> Quản Lý Thông Tin Đối Tác
+        </h3>
+    </div>
+    
+
+     <!-- Table thông tin đối tác  -->
+            <div id="Doitac" class="table-info">
+                <h3 style="margin: 20px; color:#343a40;font-weight:700">
+                    <i class="fa-solid fa-circle-info" style="color: #343a40;font-size:20px"></i>
+                    Thông tin đối tác
+                </h3>
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Mã Đối Tác</th>
+                            <th>Tên Đối Tác</th>
+                            <th>Loại Đối Tác</th>
+                            <th>Email</th>
+                            <th>Số Điện Thoại</th>
+                            <th>Đường Dẫn</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach(var item in list_dt){
+                            <tr>
+                                <td>@("HTCDT" + item.MADT)</td>
+                                <td>@item.TENDT</td>
+                                <td>
+                                    @{
+                                        var doitac = Model.LoaiDoiTacs.SingleOrDefault(x => x.MALOAIDT == item.MALOAIDOITAC);
+                                    }
+                                    @doitac.TENLOAI
+                                </td>
+                                <td>@item.EMAIL</td>
+                                <td>@item.SDT</td>
+                                <td>@item.DIRECTION</td>
+                                <td class="action-buttons">
+                                    @using (Html.BeginForm("XoaDT", "FunctionDT", new { madt = item.MADT }, FormMethod.Post))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="remove" onclick="return confirm('Bạn có chắc chắn muốn xóa đối tác này không?')">
+                                                    <span class="material-symbols-outlined">
+                                                        do_not_disturb_on
+                                                    </span>
+                                                </button>
+                                            }
+                                            @* <button class="remove" onclick="return confirm('Bạn có chắc chắn muốn xóa nhân viên này không?') ? window.location.href = '@Url.Action("XoaNV", "Function")' : false;">
+                                                <span class="material-symbols-outlined">do_not_disturb_on</span>
+                                            </button> *@
+                                            <button class="edit">
+                                                <span class="material-symbols-outlined" onclick="location.href = '@Url.Action("CapNhatDT","FunctionDT",new { madt = item.MADT })'">edit</span>
+                                            </button>
+                                </td>
+                            
+                        </tr>
+                        }
+
+
+                    </tbody>
+                </table>
+                <button class="add add-nv" onclick="location.href = '@Url.Action("ThemDT","FunctionDT")'">
+                    <span class="material-symbols-outlined">person_add</span> Thêm Mới
+                </button>
+            </div>
+
+
+
+             <!-- Table thông tin đối tác  -->
+            <div id="Doitac" class="table-info">
+                <h3 style="margin: 20px; color:#343a40;font-weight:700">
+                    <i class="fa-solid fa-circle-info" style="color: #343a40;font-size:20px"></i>
+                    Thông tin hợp đồng đối tác
+                </h3>
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Mã Hợp Đồng</th>
+                            <th>Tên Hợp Đồng</th>
+                            <th>Mã Đối Tác</th>
+                            <th>Thời Hạn</th>
+                            <th>Hiệu Lực</th>
+                            <th>Mã Nhân Viên</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var item in list_hddt){
+                            var hd = Model.HopDongs.SingleOrDefault(x => x.MAHD == item.MAHD);
+                            <tr>
+                                <td>@("HTCHDDT" + item.MAHD)</td>
+                                <td>@hd.TENHDDT</td>
+                                <td>@("HTCDT"+item.MADT)</td>
+                                <td>@hd.THOIHAN</td>
+                                <td>@("Bắt đầu có hiệu lực từ ngày "+ hd.HIEULUC)</td>
+                                <td>@("HTCNV" + hd.MANV)</td>
+                                <td class="action-buttons">
+                                    <button class="remove">
+                                        <span class="material-symbols-outlined">do_not_disturb_on</span>
+                                    </button>
+                                    <button class="edit">
+                                        <span class="material-symbols-outlined">edit</span>
+                                    </button>
+                                </td>
+                            
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+               
+
+            
+            </div>
+
+
+          
+</div>

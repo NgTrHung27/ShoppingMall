@@ -1,0 +1,152 @@
+.wrapper-mb{
+    padding-top: 200px;
+    margin-bottom: 70px;
+}
+.wrapper-mb header h1{
+    text-align: center;
+    margin: 0px 0px 50px 0px;
+    color: #333;
+    font-weight: bold;
+
+}
+
+.container-mb {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    flex-direction: column; /* Xếp các tầng theo chiều ngang */
+    text-align: center;
+  }
+  .accordion{
+      width: 80%;
+      height:auto;
+      margin: 10px;
+  }
+
+  .accordion-item{
+    padding: 10px;
+    text-align: center;
+    border: 1px solid rgb(171,130,33);
+    border-radius: 20px;
+    width: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .accordion-item a{
+    text-decoration: none;
+    color: rgb(171,130,33);
+    font-size: 25px;
+    font-weight: 900;
+  }
+  .accordion-title {
+    cursor: pointer;
+  }
+
+  .accordion-inner {
+    display: none;
+  }
+  
+
+  .img {
+    width: 100%;
+  }
+
+  /* Thêm CSS cho danh sách mặt bằng */
+  .apartment-list {
+list-style: none;
+padding: 0;
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 25px;
+justify-items: center; /* Căn giữa theo chiều ngang */
+align-content: center; /* Căn giữa theo chiều dọc */
+height: 100%; /* Đảm bảo chiều cao của danh sách là 100% */
+margin: 40px 0px;
+}
+
+
+
+  .apartment-item {
+    background-color: #fdf8f2;
+    width: 300px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 10px;
+}
+
+.apartment-item:hover{
+    animation: beat 1s infinite;
+}
+@keyframes beat {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+}
+
+
+  .apartment-item a{
+      text-decoration: none;
+      color : rgb(171,130,33);
+      font-size: 15px;
+      overflow: hidden;
+  }
+
+  .apartment-item a h1 {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .apartment-item a p {
+    width: 98%;
+    height: 30px;
+    font-size: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 0px;
+    padding: 0px 5px;
+  }
+
+
+  .apartment-item-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 380px;
+    height: 200px;
+    border: 1px solid rgb(171,130,33);
+    border-radius: 10px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .apartment-item-center img{
+    width: 360px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: 0.3s linear;
+  }
+  .apartment-item-center img:hover{
+    transform: scale(1.2);
+  }
+
+.apartment-item a img{
+    width: 80px;
+    height:80px;
+    border-radius: 50%;
+}
+

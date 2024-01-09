@@ -1,0 +1,348 @@
+@using Microsoft.EntityFrameworkCore
+@using QLTTTM.models
+@{
+    Layout = "_CustomeLayout";
+}
+@inject DataSQLContext dbContext
+@model List<QLTTTM.models.MatBang>
+@{
+    var tang1 = "Tầng 1";
+    var tang2 = "Tầng 2";
+    var tang3 = "Tầng 3";
+    var tang4 = "Tầng 4";
+    var tang5 = "Tầng 5";
+
+    var mb_tang1 = Model.Where(item => item.VITRI.ToLower().Contains(tang1.ToLower())).ToList();
+    var mb_tang2 = Model.Where(item => item.VITRI.ToLower().Contains(tang2.ToLower())).ToList();
+    var mb_tang3 = Model.Where(item => item.VITRI.ToLower().Contains(tang3.ToLower())).ToList();
+    var mb_tang4 = Model.Where(item => item.VITRI.ToLower().Contains(tang4.ToLower())).ToList();
+    var mb_tang5 = Model.Where(item => item.VITRI.ToLower().Contains(tang5.ToLower())).ToList();
+
+}
+
+
+
+<div class="wrapper wrapper-mb">
+    <header>
+        <h1>Danh Sách Mặt Bằng</h1>
+    </header>
+
+    @* <section class="property-list" data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000">
+    @foreach (var item in Model)
+    {
+    <div class="property-card">
+    <img src="@item.IMAGEPATH" alt="Mặt bằng 1">
+    <h2>@item.TENMB</h2>
+    <p>Diện tích: @(item.DIENTICH + "m²")</p>
+    <p>Giá: @(item.GIATIEN + " VNĐ")</p>
+    <a href="@Url.Action("ChiTietMB","Custome" , new{MAMB = item.MAMB})">Xem chi tiết</a>
+    </div>
+
+
+
+    }
+    </section> *@
+
+
+    <div class="container-mb" data-aos="fade-up" data-aos-anchor-placement="center-bottom" data-aos-duration="1500">
+
+        @* Mặt bằng tầng 1 : *@
+        <div class="accordion" rel="1">
+            <div class="accordion-item">
+                <a class="accordion-title plain" onclick="toggleAccordion(1)">
+                    <span class="material-symbols-outlined">
+                        apartment
+                    </span>
+                    <span>HTC MALL | Tầng 1</span>
+                </a>
+                <div class="accordion-inner" style="display: none;">
+                    <ul class="apartment-list">
+                        @{
+                            int count = 1;
+                        }
+                        @foreach (var item in mb_tang1)
+                        {
+                            if (count == 5)
+                            {
+                                
+                                <li class="apartment-item-center">
+                                    <img src="~/images/thangmaycuon.jpeg">
+                                </li>
+                            }
+                            if (item.TRANGTHAI)
+                            {
+                                var hopdong_tang1 = dbContext.HopDongMatBangs.SingleOrDefault(x => x.MAMB == item.MAMB);
+                                var hopdongkhachthue_tang1 = dbContext.HopDongs.SingleOrDefault(x => x.MAHD ==
+                                hopdong_tang1.MAHD);
+                                <li class="apartment-item" style="pointer-events: none; background-color: rgb(203, 203, 203);">
+                                    <a>
+                                        <img src="@item.IMAGEPATH">
+                                        <h1 style="color: white;">@item.TENMB</h1>
+                                        <p style="color: white;">@hopdongkhachthue_tang1.TENHDDT</p>
+                                        <p style="font-size : 15px ;color: white;">Đã Được Thuê</p>
+                                    </a>
+                                </li>
+                                count += 1;
+                            }
+                            else
+                            {
+                                <li class="apartment-item">
+                                    <a href="@Url.Action("ChiTietMB" , "Custome" , new{mamb = item.MAMB})">
+                                        <img src="@item.IMAGEPATH">
+                                        <h1>@item.TENMB</h1>
+                                        <p>@item.MOTA</p>
+                                        <p style="font-size : 15px">Chưa Được Thuê</p>
+
+                                    </a>
+                                </li>
+                                count += 1;
+
+                            }
+                        }
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        @* Hiển thị mặt bằng tầng 2 *@
+        <div class="accordion" rel="2">
+            <div class="accordion-item">
+                <a class="accordion-title plain" onclick="toggleAccordion(2)">
+                    <span class="material-symbols-outlined">
+                        apartment
+                    </span>
+                    <span>HTC MALL | Tầng 2</span>
+                </a>
+                <div class="accordion-inner" style="display: none;">
+                    <ul class="apartment-list">
+                        @{
+                            int count_2 = 1;
+                        }
+                        @foreach (var item in mb_tang2)
+                        {
+                            if (count_2 == 5)
+                            {
+                                <li class="apartment-item-center">Thang Máy</li>
+                            }
+                            if (item.TRANGTHAI)
+                            {
+                                var hopdong_tang2 = dbContext.HopDongMatBangs.SingleOrDefault(x => x.MAMB == item.MAMB);
+                                var hopdongkhachthue_tang2 = dbContext.HopDongs.SingleOrDefault(x => x.MAHD ==
+                                hopdong_tang2.MAHD);
+                                <li class="apartment-item" style="pointer-events: none; background-color: rgb(203, 203, 203);">
+                                    <a>
+                                        <img src="@item.IMAGEPATH">
+                                        <h1 style="color: white;">@item.TENMB</h1>
+                                        <p style="color: white;">@hopdongkhachthue_tang2.TENHDDT</p>
+                                        <p style="font-size : 15px ;color: white;">Đã Được Thuê</p>
+                                    </a>
+                                </li>
+                                count_2 += 1;
+                            }
+                            else
+                            {
+                                <li class="apartment-item">
+                                    <a href="@Url.Action("ChiTietMB" , "Custome" , new{mamb = item.MAMB})">
+                                        <img src="@item.IMAGEPATH">
+                                        <h1>@item.TENMB</h1>
+                                        <p>@item.MOTA</p>
+                                        <p style="font-size : 15px">Chưa Được Thuê</p>
+
+
+                                    </a>
+                                </li>
+                                count_2 += 1;
+
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="accordion" rel="3">
+            <div class="accordion-item">
+                <a class="accordion-title plain" onclick="toggleAccordion(3)">
+                    <span class="material-symbols-outlined">
+                        apartment
+                    </span>
+                    <span>HTC MALL | Tầng 3</span>
+                </a>
+                <div class="accordion-inner" style="display: none;">
+                    <ul class="apartment-list">
+                        @{
+                            int count_3 = 1;
+                        }
+                        @foreach (var item in mb_tang3)
+                        {
+                            if (count_3 == 5)
+                            {
+                                <li class="apartment-item-center">Thang Máy</li>
+                            }
+                            if (item.TRANGTHAI)
+                            {
+                                var hopdong_tang3 = dbContext.HopDongMatBangs.SingleOrDefault(x => x.MAMB == item.MAMB);
+                                var hopdongkhachthue_tang3 = dbContext.HopDongs.SingleOrDefault(x => x.MAHD ==
+                                hopdong_tang3.MAHD);
+                                <li class="apartment-item" style="pointer-events: none; background-color: rgb(203, 203, 203);">
+                                    <a>
+                                        <img src="@item.IMAGEPATH">
+                                        <h1 style="color: white;">@item.TENMB</h1>
+                                        <p style="color: white;">@hopdongkhachthue_tang3.TENHDDT</p>
+                                        <p style="font-size : 15px ;color: white;">Đã Được Thuê</p>
+                                    </a>
+                                </li>
+                                count_3 += 1;
+                            }
+                            else
+                            {
+                                <li class="apartment-item">
+                                    <a href="@Url.Action("ChiTietMB" , "Custome" , new{mamb = item.MAMB})">
+                                        <img src="@item.IMAGEPATH">
+                                        <h1>@item.TENMB</h1>
+                                        <p>@item.MOTA</p>
+                                        <p style="font-size : 15px">Chưa Được Thuê</p>
+
+
+                                    </a>
+                                </li>
+                                count_3 += 1;
+
+                            }
+                        }
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="accordion" rel="4">
+            <div class="accordion-item">
+                <a class="accordion-title plain" onclick="toggleAccordion(4)">
+                    <span class="material-symbols-outlined">
+                        apartment
+                    </span>
+                    <span>HTC MALL | Tầng 4</span>
+                </a>
+                <div class="accordion-inner" style="display: none;">
+                    <ul class="apartment-list">
+                        @{
+                            int count_4 = 1;
+                        }
+                        @foreach (var item in mb_tang4)
+                        {
+                            if (count_4 == 5)
+                            {
+                                <li class="apartment-item-center">Thang Máy</li>
+                            }
+                            if (item.TRANGTHAI)
+                            {
+                                var hopdong_tang4 = dbContext.HopDongMatBangs.SingleOrDefault(x => x.MAMB == item.MAMB);
+                                var hopdongkhachthue_tang4 = dbContext.HopDongs.SingleOrDefault(x => x.MAHD ==
+                                hopdong_tang4.MAHD);
+                                <li class="apartment-item" style="pointer-events: none; background-color: rgb(203, 203, 203);">
+                                    <a>
+                                        <img src="@item.IMAGEPATH">
+                                        <h1 style="color: white;">@item.TENMB</h1>
+                                        <p style="color: white;">@hopdongkhachthue_tang4.TENHDDT</p>
+                                        <p style="font-size : 15px ;color: white;">Đã Được Thuê</p>
+                                    </a>
+                                </li>
+                                count_4 += 1;
+                            }
+                            else
+                            {
+                                <li class="apartment-item">
+                                    <a href="@Url.Action("ChiTietMB" , "Custome" , new{mamb = item.MAMB})">
+                                        <img src="@item.IMAGEPATH">
+                                        <h1>@item.TENMB</h1>
+                                        <p>@item.MOTA</p>
+                                        <p style="font-size : 15px">Chưa Được Thuê</p>
+
+
+                                    </a>
+                                </li>
+                                count_4 += 1;
+
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="accordion" rel="5">
+            <div class="accordion-item">
+                <a class="accordion-title plain" onclick="toggleAccordion(5)">
+                    <span class="material-symbols-outlined">
+                        apartment
+                    </span>
+                    <span>HTC MALL | Tầng 5</span>
+                </a>
+                <div class="accordion-inner" style="display: none;">
+                    <ul class="apartment-list">
+                        @{
+                            int count_5 = 1;
+                        }
+                        @foreach (var item in mb_tang5)
+                        {
+                            if (count_5 == 5)
+                            {
+                                <li class="apartment-item-center">Thang Máy</li>
+                            }
+                            if (item.TRANGTHAI)
+                            {
+                                var hopdong_tang5 = dbContext.HopDongMatBangs.SingleOrDefault(x => x.MAMB == item.MAMB);
+                                var hopdongkhachthue_tang5 = dbContext.HopDongs.SingleOrDefault(x => x.MAHD ==
+                                hopdong_tang5.MAHD);
+                                <li class="apartment-item" style="pointer-events: none; background-color: rgb(203, 203, 203);">
+                                    <a>
+                                        <img src="@item.IMAGEPATH">
+                                        <h1 style="color: white;">@item.TENMB</h1>
+                                        <p style="color: white;">@hopdongkhachthue_tang5.TENHDDT</p>
+                                        <p style="font-size : 15px ;color: white;">Đã Được Thuê</p>
+                                    </a>
+                                </li>
+                                count_5 += 1;
+                            }
+                            else
+                            {
+                                <li class="apartment-item">
+                                    <a href="@Url.Action("ChiTietMB" , "Custome" , new{mamb = item.MAMB})">
+                                        <img src="@item.IMAGEPATH">
+                                        <h1>@item.TENMB</h1>
+                                        <p>@item.MOTA</p>
+                                        <p style="font-size : 15px">Chưa Được Thuê</p>
+
+                                    </a>
+                                </li>
+                                count_5 += 1;
+
+                            }
+                        }
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+    <script>
+
+        function toggleAccordion(index) {
+            const accordionInner = document.querySelector(`.accordion[rel="${index}"] .accordion-inner`);
+            accordionInner.style.display = accordionInner.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
+
+
+
+</div>

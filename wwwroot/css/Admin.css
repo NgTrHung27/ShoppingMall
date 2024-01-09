@@ -1,0 +1,170 @@
+html {
+    scroll-behavior : smooth;
+    scroll-padding-top: 9rem;
+    overflow-x : hidden;
+}
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}   
+/* CHANGE SROLL BAR */
+body::-webkit-scrollbar-thumb{
+    background-image: linear-gradient(-45deg, #6a5af9, #d66efd);
+    border-radius: 50px;
+  }
+
+
+.table-info{
+    margin: 0px;
+    flex-wrap: wrap;
+    overflow: auto;
+}
+
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin: 10px 0;
+}
+
+.styled-table th,
+.styled-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+    text-align: center;
+    padding: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 250px;
+}
+
+.styled-table th {
+    background-color: rgb(171,130,33);
+    color: white;
+}
+
+
+.styled-table tr:nth-child(even) {
+    background-color: #FDF8F2;;
+}
+
+.styled-table tr:hover {
+    background-color: #ddd;
+}
+
+
+/* CSS cho cột chứa nút "Delete" và "Edit" */
+.action-buttons {
+    display: flex;
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    height: 100%; /* Đảm bảo cột có chiều cao đủ để căn giữa nội dung */
+    border: none;
+}
+
+/* CSS cho nút xóa và chỉnh sửa */
+.remove,
+.edit {
+    width: 30px;
+    height: 30px;
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s linear;
+}
+
+.remove span,
+.edit span {
+    font-size: 25px; /* Giảm kích thước biểu tượng */
+    color: rgb(171, 130, 33);
+    transition: 0.3s linear;
+}
+
+.remove:hover span
+{
+    color: rgb(237, 64, 64);
+    opacity: 0.7;
+}
+.edit:hover span{
+    color: rgb(8, 156, 8);
+    opacity: 0.7;
+}
+/* CSS cho nút Thêm Mới */
+.add-nv {
+    border: 1.5px solid rgb(171, 130, 33);
+    background-color: transparent;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    margin: 20px 0px;
+    padding: 8px;
+    transition: 0.4s linear;
+    cursor: pointer;
+}
+
+.add-nv:hover {
+    background-color: rgb(239, 7, 7);
+    opacity: 0.8;
+    border: 1.5px solid rgb(249, 207, 207);
+    color: #fff;
+}
+
+.add span {
+    font-size: 14px;
+    color: rgb(171, 130, 33);
+    transition: 0.3s linear;
+}
+
+.add-nv:hover span {
+    color: #fff;
+}
+
+
+
+/* CSS của phần footer */
+.footer {
+    background-color: rgb(76, 75, 75);
+    padding: 20px 0;
+    color: white !important;
+    text-align: center;
+    border-top: 1px solid rgb(171, 130, 33);
+    border-bottom: 1px solid rgb(171, 130, 33);
+    margin-top: auto; /* Đặt margin-top là auto để đẩy footer xuống cuối cùng */
+}
+
+.footer-content {
+    max-width: 800px; /* Giới hạn chiều rộng của nội dung footer */
+    margin: 0 auto; /* Căn giữa nội dung footer trong phần container */
+}
+
+.menu-secondary ul {
+    list-style: none; /* Loại bỏ dấu chấm trước mục */
+    padding: 0;
+}
+
+.menu-secondary ul li {
+    display: inline; /* Hiển thị các mục cùng hàng ngang */
+    margin-right: 20px; /* Khoảng cách giữa các mục */
+}
+
+.menu-secondary ul li:last-child {
+    margin-right: 0; /* Loại bỏ khoảng cách bên phải của mục cuối cùng */
+}
+
+.menu-secondary ul li a{
+    text-decoration: none;
+    color: rgb(171, 130, 33);
+}
+
+.menu-secondary ul li a:hover{
+    opacity: 0.8;
+    color: #2e2d2d;
+}

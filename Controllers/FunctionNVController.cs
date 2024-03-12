@@ -110,7 +110,7 @@ namespace QLTTTM.Controllers
                 }
             }            
 
-            return RedirectToAction("TrangChu" , "Admin");
+            return RedirectToAction("HomeAdmin", "Admin");
 
         }
 

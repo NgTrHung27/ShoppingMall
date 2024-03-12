@@ -91,7 +91,7 @@ namespace DAPM.Controllers
                     }
                 }
             }
-            return RedirectToAction("TrangChu", "Admin", new { MANV = manv });
+            return RedirectToAction("HomeAdmin", "Admin", new { MANV = manv });
         }
 
 
@@ -110,7 +110,7 @@ namespace DAPM.Controllers
                     return View(khachHangAndHopDong);
                 }
             }
-            return RedirectToAction("TrangChu", "Admin");
+            return RedirectToAction("HomeAdmin", "Admin");
         }
 
 
@@ -179,7 +179,7 @@ namespace DAPM.Controllers
                     return RedirectToAction("ThongTinKT", "Admin");
                 }
             }
-            return RedirectToAction("TrangChu", "Admin");
+            return RedirectToAction("HomeAdmin", "Admin");
         }
 
 
@@ -215,7 +215,7 @@ namespace DAPM.Controllers
 
                 }
             }
-            return RedirectToAction("TrangChu", "Admin");
+            return RedirectToAction("HomeAdmin", "Admin");
         }
 
 
@@ -243,7 +243,7 @@ namespace DAPM.Controllers
                     }
                 }
             }
-            return RedirectToAction("TrangChu", "Admin");
+            return RedirectToAction("HomeAdmin", "Admin");
         }
 
 

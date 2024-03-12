@@ -94,7 +94,7 @@ namespace DAPM.Controllers{
                 }
             }            
 
-            return RedirectToAction("TrangChu" , "Admin");
+            return RedirectToAction("HomeAdmin" , "Admin");
 
         }
 
@@ -119,7 +119,7 @@ namespace DAPM.Controllers{
                     }
                 }
             }
-            return RedirectToAction("TrangChu","Admin");
+            return RedirectToAction("HomeAdmin","Admin");
         }
 
 

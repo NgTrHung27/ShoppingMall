@@ -58,7 +58,7 @@ namespace DAPM.Controllers
                 dbContext.HopDongDoiTacs.Add(hopDongDoiTac);
                 dbContext.SaveChanges();
 
-                return RedirectToAction("ThongTinDT", "Admin");
+                return RedirectToAction("Partner", "Admin");
             }
             ViewBag.loaidts = dbContext.LoaiDoiTacs.ToList();
             return View(hddtModel);
@@ -89,7 +89,7 @@ namespace DAPM.Controllers
                     dbContext.HopDongs.Remove(hopDong);
                     dbContext.DoiTacs.Remove(doiTac);
                     dbContext.SaveChanges();
-                    return RedirectToAction("ThongTinDT", "Admin");
+                    return RedirectToAction("Partner", "Admin");
                 }
             }
             return RedirectToAction("HomeAdmin" , "Admin");
@@ -154,7 +154,7 @@ namespace DAPM.Controllers
                 dbContext.HopDongs.Update(existingHopdong);
                 dbContext.SaveChangesAsync();
 
-                return RedirectToAction("ThongTinDT", "Admin");
+                return RedirectToAction("Partner", "Admin");
             }
             // Xử lý khi ModelState không hợp lệ (có lỗi nhập liệu)
             ViewBag.loaidts = dbContext.LoaiDoiTacs.ToList();

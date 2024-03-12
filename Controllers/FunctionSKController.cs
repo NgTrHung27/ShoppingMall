@@ -31,7 +31,7 @@ namespace DAPM.Controllers{
                 await dbContext.SuKiens.AddAsync(skModel);
                 await dbContext.SaveChangesAsync();
 
-                return RedirectToAction("ThongTinSK", "Admin");
+                return RedirectToAction("EventInfo", "Admin");
             }
 
            
@@ -53,7 +53,7 @@ namespace DAPM.Controllers{
                 suKien.TRANGTHAI = oppositeCheck;
                 dbContext.SuKiens.Update(suKien);
                 await dbContext.SaveChangesAsync();
-                return RedirectToAction("ThongTinSK" , "Admin");
+                return RedirectToAction("EventInfo" , "Admin");
             }
             return RedirectToAction("HomeAdmin", "Admin");
         }
@@ -102,7 +102,7 @@ namespace DAPM.Controllers{
 
                     dbContext.SuKiens.Remove(suKien);
                     dbContext.SaveChanges();
-                    return RedirectToAction("ThongTinSK" , "Admin");
+                    return RedirectToAction("EventInfo" , "Admin");
                 }
             }            
 
@@ -162,7 +162,7 @@ namespace DAPM.Controllers{
                 dbContext.Update(existingSuKien);
                 await dbContext.SaveChangesAsync();
 
-                return RedirectToAction("ThongTinSK", "Admin");
+                return RedirectToAction("EventInfo", "Admin");
             }
             // Xử lý khi ModelState không hợp lệ (có lỗi nhập liệu)
             return View(model);

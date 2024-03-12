@@ -48,7 +48,7 @@ namespace DAPM.Controllers
         }
 
 
-        public IActionResult ThongTinMB()
+        public IActionResult PremisesInfo()
         {
             int? manv = HttpContext.Session.GetInt32("MANV");
             if (manv != null)

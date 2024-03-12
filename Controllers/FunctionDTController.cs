@@ -4,27 +4,31 @@ using Microsoft.AspNetCore.SignalR.Protocol;
 using QLTTTM.models;
 
 
-namespace DAPM.Controllers{
-    public class FunctionDTController: Controller{
+namespace DAPM.Controllers
+{
+    public class FunctionDTController : Controller
+    {
         private DataSQLContext dbContext;
         private readonly IWebHostEnvironment webHostEnvironment;
-        public FunctionDTController(DataSQLContext context, IWebHostEnvironment _webHostEnvironment ){
+        public FunctionDTController(DataSQLContext context, IWebHostEnvironment _webHostEnvironment)
+        {
             dbContext = context;
             webHostEnvironment = _webHostEnvironment;
- 
+
         }
 
         [HttpGet]
-        [ActionName("ThemDT")]
-        public  IActionResult ThemDT(){
+        [ActionName("AddDT")]
+        public IActionResult AddDT()
+        {
             ViewBag.loaidts = dbContext.LoaiDoiTacs.ToList();
             return View();
         }
 
         [HttpPost]
-        [ActionName("ThemDT")]
+        [ActionName("AddDT")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ThemDT(HopDongAndDoiTac hddtModel, IFormFile image_dt)
+        public async Task<IActionResult> AddDT(HopDongAndDoiTac hddtModel, IFormFile image_dt)
         {
             if (ModelState.IsValid)
             {
@@ -45,8 +49,8 @@ namespace DAPM.Controllers{
                 await dbContext.HopDongs.AddAsync(hddtModel.HDModels);
                 await dbContext.SaveChangesAsync();
 
-                var hopdongIDMAX = dbContext.HopDongs.Max(x=> x.MAHD);
-                var doitacIDMAX = dbContext.DoiTacs.Max(x=> x.MADT);
+                var hopdongIDMAX = dbContext.HopDongs.Max(x => x.MAHD);
+                var doitacIDMAX = dbContext.DoiTacs.Max(x => x.MADT);
                 HopDongDoiTac hopDongDoiTac = new HopDongDoiTac();
                 hopDongDoiTac.MAHD = hopdongIDMAX;
                 hopDongDoiTac.MADT = hddtModel.DTModels.MADT;
@@ -56,24 +60,20 @@ namespace DAPM.Controllers{
 
                 return RedirectToAction("ThongTinDT", "Admin");
             }
-
             ViewBag.loaidts = dbContext.LoaiDoiTacs.ToList();
             return View(hddtModel);
         }
-
-
-
-       
-
-
         // //Thuc hien xoa doi tac : 
         [HttpPost]
-        [ActionName("XoaDT")]
+        [ActionName("DeleteDT")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> XoaDT(int? madt){
-            if(madt != null){
-                DoiTac? doiTac = dbContext.DoiTacs.SingleOrDefault(x=>x.MADT == madt);
-                if(doiTac != null){
+        public async Task<IActionResult> DeleteDT(int? madt)
+        {
+            if (madt != null)
+            {
+                DoiTac? doiTac = dbContext.DoiTacs.SingleOrDefault(x => x.MADT == madt);
+                if (doiTac != null)
+                {
                     // Xóa hình ảnh cũ nếu có
                     string relativePath = doiTac.IMAGEPATH;
                     string absolutePath = Path.Combine(webHostEnvironment.WebRootPath, relativePath.TrimStart('/'));
@@ -82,34 +82,31 @@ namespace DAPM.Controllers{
                     {
                         System.IO.File.Delete(absolutePath);
                     }
-                    
-                   
+
                     HopDongDoiTac? hopDongDoiTac = dbContext.HopDongDoiTacs.SingleOrDefault(x => x.MADT == madt);
                     HopDong? hopDong = dbContext.HopDongs.SingleOrDefault(x => x.MAHD == hopDongDoiTac.MAHD);
                     dbContext.HopDongDoiTacs.Remove(hopDongDoiTac);
                     dbContext.HopDongs.Remove(hopDong);
                     dbContext.DoiTacs.Remove(doiTac);
                     dbContext.SaveChanges();
-                    return RedirectToAction("ThongTinDT" , "Admin");
+                    return RedirectToAction("ThongTinDT", "Admin");
                 }
-            }            
-
+            }
             return RedirectToAction("HomeAdmin" , "Admin");
-
         }
-
-
-
-
         //Chuc nang cap nhat DT : 
         [HttpGet]
         [ActionName("CapNhatDT")]
-        public async Task<IActionResult> CapNhatDT(int? madt){
-            if(madt != null){
+        public async Task<IActionResult> CapNhatDT(int? madt)
+        {
+            if (madt != null)
+            {
                 DoiTac? doiTac = dbContext.DoiTacs.SingleOrDefault(x => x.MADT == madt);
-                if(doiTac != null){
-                    HopDongDoiTac? hopDongDoiTac = dbContext.HopDongDoiTacs.SingleOrDefault(x => x.MADT == madt );
-                    if(hopDongDoiTac != null){
+                if (doiTac != null)
+                {
+                    HopDongDoiTac? hopDongDoiTac = dbContext.HopDongDoiTacs.SingleOrDefault(x => x.MADT == madt);
+                    if (hopDongDoiTac != null)
+                    {
                         HopDong? hopDong = dbContext.HopDongs.SingleOrDefault(x => x.MAHD == hopDongDoiTac.MAHD);
                         HopDongAndDoiTac hopDongAndDoiTac = new HopDongAndDoiTac();
                         hopDongAndDoiTac.DTModels = doiTac;
@@ -121,19 +118,14 @@ namespace DAPM.Controllers{
             }
             return RedirectToAction("HomeAdmin","Admin");
         }
-
-
-
         [HttpPost]
         [ActionName("CapNhatDT")]
-        public IActionResult CapNhatDT(HopDongAndDoiTac model, IFormFile image_dt , int MADT , int MAHD)
+        public IActionResult CapNhatDT(HopDongAndDoiTac model, IFormFile image_dt, int MADT, int MAHD)
         {
             if (ModelState.IsValid)
-            {   
-                HopDong? existingHopdong =  dbContext.HopDongs.SingleOrDefault(x => x.MAHD == MAHD);
-                DoiTac? existingDoitac =  dbContext.DoiTacs.SingleOrDefault(x => x.MADT == MADT);
-
-
+            {
+                HopDong? existingHopdong = dbContext.HopDongs.SingleOrDefault(x => x.MAHD == MAHD);
+                DoiTac? existingDoitac = dbContext.DoiTacs.SingleOrDefault(x => x.MADT == MADT);
 
                 if (existingDoitac == null || existingHopdong == null)
                 {
@@ -156,7 +148,7 @@ namespace DAPM.Controllers{
                 existingHopdong.MANV = model.HDModels.MANV;
 
                 // Kiểm tra xem có file hình ảnh mới được tải lên không
-                existingDoitac.IMAGEPATH = ImagePath(image_dt,existingDoitac.IMAGEPATH);
+                existingDoitac.IMAGEPATH = ImagePath(image_dt, existingDoitac.IMAGEPATH);
 
                 dbContext.DoiTacs.Update(existingDoitac);
                 dbContext.HopDongs.Update(existingHopdong);
@@ -169,53 +161,42 @@ namespace DAPM.Controllers{
             return View(model);
         }
 
-
-
-
         //Phuong Thuc xu ly anh : 
-        private string ImagePath(IFormFile image , string imagepath){
+        private string ImagePath(IFormFile image, string imagepath)
+        {
             // Kiểm tra xem có file hình ảnh mới được tải lên không
-                if (image != null && image.Length > 0)
+            if (image != null && image.Length > 0)
+            {
+                // Xử lý lưu đường dẫn đến hình ảnh mới vào thư mục uploads
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "uploads/DoiTac");
+                if (!Directory.Exists(uploadsFolder))
                 {
-                    // Xử lý lưu đường dẫn đến hình ảnh mới vào thư mục uploads
-                    string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "uploads/DoiTac");
-                    if (!Directory.Exists(uploadsFolder))
-                    {
-                        Directory.CreateDirectory(uploadsFolder);
-                    }
-
-                    // Xóa hình ảnh cũ nếu có
-                    string relativePath = imagepath;
-                    string absolutePath = Path.Combine(webHostEnvironment.WebRootPath, relativePath.TrimStart('/'));
-
-                    if (System.IO.File.Exists(absolutePath))
-                    {
-                        System.IO.File.Delete(absolutePath);
-                    }
-
-                
-                    //Them lai duong dan moi : 
-                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + image.FileName;
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        image.CopyTo(stream);
-                    }
-                    // Cập nhật đường dẫn hình ảnh mới vào Nhân Viên
-                    string newImagePath = "/uploads/DoiTac/" + uniqueFileName;
-                    return newImagePath;
+                    Directory.CreateDirectory(uploadsFolder);
                 }
-            
+
+                // Xóa hình ảnh cũ nếu có
+                string relativePath = imagepath;
+                string absolutePath = Path.Combine(webHostEnvironment.WebRootPath, relativePath.TrimStart('/'));
+
+                if (System.IO.File.Exists(absolutePath))
+                {
+                    System.IO.File.Delete(absolutePath);
+                }
+
+
+                //Them lai duong dan moi : 
+                string uniqueFileName = Guid.NewGuid().ToString() + "_" + image.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    image.CopyTo(stream);
+                }
+                // Cập nhật đường dẫn hình ảnh mới vào Nhân Viên
+                string newImagePath = "/uploads/DoiTac/" + uniqueFileName;
+                return newImagePath;
+            }
+
             return imagepath;
         }
-
-        
-        
-
-       
-
-
-
-        
     }
 }

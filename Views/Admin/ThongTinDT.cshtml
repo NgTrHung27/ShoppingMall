@@ -54,7 +54,7 @@
                                 <td>@item.SDT</td>
                                 <td>@item.DIRECTION</td>
                                 <td class="action-buttons">
-                                    @using (Html.BeginForm("XoaDT", "FunctionDT", new { madt = item.MADT }, FormMethod.Post))
+                                    @using (Html.BeginForm("DeleteDT", "FunctionDT", new { madt = item.MADT }, FormMethod.Post))
                                             {
                                                 @Html.AntiForgeryToken()
                                                 <button type="submit" class="remove" onclick="return confirm('Bạn có chắc chắn muốn xóa đối tác này không?')">

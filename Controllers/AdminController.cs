@@ -61,7 +61,7 @@ namespace DAPM.Controllers
         }
 
 
-        public IActionResult ThongTinSK()
+        public IActionResult EventInfo()
         {
             int? manv = HttpContext.Session.GetInt32("MANV");
             if (manv != null)
@@ -73,7 +73,7 @@ namespace DAPM.Controllers
 
         }
 
-        public IActionResult ThongTinDT()
+        public IActionResult Partner()
         {
             int? manv = HttpContext.Session.GetInt32("MANV");
             if (manv != null)
@@ -85,7 +85,7 @@ namespace DAPM.Controllers
         }
 
 
-        public IActionResult ThongTinKT()
+        public IActionResult TenantInfo()
         {
             int? manv = HttpContext.Session.GetInt32("MANV");
             if (manv != null)
@@ -97,7 +97,7 @@ namespace DAPM.Controllers
         }
 
 
-        public IActionResult ThongTinPQ()
+        public IActionResult PermissionInfo()
         {
             int? manv = HttpContext.Session.GetInt32("MANV");
             if (manv != null && manv == 1)
@@ -187,7 +187,7 @@ namespace DAPM.Controllers
                 phanQuyen.GHICHU = noidung;
                 await _data.PhanQuyens.AddAsync(phanQuyen);
                 await _data.SaveChangesAsync();
-                return RedirectToAction("ThongTinPQ", "Admin");
+                return RedirectToAction("PermissionInfo", "Admin");
             }
             return RedirectToAction("HomeAdmin", "Admin", new { MANV = manv });
         }
@@ -207,10 +207,10 @@ namespace DAPM.Controllers
                 {
                     _data.PhanQuyens.Remove(phanQuyen);
                     await _data.SaveChangesAsync();
-                    return RedirectToAction("ThongTinPQ", "Admin");
+                    return RedirectToAction("PermissionInfo", "Admin");
                 }
             }
-            return RedirectToAction("ThongTinPQ", "Admin");
+            return RedirectToAction("PermissionInfo", "Admin");
         }
 
 
@@ -226,7 +226,7 @@ namespace DAPM.Controllers
                 chucVu.TENCV = tencv;
                 await _data.ChucVus.AddAsync(chucVu);
                 await _data.SaveChangesAsync();
-                return RedirectToAction("ThongTinPQ", "Admin");
+                return RedirectToAction("PermissionInfo", "Admin");
             }
             return RedirectToAction("HomeAdmin", "Admin", new { MANV = manv });
         }
@@ -245,10 +245,10 @@ namespace DAPM.Controllers
                 {
                     _data.ChucVus.Remove(chucVu);
                     await _data.SaveChangesAsync();
-                    return RedirectToAction("ThongTinPQ", "Admin");
+                    return RedirectToAction("PermissionInfo", "Admin");
                 }
             }
-            return RedirectToAction("ThongTinPQ", "Admin");
+            return RedirectToAction("PermissionInfo", "Admin");
         }
 
 

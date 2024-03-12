@@ -85,7 +85,7 @@ namespace DAPM.Controllers
                             dbContext.HopDongMatBangs.Remove(hopDongMatBang);
                             dbContext.HopDongs.Remove(hopDong);
                             await dbContext.SaveChangesAsync();
-                            return RedirectToAction("ThongTinKT", "Admin");
+                            return RedirectToAction("TenantInfo", "Admin");
                         }
 
                     }
@@ -149,7 +149,7 @@ namespace DAPM.Controllers
                 dbContext.HopDongMatBangs.Add(hopDongMatBang);
                 dbContext.SaveChanges();
 
-                return RedirectToAction("ThongTinKT", "Admin");
+                return RedirectToAction("TenantInfo", "Admin");
             }
 
 
@@ -176,7 +176,7 @@ namespace DAPM.Controllers
                 {
                     dbContext.KhachHangs.Remove(khachHang);
                     await dbContext.SaveChangesAsync();
-                    return RedirectToAction("ThongTinKT", "Admin");
+                    return RedirectToAction("TenantInfo", "Admin");
                 }
             }
             return RedirectToAction("HomeAdmin", "Admin");
@@ -209,7 +209,7 @@ namespace DAPM.Controllers
                         dbContext.HopDongs.Remove(hopDong);
                         dbContext.KhachHangs.Remove(khachHang);
                         await dbContext.SaveChangesAsync();
-                        return RedirectToAction("ThongTinKT", "Admin");
+                        return RedirectToAction("TenantInfo", "Admin");
                     }
 
 
@@ -284,7 +284,7 @@ namespace DAPM.Controllers
                     dbContext.KhachHangs.Update(khachHang);
                     dbContext.HopDongs.Update(existingHopdong);
                     dbContext.SaveChangesAsync();
-                    return RedirectToAction("ThongTinKT", "Admin");
+                    return RedirectToAction("TenantInfo", "Admin");
                 }
             }
             // Xử lý khi ModelState không hợp lệ (có lỗi nhập liệu)

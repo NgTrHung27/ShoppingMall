@@ -100,31 +100,17 @@
                       <span class="text-secondary text-small">@chucvu.TENCV</span>
                     </div>
                     <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
-
                   </a>
                 </li>
-
-
                 <li class="nav-item">
                                     <a class="nav-link" href="@Url.Action("HomeAdmin" , "Admin", new { MANV = manv})">
                     <span class="menu-title">Home</span>
                     <i class="mdi mdi-home menu-icon"></i>
                   </a>
                 </li>
-
-
               }
             }
-
           }
-
-
-
-
-
-
-
-
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#general-pages" aria-expanded="false"
               aria-controls="general-pages">
@@ -132,9 +118,6 @@
               <i class="menu-arrow"></i>
               <i class="mdi mdi-table-large menu-icon"></i>
             </a>
-
-
-
             <div class="collapse" id="general-pages">
               <ul class="nav flex-column sub-menu">
                 @{
@@ -143,7 +126,6 @@
                     var nhanvien = dbContext.NhanViens
                     .Where(nv => nv.MANV == manv.Value) // Replace "MANV" with your actual property name
                     .FirstOrDefault(); // Retrieve the first matching employee
-
                     if (nhanvien != null)
                     {
                       var chucvu = dbContext.ChucVus
@@ -165,7 +147,7 @@
                           }
                           if (item.MACN == 2)
                           {
-                            <li class="nav-item"> <a class="nav-link" href="@Url.Action("ThongTinSK","Admin")"> Quản Lý Sự Kiện </a>
+                            <li class="nav-item"> <a class="nav-link" href="@Url.Action("EventInfo","Admin")"> Quản Lý Sự Kiện </a>
                             </li>
                           }
 
@@ -178,35 +160,23 @@
 
                           if (item.MACN == 4)
                           {
-                            <li class="nav-item"> <a class="nav-link" href="@Url.Action("ThongTinDT","Admin")"> Quản Lý Đối Tác </a>
+                            <li class="nav-item"> <a class="nav-link" href="@Url.Action("Partner","Admin")"> Quản Lý Đối Tác </a>
                             </li>
                           }
-
                           if (item.MACN == 5)
                           {
-                            <li class="nav-item"> <a class="nav-link" href="@Url.Action("ThongTinKT","Admin")"> Quản Lý Khách Thuê
+                            <li class="nav-item"> <a class="nav-link" href="@Url.Action("TenantInfo","Admin")"> Quản Lý Khách Thuê
                               </a></li>
                           }
-
-
                           if (item.MACN == 6)
                           {
-                            <li class="nav-item"> <a class="nav-link" href="@Url.Action("ThongTinPQ","Admin")"> Quản Lý Phân Quyền
+                            <li class="nav-item"> <a class="nav-link" href="@Url.Action("PermissionInfo","Admin")"> Quản Lý Phân Quyền
                               </a></li>
                           }
-
-
                         }
                       }
-
-
-
                     }
-
-
                   }
-
-
                 }
 
               </ul>

@@ -36,7 +36,7 @@ namespace DAPM.Controllers
             return RedirectToAction("Login", "Admin");
         }
 
-        public IActionResult ThongTinNV()
+        public IActionResult EmployeeInfo()
         {
             int? manv = HttpContext.Session.GetInt32("MANV");
             if (manv != null)

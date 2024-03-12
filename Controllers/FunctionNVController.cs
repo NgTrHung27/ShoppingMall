@@ -77,7 +77,7 @@ namespace QLTTTM.Controllers
                 account.MANV = nhanvienIDMAX;
                 await dbContext.Accounts.AddAsync(account);
                 await dbContext.SaveChangesAsync();
-                return RedirectToAction("ThongTinNV", "Admin");
+                return RedirectToAction("EmployeeInfo", "Admin");
             }
             List<ChucVu> list_cv = dbContext.ChucVus.ToList();
             ViewBag.cvs = list_cv;
@@ -106,11 +106,11 @@ namespace QLTTTM.Controllers
                     dbContext.Accounts.Remove(account);
                     dbContext.NhanViens.Remove(nhanVien);
                     dbContext.SaveChanges();
-                    return RedirectToAction("ThongTinNV" , "Admin");
+                    return RedirectToAction("EmployeeInfo", "Admin");
                 }
             }            
 
-            return RedirectToAction("TrangChu" , "Admin");
+            return RedirectToAction("HomeAdmin", "Admin");
 
         }
 
@@ -128,7 +128,7 @@ namespace QLTTTM.Controllers
                 }
             }
 
-            return RedirectToAction("ThongTinNV" , "Admin");
+            return RedirectToAction("EmployeeInfo", "Admin");
         }
 
         [HttpPost]
@@ -196,7 +196,7 @@ namespace QLTTTM.Controllers
                         return RedirectToAction("Logout" ,"Admin");
                     }
                 }
-                return RedirectToAction("ThongTinNV", "Admin");
+                return RedirectToAction("EmployeeInfo", "Admin");
             }
 
             // Xử lý khi ModelState không hợp lệ (có lỗi nhập liệu)
@@ -215,7 +215,7 @@ namespace QLTTTM.Controllers
                     return View(account);
                 }
             }
-            return RedirectToAction("ThongTinNV","Admin");
+            return RedirectToAction("EmployeeInfo","Admin");
         }
 
 
@@ -228,7 +228,7 @@ namespace QLTTTM.Controllers
                     account.MATKHAU = model.MATKHAU;
                     dbContext.Accounts.Update(account);
                     await dbContext.SaveChangesAsync(); 
-                    return RedirectToAction("ThongTinNV","Admin");                   
+                    return RedirectToAction("EmployeeInfo","Admin");                   
                 }
             }
 

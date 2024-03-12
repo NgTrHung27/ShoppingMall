@@ -88,7 +88,7 @@
                 <li class="nav-item nav-profile">
 
 
-                  <a href="@Url.Action("TrangChu" , "Admin", new {MANV = manv})" class="nav-link">
+                                    <a href="@Url.Action("HomeAdmin" , "Admin", new {MANV = manv})" class="nav-link">
                     <div class="nav-profile-image">
 
                       <img src="@nhanvien.AVATAR" alt="profile">
@@ -106,7 +106,7 @@
 
 
                 <li class="nav-item">
-                  <a class="nav-link" href="@Url.Action("TrangChu" , "Admin", new { MANV = manv})">
+                                    <a class="nav-link" href="@Url.Action("HomeAdmin" , "Admin", new { MANV = manv})">
                     <span class="menu-title">Home</span>
                     <i class="mdi mdi-home menu-icon"></i>
                   </a>
@@ -159,7 +159,8 @@
                         {
                           if (item.MACN == 1)
                           {
-                            <li class="nav-item"><a class="nav-link" href="@Url.Action("ThongTinNV","Admin")"> Quản Lý Nhân Sự </a>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" href="@Url.Action("EmployeeInfo","Admin")"> Quản Lý Nhân Sự </a>
                             </li>
                           }
                           if (item.MACN == 2)
@@ -170,7 +171,7 @@
 
                           if (item.MACN == 3)
                           {
-                            <li class="nav-item"> <a class="nav-link" href="@Url.Action("ThongTinMB","Admin")"> Quản Lý Mặt Bằng
+                                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("PremisesInfo","Admin")"> Quản Lý Mặt Bằng
                               </a></li>
                           }
 

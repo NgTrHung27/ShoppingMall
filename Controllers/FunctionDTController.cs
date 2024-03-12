@@ -92,8 +92,7 @@ namespace DAPM.Controllers
                     return RedirectToAction("ThongTinDT", "Admin");
                 }
             }
-
-            return RedirectToAction("TrangChu", "Admin");
+            return RedirectToAction("HomeAdmin" , "Admin");
 
         }
         //Chuc nang cap nhat DT : 
@@ -118,7 +117,7 @@ namespace DAPM.Controllers
                     }
                 }
             }
-            return RedirectToAction("TrangChu", "Admin");
+            return RedirectToAction("HomeAdmin","Admin");
         }
         [HttpPost]
         [ActionName("CapNhatDT")]

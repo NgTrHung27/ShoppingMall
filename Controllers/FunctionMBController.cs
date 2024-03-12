@@ -90,7 +90,7 @@ namespace DAPM.Controllers{
                 await dbContext.MatBangs.AddAsync(mbModel);
                 await dbContext.SaveChangesAsync();
 
-                return RedirectToAction("ThongTinMB", "Admin");
+                return RedirectToAction("PremisesInfo", "Admin");
             }
 
 
@@ -161,11 +161,11 @@ namespace DAPM.Controllers{
 
                     dbContext.MatBangs.Remove(matBang);
                     dbContext.SaveChanges();
-                    return RedirectToAction("ThongTinMB" , "Admin");
+                    return RedirectToAction("PremisesInfo", "Admin");
                 }
             }            
 
-            return RedirectToAction("TrangChu" , "Admin");
+            return RedirectToAction("HomeAdmin" , "Admin");
 
         }
 
@@ -182,7 +182,7 @@ namespace DAPM.Controllers{
                     return View(matBang);
                 }
             }
-            return RedirectToAction("TrangChu","Admin");
+            return RedirectToAction("HomeAdmin", "Admin");
         }
 
 
@@ -222,7 +222,7 @@ namespace DAPM.Controllers{
                 dbContext.Update(existingMatBang);
                 await dbContext.SaveChangesAsync();
 
-                return RedirectToAction("ThongTinMB", "Admin");
+                return RedirectToAction("PremisesInfo", "Admin");
             }
 
             // Xử lý khi ModelState không hợp lệ (có lỗi nhập liệu)

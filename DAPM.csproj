@@ -26,7 +26,4 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.10" />
     <PackageReference Include="MySql.Data.EntityFramework" Version="8.1.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="data.cs.fs" />
-  </ItemGroup>
 </Project>

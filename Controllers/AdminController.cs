@@ -23,7 +23,7 @@ namespace DAPM.Controllers
 
 
 
-        public IActionResult TrangChu(int manv)
+        public IActionResult HomeAdmin(int manv)
         {
             if (manv != 0)
             {
@@ -139,7 +139,7 @@ namespace DAPM.Controllers
                     HttpContext.Session.SetInt32("MANV", account.MANV);
 
 
-                    return RedirectToAction("TrangChu", new { manv = account.MANV }); // Thay "Dashboard" bằng tên action/method bạn muốn chuyển hướng đến sau khi đăng nhập thành công.
+                    return RedirectToAction("HomeAdmin", new { manv = account.MANV }); // Thay "Dashboard" bằng tên action/method bạn muốn chuyển hướng đến sau khi đăng nhập thành công.
                 }
                 else
                 {
@@ -189,7 +189,7 @@ namespace DAPM.Controllers
                 await _data.SaveChangesAsync();
                 return RedirectToAction("ThongTinPQ", "Admin");
             }
-            return RedirectToAction("TrangChu", "Admin", new { MANV = manv });
+            return RedirectToAction("HomeAdmin", "Admin", new { MANV = manv });
         }
 
 
@@ -228,7 +228,7 @@ namespace DAPM.Controllers
                 await _data.SaveChangesAsync();
                 return RedirectToAction("ThongTinPQ", "Admin");
             }
-            return RedirectToAction("TrangChu", "Admin", new { MANV = manv });
+            return RedirectToAction("HomeAdmin", "Admin", new { MANV = manv });
         }
 
 

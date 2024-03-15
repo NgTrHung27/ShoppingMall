@@ -39,7 +39,7 @@ namespace DAPM.Controllers
             {
                 await dbContext.KhachHangs.AddAsync(model);
                 await dbContext.SaveChangesAsync();
-                return RedirectToAction("TrangChu", "Custome");
+                return RedirectToAction("HomeUser", "Custome");
             }
 
             TempData["MAMB"] = model.MAMB;

@@ -97,27 +97,6 @@ namespace DAPM.Controllers{
             return View(mbModel);
         }
 
-
-
-        // //Xu ly chuc nang thay doi trang thai : 
-        // [HttpPost]
-        // [ActionName("ChangeStatus")]
-        // [ValidateAntiForgeryToken]
-        // public async Task <IActionResult> ChangeStatus(int mamb)
-        // {
-        //     MatBang? matBang = dbContext.MatBangs.SingleOrDefault(x => x.MAMB == mamb);
-        //     if(matBang != null){
-        //         bool check = matBang.TRANGTHAI;
-        //         bool oppositeCheck = !check;
-        //         matBang.TRANGTHAI = oppositeCheck;
-        //         dbContext.MatBangs.Update(matBang);
-        //         await dbContext.SaveChangesAsync();
-        //         return RedirectToAction("ThongTinMB" , "Admin");
-        //     }
-        //     return RedirectToAction("TrangChu","Admin");
-        // }
-
-
         //Thuc hien xoa mat bang : 
         [HttpPost]
         [ActionName("XoaMB")]

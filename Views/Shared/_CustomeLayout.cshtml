@@ -74,15 +74,16 @@
     <div id="wrapper">
         <div id="header-wrapper" class="header-wrapper">
             <header class="header">
-                <a href="@Url.Action("TrangChu","Custome")" class="logo">
+                <a href="@Url.Action("HomeUser","Custome")" class="logo">
                     <img src="~/images/logo_htc.png" alt="">
                 </a>
 
                 <div id="header-bottom" class="menu">
-                    <div class="menuitem"><a class="itemtitle" href="@Url.Action("TieuDiem","Custome")">TIÊU ĐIỂM</a>
+                    <div class="menuitem">
+                        <a class="itemtitle" href="@Url.Action("Spotlight","Custome")">TIÊU ĐIỂM</a>
                     </div>
                     <div class="menuitem dropdown"><a class="itemtitle"
-                            href="@Url.Action("ThuongHieu","Custome",new{maloai = 0})">THƯƠNG HIỆU</a>
+                           href="@Url.Action("Brand","Custome",new{maloai = 0})">THƯƠNG HIỆU</a>
 
                         <span class="material-symbols-outlined icon_drop" style="font-size: 14px;">
                             expand_circle_down
@@ -93,12 +94,12 @@
                                 var loaidt = dbContext.LoaiDoiTacs.ToList();
                                 foreach (var item in loaidt)
                                 {
-                                    <a href="@Url.Action("ThuongHieu","Custome",new{maloai = item.MALOAIDT})">@item.TENLOAI</a>
+                                    <a href="@Url.Action("Brand","Custome",new{maloai = item.MALOAIDT})">@item.TENLOAI</a>
                                 }
                             }
                         </div>
                     </div>
-                    <div class="menuitem"><a class="itemtitle" href="@Url.Action("UuDai","Custome")">ƯU ĐÃI</a></div>
+                    <div class="menuitem"><a class="itemtitle" href="@Url.Action("Offers","Custome")">ƯU ĐÃI</a></div>
                     <div class="menuitem"><a class="itemtitle" href="#">ĐẾN HTC MALL</a></div>
 
                     <!-- Biểu tượng tìm kiếm -->
@@ -195,7 +196,8 @@
                                         TIỆN ÍCH
                                     </div>
                                 </a></li>
-                            <li><a class="dropdown-item" href="@Url.Action("MatBang" , "Custome")">
+                            <li>
+                                <a class="dropdown-item" href="@Url.Action("PremisesUser" , "Custome")">
                                     <div class="itemheader">
                                         <span class="material-symbols-outlined icon-header">
                                             location_city

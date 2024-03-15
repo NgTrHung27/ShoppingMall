@@ -20,13 +20,13 @@ namespace DAPM.Controllers
         }
 
 
-        public IActionResult TrangChu()
+        public IActionResult HomeUser()
         {
             var data = dataSQLContext;
             return View(data);
         }
 
-        public IActionResult ThuongHieu(int maloai)
+        public IActionResult Brand(int maloai)
         {
             if (maloai == 0)
             {
@@ -46,34 +46,34 @@ namespace DAPM.Controllers
             }
         }
 
-        public IActionResult TieuDiem()
+        public IActionResult Spotlight()
         {
-            List<SuKien> tieudiem = dataSQLContext.SuKiens.Where(x => x.LOAISK == "TD" && x.TRANGTHAI == true).OrderByDescending(x => x.MASK).ToList();
-            return View(tieudiem);
+            List<SuKien> spotlight = dataSQLContext.SuKiens.Where(x => x.LOAISK == "TD" && x.TRANGTHAI == true).OrderByDescending(x => x.MASK).ToList();
+            return View(spotlight);
         }
 
-        public IActionResult UuDai()
+        public IActionResult Offers()
         {
-            List<SuKien> uudai = dataSQLContext.SuKiens.Where(x => x.LOAISK == "UD" && x.TRANGTHAI == true).OrderByDescending(x => x.MASK).ToList();
-            return View(uudai);
-        }
-
-        [HttpGet]
-        public IActionResult MatBang()
-        {
-            List<MatBang> list_mb = dataSQLContext.MatBangs.ToList();
-            return View(list_mb);
+            List<SuKien> offers = dataSQLContext.SuKiens.Where(x => x.LOAISK == "UD" && x.TRANGTHAI == true).OrderByDescending(x => x.MASK).ToList();
+            return View(offers);
         }
 
         [HttpGet]
-        public IActionResult ChiTietMB(int? mamb)
+        public IActionResult PremisesUser()
+        {
+            List<MatBang> list_premises_user = dataSQLContext.MatBangs.ToList();
+            return View(list_premises_user);
+        }
+
+        [HttpGet]
+        public IActionResult PremisesUserDetail(int? mamb)
         {
             if (mamb != null)
             {
-                MatBang? mb = dataSQLContext.MatBangs.SingleOrDefault(x => x.MAMB == mamb);
-                if (mb != null)
+                MatBang? premises = dataSQLContext.MatBangs.SingleOrDefault(x => x.MAMB == mamb);
+                if (premises != null)
                 {
-                    return View(mb);
+                    return View(premises);
                 }
 
 
@@ -81,7 +81,7 @@ namespace DAPM.Controllers
             return RedirectToAction("MatBang", "Custome");
         }
         [HttpGet]
-        public IActionResult ChiTietSK(int? mask)
+        public IActionResult EventDetail(int? mask)
         {   
             if (mask != null)
             {
@@ -91,7 +91,7 @@ namespace DAPM.Controllers
                     return View(suKien);
                 }
             }
-                return RedirectToAction("ChiTietSK", "Custome");
+                return RedirectToAction("EventDetail", "Custome");
         }
         [HttpGet]
         public IActionResult Search(string query)
@@ -100,7 +100,7 @@ namespace DAPM.Controllers
 
 
             // Tìm kiếm sự kiện
-            var sukienResults = dataSQLContext.SuKiens
+            var eventResults = dataSQLContext.SuKiens
                 .Where(e =>
                             EF.Functions.Like(e.TENSK.ToLower().Trim(), $"%{query}%") ||
                             EF.Functions.Like(e.LOAISK.ToLower().Trim(), $"%{query}%") ||
@@ -111,7 +111,7 @@ namespace DAPM.Controllers
                 .ToList();
 
             // Tìm kiếm đối tác
-            var doitacResults = dataSQLContext.DoiTacs
+            var partnerResults = dataSQLContext.DoiTacs
                 .Where(p =>
                             EF.Functions.Like(p.TENDT.ToLower().Trim(), $"%{query}%")
                 )
@@ -119,7 +119,7 @@ namespace DAPM.Controllers
 
 
             // Thực hiện tìm kiếm gần đúng sử dụng Entity Framework Core
-            var matbangResults = dataSQLContext.MatBangs
+            var premisesResults = dataSQLContext.MatBangs
                 .Where(item =>
                                 EF.Functions.Like(item.TENMB.ToLower().Trim(), $"%{query}%") ||
                                 EF.Functions.Like(item.VITRI.ToLower().Trim(), $"%{query}%") ||
@@ -132,9 +132,9 @@ namespace DAPM.Controllers
 
             // Kết hợp kết quả từ cả ba loại :
             var combinedResults = new List<object>();
-            combinedResults.AddRange(sukienResults);
-            combinedResults.AddRange(doitacResults);
-            combinedResults.AddRange(matbangResults);
+            combinedResults.AddRange(eventResults);
+            combinedResults.AddRange(partnerResults);
+            combinedResults.AddRange(premisesResults);
 
 
             return PartialView("_SearchResults", combinedResults);

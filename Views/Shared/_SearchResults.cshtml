@@ -10,7 +10,7 @@
             {
                 var matBang = item as MatBang;
                 <li>
-                    <a href="@Url.Action("ChiTietMB","Custome",new{ mamb = matBang.MAMB})">
+                    <a href="@Url.Action("PremisesUserDetail","Custome",new{ mamb = matBang.MAMB})">
                         <img src="@matBang.IMAGEPATH" alt="Hình ảnh mặt bằng">
                         @matBang.TENMB
                     </a>
@@ -30,7 +30,7 @@
             {
                 var doiTac = item as DoiTac;
                 <li>
-                    <a href="@Url.Action("ThuongHieu","Custome",new{ madt = doiTac.MALOAIDOITAC })">
+                    <a href="@Url.Action("Brand","Custome",new{ madt = doiTac.MALOAIDOITAC })">
                         <img src="@doiTac.IMAGEPATH" alt="Hình ảnh đối tác">
                         @doiTac.TENDT
                     </a>

@@ -6,11 +6,11 @@ using QLTTTM.models;
 
 namespace DAPM.Controllers
 {
-    public class FunctionDTController : Controller
+    public class PartnerController : Controller
     {
         private DataSQLContext dbContext;
         private readonly IWebHostEnvironment webHostEnvironment;
-        public FunctionDTController(DataSQLContext context, IWebHostEnvironment _webHostEnvironment)
+        public PartnerController(DataSQLContext context, IWebHostEnvironment _webHostEnvironment)
         {
             dbContext = context;
             webHostEnvironment = _webHostEnvironment;
@@ -18,17 +18,17 @@ namespace DAPM.Controllers
         }
 
         [HttpGet]
-        [ActionName("AddDT")]
-        public IActionResult AddDT()
+        [ActionName("AddPartner")]
+        public IActionResult AddPartner()
         {
             ViewBag.loaidts = dbContext.LoaiDoiTacs.ToList();
             return View();
         }
 
         [HttpPost]
-        [ActionName("AddDT")]
+        [ActionName("AddPartner")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddDT(HopDongAndDoiTac hddtModel, IFormFile image_dt)
+        public async Task<IActionResult> AddPartner(HopDongAndDoiTac hddtModel, IFormFile image_dt)
         {
             if (ModelState.IsValid)
             {
@@ -65,9 +65,9 @@ namespace DAPM.Controllers
         }
         // //Thuc hien xoa doi tac : 
         [HttpPost]
-        [ActionName("DeleteDT")]
+        [ActionName("DeletePartner")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteDT(int? madt)
+        public async Task<IActionResult> DeletePartner(int? madt)
         {
             if (madt != null)
             {
@@ -96,8 +96,8 @@ namespace DAPM.Controllers
         }
         //Chuc nang cap nhat DT : 
         [HttpGet]
-        [ActionName("CapNhatDT")]
-        public async Task<IActionResult> CapNhatDT(int? madt)
+        [ActionName("UpdatePartner")]
+        public async Task<IActionResult> UpdatePartner(int? madt)
         {
             if (madt != null)
             {
@@ -119,8 +119,8 @@ namespace DAPM.Controllers
             return RedirectToAction("HomeAdmin","Admin");
         }
         [HttpPost]
-        [ActionName("CapNhatDT")]
-        public IActionResult CapNhatDT(HopDongAndDoiTac model, IFormFile image_dt, int MADT, int MAHD)
+        [ActionName("UpdatePartner")]
+        public IActionResult UpdatePartner(HopDongAndDoiTac model, IFormFile image_dt, int MADT, int MAHD)
         {
             if (ModelState.IsValid)
             {

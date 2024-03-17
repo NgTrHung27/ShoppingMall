@@ -7,29 +7,28 @@ using MySqlX.XDevAPI;
 using QLTTTM.models;
 using Microsoft.IdentityModel.Tokens;
 using ZstdSharp.Unsafe;
-using System.Data.Entity; // Để sử dụng JSON serialization/deserialization
+using System.Data.Entity;
+using QLTTTM.Datas; // Để sử dụng JSON serialization/deserialization
 
 
 namespace DAPM.Controllers
 {
     public class AdminController : Controller
     {
-        private DataSQLContext _data;
+        private DataSQLContext _datasingleton;
 
-        public AdminController(DataSQLContext data)
+        public AdminController()
         {
-            _data = data;
+            _datasingleton = SingletonDbContext.Instance;
         }
-
-
 
         public IActionResult HomeAdmin(int manv)
         {
             if (manv != 0)
             {
-                NhanVien? nhanVien = _data.NhanViens.FirstOrDefault(x => x.MANV == manv);
+                NhanVien? nhanVien = _datasingleton.NhanViens.FirstOrDefault(x => x.MANV == manv);
                 if(nhanVien != null){
-                    ViewBag.CV = _data.ChucVus.FirstOrDefault(x => x.MACV == nhanVien.MACV);
+                    ViewBag.CV = _datasingleton.ChucVus.FirstOrDefault(x => x.MACV == nhanVien.MACV);
                     return View(nhanVien);
                 }
             }
@@ -41,7 +40,7 @@ namespace DAPM.Controllers
             int? manv = HttpContext.Session.GetInt32("MANV");
             if (manv != null)
             {
-                var data = _data;
+                var data = _datasingleton;
                 return View(data);
             }
             return RedirectToAction("Login", "Admin");
@@ -53,7 +52,7 @@ namespace DAPM.Controllers
             int? manv = HttpContext.Session.GetInt32("MANV");
             if (manv != null)
             {
-                List<MatBang> list_mb = _data.MatBangs.ToList();
+                List<MatBang> list_mb = _datasingleton.MatBangs.ToList();
                 return View(list_mb);
             }
             return RedirectToAction("Login", "Admin");
@@ -66,7 +65,7 @@ namespace DAPM.Controllers
             int? manv = HttpContext.Session.GetInt32("MANV");
             if (manv != null)
             {
-                List<SuKien> list_sk = _data.SuKiens.ToList();
+                List<SuKien> list_sk = _datasingleton.SuKiens.ToList();
                 return View(list_sk);
             }
             return RedirectToAction("Login", "Admin");
@@ -78,7 +77,7 @@ namespace DAPM.Controllers
             int? manv = HttpContext.Session.GetInt32("MANV");
             if (manv != null)
             {
-                var data = _data;
+                var data = _datasingleton;
                 return View(data);
             }
             return RedirectToAction("Login", "Admin");
@@ -90,7 +89,7 @@ namespace DAPM.Controllers
             int? manv = HttpContext.Session.GetInt32("MANV");
             if (manv != null)
             {
-                var data = _data;
+                var data = _datasingleton;
                 return View(data);
             }
             return RedirectToAction("Login", "Admin");
@@ -102,7 +101,7 @@ namespace DAPM.Controllers
             int? manv = HttpContext.Session.GetInt32("MANV");
             if (manv != null && manv == 1)
             {
-                var data = _data;
+                var data = _datasingleton;
                 return View(data);
             }
             return RedirectToAction("Login", "Admin");
@@ -126,7 +125,7 @@ namespace DAPM.Controllers
             if (!string.IsNullOrEmpty(taikhoan) && !string.IsNullOrEmpty(matkhau))
             {
                 // Tìm tài khoản trong cơ sở dữ liệu
-                Account? account = _data.Accounts.SingleOrDefault(x => x.TAIKHOAN == taikhoan && x.MATKHAU == matkhau);
+                Account? account = _datasingleton.Accounts.SingleOrDefault(x => x.TAIKHOAN == taikhoan && x.MATKHAU == matkhau);
 
                 if (account != null)
                 {
@@ -185,13 +184,12 @@ namespace DAPM.Controllers
                     noidung = "Empty";
                 }
                 phanQuyen.GHICHU = noidung;
-                await _data.PhanQuyens.AddAsync(phanQuyen);
-                await _data.SaveChangesAsync();
+                await _datasingleton.PhanQuyens.AddAsync(phanQuyen);
+                await _datasingleton.SaveChangesAsync();
                 return RedirectToAction("PermissionInfo", "Admin");
             }
             return RedirectToAction("HomeAdmin", "Admin", new { MANV = manv });
         }
-
 
 
         [HttpPost]
@@ -202,17 +200,16 @@ namespace DAPM.Controllers
 
             if (ID != 0)
             {
-                PhanQuyen? phanQuyen = _data.PhanQuyens.SingleOrDefault(x => x.ID == ID);
+                PhanQuyen? phanQuyen = _datasingleton.PhanQuyens.SingleOrDefault(x => x.ID == ID);
                 if (phanQuyen != null)
                 {
-                    _data.PhanQuyens.Remove(phanQuyen);
-                    await _data.SaveChangesAsync();
+                    _datasingleton.PhanQuyens.Remove(phanQuyen);
+                    await _datasingleton.SaveChangesAsync();
                     return RedirectToAction("PermissionInfo", "Admin");
                 }
             }
             return RedirectToAction("PermissionInfo", "Admin");
         }
-
 
 
         [HttpPost]
@@ -224,8 +221,8 @@ namespace DAPM.Controllers
             {
                 ChucVu chucVu = new ChucVu();
                 chucVu.TENCV = tencv;
-                await _data.ChucVus.AddAsync(chucVu);
-                await _data.SaveChangesAsync();
+                await _datasingleton.ChucVus.AddAsync(chucVu);
+                await _datasingleton.SaveChangesAsync();
                 return RedirectToAction("PermissionInfo", "Admin");
             }
             return RedirectToAction("HomeAdmin", "Admin", new { MANV = manv });
@@ -237,21 +234,17 @@ namespace DAPM.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> XoaCV(int macv)
         {
-
             if (macv != 0)
             {
-                ChucVu? chucVu = _data.ChucVus.SingleOrDefault(x => x.MACV == macv);
+                ChucVu? chucVu = _datasingleton.ChucVus.SingleOrDefault(x => x.MACV == macv);
                 if (chucVu != null)
                 {
-                    _data.ChucVus.Remove(chucVu);
-                    await _data.SaveChangesAsync();
+                    _datasingleton.ChucVus.Remove(chucVu);
+                    await _datasingleton.SaveChangesAsync();
                     return RedirectToAction("PermissionInfo", "Admin");
                 }
             }
             return RedirectToAction("PermissionInfo", "Admin");
         }
-
-
-
     }
 }

@@ -17,16 +17,11 @@ namespace QLTTTM.models{
         public DbSet<HopDongMatBang> HopDongMatBangs { get; set; }
         public DbSet<MatBang> MatBangs { get; set; }
         public DbSet<Account> Accounts { get; set; }
-
         public DbSet<ChucNang> ChucNangs { get; set; }
         public DbSet<PhanQuyen> PhanQuyens { get; set; }
-        
 
-
-        public DataSQLContext(DbContextOptions<DataSQLContext> options):base(options){
-            
-        }
-
+        public DataSQLContext(DbContextOptions<DataSQLContext> options) : base(options)
+        {}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -45,9 +40,5 @@ namespace QLTTTM.models{
             // }
             
         }
-
-
-
-
     }
 }

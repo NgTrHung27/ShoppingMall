@@ -6,21 +6,17 @@
 
 <div class="content-wrapper">
     @* <div class="page-header">
-        <h3 class="page-title" style="font-weight:bold;font-size:30px;color:#ab8221">
-            <span class="me-2">
-                <i class="fa-solid fa-gift" style="color: #ab8221;"></i>
-            </span> Quản Lý Thông Tin Sự Kiện
-        </h3>
+    <h3 class="page-title" style="font-weight:bold;font-size:30px;color:#ab8221">
+    <span class="me-2">
+    <i class="fa-solid fa-gift" style="color: #ab8221;"></i>
+    </span> Quản Lý Thông Tin Sự Kiện
+    </h3>
     </div> *@
 
     <div class="form_add_update">
-        <h2>Cập Nhật Đối Tác</h2>
-        <form asp-action="CapNhatDT" asp-controller="FunctionDT" method="post" enctype="multipart/form-data">
+        <h2>Thêm Đối Tác</h2>
+        <form asp-action="AddPartner" asp-controller="Partner" method="post" enctype="multipart/form-data">
             @Html.ValidationSummary()
-            <div class="form-group">
-                <input type = "hidden" id="name" name="MADT" asp-for="DTModels.MADT" value="@Model.DTModels.MADT">
-                <span asp-validation-for="DTModels.MADT" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <label asp-for="DTModels.TENDT">Tên Đối Tác:</label>
                 <input type="text" id="name" name="DTModels.TENDT" asp-for="DTModels.TENDT">
@@ -28,7 +24,7 @@
             </div>
             @if (ViewBag.loaidts != null)
             {
-                    <div class="form-group">
+                <div class="form-group">
                     <label asp-for="DTModels.MALOAIDOITAC">Loại đối tác:</label>
                     <select id="partner-type" name="DTModels.MALOAIDOITAC" asp-for="DTModels.MALOAIDOITAC">
                         <option value="">Chọn loại đối tác</option>
@@ -37,22 +33,22 @@
                             // Kiểm tra từng phần tử của tập hợp trước khi sử dụng nó
                             if (l != null)
                             {
-                                        <option value= "@l.MALOAIDT" >@l.TENLOAI</option>
+                                <option value="@l.MALOAIDT">@l.TENLOAI</option>
                             }
                         }
                     </select>
                     <span asp-validation-for="DTModels.MALOAIDOITAC" class="text-danger"></span>
-                    </div>
+                </div>
             }
             else
             {
                 // Xử lý tập hợp trống (null) nếu cần thiết
-                    <p>Không có loại đối tác nào</p>
+                <p>Không có loại đối tác nào</p>
             }
-
             <div class="form-group">
                 <label asp-for="DTModels.SDT">Số Điện Thoại:</label>
-                <input id="phone" name="DTModels.SDT" asp-for="DTModels.SDT" type="text" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                <input id="phone" name="DTModels.SDT" asp-for="DTModels.SDT" type="text" inputmode="numeric"
+                       oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                 <span asp-validation-for="DTModels.SDT" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -60,6 +56,7 @@
                 <input type="text" id="email" name="DTModels.EMAIL" asp-for="DTModels.EMAIL">
                 <span asp-validation-for="DTModels.EMAIL" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="DTModels.DIRECTION">Địa Chỉ đường dẫn tới website:</label>
                 <input type="text" id="address" name="DTModels.DIRECTION" asp-for="DTModels.DIRECTION">
@@ -71,26 +68,23 @@
                 <span asp-validation-for="DTModels.IMAGEPATH" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type = "hidden" id="name" name="MAHD" asp-for="HDModels.MAHD" value="@Model.HDModels.MAHD">
-                <span asp-validation-for="HDModels.MAHD" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="HDModels.TENHDDT">Tên hợp đồng đối tác:</label>
-                <input type="text" id="ngaysinh" name="HDModels.TENHDDT" asp-for="HDModels.TENHDDT"> 
+                <input type="text" id="ngaysinh" name="HDModels.TENHDDT" asp-for="HDModels.TENHDDT">
                 <span asp-validation-for="HDModels.TENHDDT" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="hidden" id="ngaysinh" name="HDModels.LOAIHOPDONG" asp-for="HDModels.LOAIHOPDONG" value="Hợp Đồng Đối Tác"> 
+                <input type="hidden" id="ngaysinh" name="HDModels.LOAIHOPDONG" asp-for="HDModels.LOAIHOPDONG"
+                       value="Hợp đồng Đối Tác">
                 <span asp-validation-for="HDModels.LOAIHOPDONG" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="HDModels.THOIHAN">Thời hạn hợp đồng:</label>
-                <input type="text" id="ngaysinh" name="HDModels.THOIHAN" asp-for="HDModels.THOIHAN"> 
+                <input type="text" id="ngaysinh" name="HDModels.THOIHAN" asp-for="HDModels.THOIHAN">
                 <span asp-validation-for="HDModels.THOIHAN" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="HDModels.HIEULUC">Hiệu lực (Có hiệu lực từ ngày ...):</label>
-                <input type="date" id="ngayvaolam" name="HDModels.HIEULUC" asp-for="HDModels.HIEULUC"> 
+                <input type="date" id="ngayvaolam" name="HDModels.HIEULUC" asp-for="HDModels.HIEULUC">
                 <span asp-validation-for="HDModels.HIEULUC" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -98,21 +92,19 @@
                 <textarea id="description" name="HDModels.NOIDUNG" rows="8" asp-for="HDModels.NOIDUNG"></textarea>
                 <span asp-validation-for="HDModels.NOIDUNG" class="text-danger"></span>
             </div>
-
             @{
                 int? manv = Context.Session.GetInt32("MANV");
                 if (manv != null)
                 {
-                            <div class="form-group">
-                                <input type="hidden"  name="HDModels.MANV" asp-for="HDModels.MANV" value="@manv">
-                                <span asp-validation-for="HDModels.MANV" class="text-danger"></span>
-                            </div>
+                    <div class="form-group">
+                        <input type="hidden" id="ngaysinh" name="HDModels.MANV" asp-for="HDModels.MANV" value="@manv">
+                        <span asp-validation-for="HDModels.MANV" class="text-danger"></span>
+                    </div>
                 }
             }
             <div class="cover_submit">
-                <button type="submit" class="btn-submit">Cập Nhật</button>
+                <button type="submit" class="btn-submit">Thêm</button>
             </div>
         </form>
-
     </div>
 </div>

@@ -8,27 +8,27 @@ using QLTTTM.models;
 using Microsoft.IdentityModel.Tokens;
 using ZstdSharp.Unsafe;
 using System.Data.Entity;
-using QLTTTM.Datas; // Để sử dụng JSON serialization/deserialization
+using QLTTTM.Datas;
+using DAPM.Interfaces; // Để sử dụng JSON serialization/deserialization
 
 
 namespace DAPM.Controllers
 {
     public class AdminController : Controller
     {
-        private DataSQLContext _datasingleton;
+        private readonly IAdminRepository adminRepository;
 
-        public AdminController()
+        public AdminController(IAdminRepository adminRepository)
         {
-            _datasingleton = SingletonDbContext.Instance;
+            this.adminRepository = adminRepository;
         }
-
-        public IActionResult HomeAdmin(int manv)
+        public async Task<IActionResult> HomeAdmin(int manv)
         {
             if (manv != 0)
             {
-                NhanVien? nhanVien = _datasingleton.NhanViens.FirstOrDefault(x => x.MANV == manv);
+                var nhanVien =  adminRepository.GetNhanVienById(manv);
                 if(nhanVien != null){
-                    ViewBag.CV = _datasingleton.ChucVus.FirstOrDefault(x => x.MACV == nhanVien.MACV);
+                    ViewBag.CV =  adminRepository.GetChucVuById(nhanVien.MACV);
                     return View(nhanVien);
                 }
             }
@@ -40,32 +40,30 @@ namespace DAPM.Controllers
             int? manv = HttpContext.Session.GetInt32("MANV");
             if (manv != null)
             {
-                var data = _datasingleton;
-                return View(data);
+                return View(adminRepository);
             }
             return RedirectToAction("Login", "Admin");
         }
 
 
-        public IActionResult PremisesInfo()
+        public async Task<IActionResult> PremisesInfo()
         {
             int? manv = HttpContext.Session.GetInt32("MANV");
             if (manv != null)
             {
-                List<MatBang> list_mb = _datasingleton.MatBangs.ToList();
+                List<MatBang> list_mb =  adminRepository.GetMatBangs();
                 return View(list_mb);
             }
             return RedirectToAction("Login", "Admin");
-
         }
 
 
-        public IActionResult EventInfo()
+        public async Task<IActionResult> EventInfo()
         {
             int? manv = HttpContext.Session.GetInt32("MANV");
             if (manv != null)
             {
-                List<SuKien> list_sk = _datasingleton.SuKiens.ToList();
+                List<SuKien> list_sk =  adminRepository.GetSuKiens();
                 return View(list_sk);
             }
             return RedirectToAction("Login", "Admin");
@@ -77,8 +75,7 @@ namespace DAPM.Controllers
             int? manv = HttpContext.Session.GetInt32("MANV");
             if (manv != null)
             {
-                var data = _datasingleton;
-                return View(data);
+                return View(adminRepository);
             }
             return RedirectToAction("Login", "Admin");
         }
@@ -89,8 +86,7 @@ namespace DAPM.Controllers
             int? manv = HttpContext.Session.GetInt32("MANV");
             if (manv != null)
             {
-                var data = _datasingleton;
-                return View(data);
+                return View(adminRepository);
             }
             return RedirectToAction("Login", "Admin");
         }
@@ -101,8 +97,7 @@ namespace DAPM.Controllers
             int? manv = HttpContext.Session.GetInt32("MANV");
             if (manv != null && manv == 1)
             {
-                var data = _datasingleton;
-                return View(data);
+                return View(adminRepository);
             }
             return RedirectToAction("Login", "Admin");
         }
@@ -125,7 +120,7 @@ namespace DAPM.Controllers
             if (!string.IsNullOrEmpty(taikhoan) && !string.IsNullOrEmpty(matkhau))
             {
                 // Tìm tài khoản trong cơ sở dữ liệu
-                Account? account = _datasingleton.Accounts.SingleOrDefault(x => x.TAIKHOAN == taikhoan && x.MATKHAU == matkhau);
+                Account? account =  adminRepository.Login(taikhoan, matkhau);
 
                 if (account != null)
                 {
@@ -184,8 +179,7 @@ namespace DAPM.Controllers
                     noidung = "Empty";
                 }
                 phanQuyen.GHICHU = noidung;
-                await _datasingleton.PhanQuyens.AddAsync(phanQuyen);
-                await _datasingleton.SaveChangesAsync();
+                adminRepository.AddQuyen(phanQuyen);
                 return RedirectToAction("PermissionInfo", "Admin");
             }
             return RedirectToAction("HomeAdmin", "Admin", new { MANV = manv });
@@ -200,13 +194,8 @@ namespace DAPM.Controllers
 
             if (ID != 0)
             {
-                PhanQuyen? phanQuyen = _datasingleton.PhanQuyens.SingleOrDefault(x => x.ID == ID);
-                if (phanQuyen != null)
-                {
-                    _datasingleton.PhanQuyens.Remove(phanQuyen);
-                    await _datasingleton.SaveChangesAsync();
-                    return RedirectToAction("PermissionInfo", "Admin");
-                }
+                adminRepository.DeleteQuyen(ID);
+                return RedirectToAction("PermissionInfo", "Admin");
             }
             return RedirectToAction("PermissionInfo", "Admin");
         }
@@ -221,8 +210,7 @@ namespace DAPM.Controllers
             {
                 ChucVu chucVu = new ChucVu();
                 chucVu.TENCV = tencv;
-                await _datasingleton.ChucVus.AddAsync(chucVu);
-                await _datasingleton.SaveChangesAsync();
+                adminRepository.AddChucVu(chucVu);
                 return RedirectToAction("PermissionInfo", "Admin");
             }
             return RedirectToAction("HomeAdmin", "Admin", new { MANV = manv });
@@ -236,13 +224,8 @@ namespace DAPM.Controllers
         {
             if (macv != 0)
             {
-                ChucVu? chucVu = _datasingleton.ChucVus.SingleOrDefault(x => x.MACV == macv);
-                if (chucVu != null)
-                {
-                    _datasingleton.ChucVus.Remove(chucVu);
-                    await _datasingleton.SaveChangesAsync();
-                    return RedirectToAction("PermissionInfo", "Admin");
-                }
+                adminRepository.DeleteChucVu(macv);
+                return RedirectToAction("PermissionInfo", "Admin");
             }
             return RedirectToAction("PermissionInfo", "Admin");
         }

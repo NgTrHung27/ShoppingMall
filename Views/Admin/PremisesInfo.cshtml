@@ -52,7 +52,7 @@
 
 
                             <td class="action-buttons">
-                                @using (Html.BeginForm("XoaMB", "FunctionMB", new { mamb = item.MAMB }, FormMethod.Post))
+                                @using (Html.BeginForm("XoaMB", "Premises", new { mamb = item.MAMB }, FormMethod.Post))
                                 {
                                     @Html.AntiForgeryToken()
                                     <button type="submit" class="remove"
@@ -65,7 +65,7 @@
                         
                                 <button class="edit">
                                     <span class="material-symbols-outlined"
-                                        onclick="location.href = '@Url.Action("CapNhatMB","FunctionMB",new { mamb = item.MAMB })'">edit</span>
+                                        onclick="location.href = '@Url.Action("CapNhatMB","Premises",new { mamb = item.MAMB })'">edit</span>
                                 </button>
                             </td>
 
@@ -76,7 +76,7 @@
 
             </tbody>
         </table>
-        <button class="add add-nv" onclick="location.href = '@Url.Action("ThemMB","FunctionMB")'">
+        <button class="add add-nv" onclick="location.href = '@Url.Action("AddPremises","Premises")'">
             <span class="material-symbols-outlined">person_add</span> Thêm Mới
         </button>
 
@@ -122,7 +122,7 @@
 
 
                             <td class="action-buttons">
-                                @* @using (Html.BeginForm("XoaMB", "FunctionMB", new { mamb = item.MAMB }, FormMethod.Post))
+                                @* @using (Html.BeginForm("XoaMB", "Premises", new { mamb = item.MAMB }, FormMethod.Post))
                                 {
                                     @Html.AntiForgeryToken()
                                     <button type="submit" class="remove"
@@ -136,7 +136,7 @@
                                 
                                 <button class="edit">
                                     <span class="material-symbols-outlined"
-                                        onclick="location.href = '@Url.Action("CapNhatMB","FunctionMB",new { mamb = item.MAMB })'">edit</span>
+                                        onclick="location.href = '@Url.Action("CapNhatMB","Premises",new { mamb = item.MAMB })'">edit</span>
                                 </button>
                             </td>
 

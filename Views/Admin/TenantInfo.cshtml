@@ -69,7 +69,7 @@
 
 
                             <td class="action-buttons">
-                                @using (Html.BeginForm("XoaKT", "Client", new { makh = item.MAKH }, FormMethod.Post))
+                                @using (Html.BeginForm("DeleteTenants", "Client", new { makh = item.MAKH }, FormMethod.Post))
                                 {
                                     @Html.AntiForgeryToken()
                                     <button type="submit" class="remove"
@@ -158,7 +158,7 @@
 
                                 <button class="edit">
                                     <span class="material-symbols-outlined"
-                                        onclick="location.href = '@Url.Action("CapNhatHDKH","Client",new { mahdkh = item.MAHD})'">edit</span>
+                                        onclick="location.href = '@Url.Action("UpdateContract","Client",new { mahdkh = item.MAHD})'">edit</span>
                                 </button>
                             </td>
 

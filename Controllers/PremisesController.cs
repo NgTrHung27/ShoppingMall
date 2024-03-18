@@ -4,25 +4,25 @@ using QLTTTM.models;
 
 
 namespace DAPM.Controllers{
-    public class FunctionMBController: Controller{
+    public class PremisesController: Controller{
         private DataSQLContext dbContext;
         private readonly IWebHostEnvironment webHostEnvironment;
-        public FunctionMBController(DataSQLContext context, IWebHostEnvironment _webHostEnvironment ){
+        public PremisesController(DataSQLContext context, IWebHostEnvironment _webHostEnvironment ){
             dbContext = context;
             webHostEnvironment = _webHostEnvironment;
         }
 
 
         [HttpGet]
-        [ActionName("ThemMB")]
-        public async Task<IActionResult> ThemMB(){
+        [ActionName("AddPremises")]
+        public async Task<IActionResult> AddPremises(){
             return View();
         }
 
         [HttpPost]
         [ActionName("ThemMB")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ThemMB(MatBang mbModel, IFormFile tieude, IFormFile chudao, List<IFormFile> noidung)
+        public async Task<IActionResult> AddPremises(MatBang mbModel, IFormFile tieude, IFormFile chudao, List<IFormFile> noidung)
         {
             if (ModelState.IsValid)
             {

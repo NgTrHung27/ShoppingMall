@@ -4,25 +4,25 @@ using QLTTTM.models;
 
 
 namespace DAPM.Controllers{
-    public class FunctionMBController: Controller{
+    public class PremisesController: Controller{
         private DataSQLContext dbContext;
         private readonly IWebHostEnvironment webHostEnvironment;
-        public FunctionMBController(DataSQLContext context, IWebHostEnvironment _webHostEnvironment ){
+        public PremisesController(DataSQLContext context, IWebHostEnvironment _webHostEnvironment ){
             dbContext = context;
             webHostEnvironment = _webHostEnvironment;
         }
 
 
         [HttpGet]
-        [ActionName("ThemMB")]
-        public async Task<IActionResult> ThemMB(){
+        [ActionName("AddPremises")]
+        public async Task<IActionResult> AddPremises(){
             return View();
         }
 
         [HttpPost]
-        [ActionName("ThemMB")]
+        [ActionName("AddPremises")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ThemMB(MatBang mbModel, IFormFile tieude, IFormFile chudao, List<IFormFile> noidung)
+        public async Task<IActionResult> AddPremises(MatBang mbModel, IFormFile tieude, IFormFile chudao, List<IFormFile> noidung)
         {
             if (ModelState.IsValid)
             {
@@ -99,9 +99,9 @@ namespace DAPM.Controllers{
 
         //Thuc hien xoa mat bang : 
         [HttpPost]
-        [ActionName("XoaMB")]
+        [ActionName("DeletePremises")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> XoaMB(int? mamb){
+        public async Task<IActionResult> DeletePremises(int? mamb){
             if(mamb != null){
                 MatBang? matBang = dbContext.MatBangs.SingleOrDefault(x=>x.MAMB == mamb);
                 if(matBang != null){
@@ -153,8 +153,8 @@ namespace DAPM.Controllers{
 
         //Chuc nang cap nhat MB : 
         [HttpGet]
-        [ActionName("CapNhatMB")]
-        public async Task<IActionResult> CapNhatMB(int? mamb){
+        [ActionName("UpdatePremises")]
+        public async Task<IActionResult> UpdatePremises(int? mamb){
             if(mamb != null){
                 MatBang? matBang = dbContext.MatBangs.SingleOrDefault(x => x.MAMB == mamb);
                 if(matBang != null){
@@ -167,9 +167,9 @@ namespace DAPM.Controllers{
 
 
         [HttpPost]
-        [ActionName("CapNhatMB")]
+        [ActionName("UpdatePremises")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CapNhatMB(MatBang model, IFormFile tieude, IFormFile chudao , List<IFormFile> noidung)
+        public async Task<IActionResult> UpdatePremises(MatBang model, IFormFile tieude, IFormFile chudao , List<IFormFile> noidung)
         {
             if (ModelState.IsValid)
             {   

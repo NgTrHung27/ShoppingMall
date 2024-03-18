@@ -56,13 +56,13 @@
                                     <td>@item.IMAGEPATH</td>
                                     <td>@item.MOTA</td>
                                     <td>
-                                        <form asp-action="ChangeStatusSK" asp-controller="FunctionSK" method="post">
+                                        <form asp-action="ChangeStatusSK" asp-controller="Event" method="post">
                                                 <input type="hidden" name="mask" asp-for="@item.MASK" value="@item.MASK" />
                                                 <input type="checkbox" @(item.TRANGTHAI ? "checked" : "") onchange="this.form.submit()"/>
                                         </form>
                                     </td>
                                     <td class="action-buttons">
-                                                    @using (Html.BeginForm("XoaSK", "FunctionSK", new { mask = item.MASK }, FormMethod.Post))
+                                                    @using (Html.BeginForm("DeleteEvent", "Event", new { mask = item.MASK }, FormMethod.Post))
                                                     {
                                                         @Html.AntiForgeryToken()
                                                         <button type="submit" class="remove" onclick="return confirm('Bạn có chắc chắn muốn xóa sự kiện này không?')">
@@ -75,7 +75,7 @@
                                                         <span class="material-symbols-outlined">do_not_disturb_on</span>
                                                     </button> *@
                                                     <button class="edit">
-                                                        <span class="material-symbols-outlined" onclick="location.href = '@Url.Action("CapNhatSK","FunctionSK",new { mask = item.MASK })'">edit</span>
+                                                        <span class="material-symbols-outlined" onclick="location.href = '@Url.Action("UpdateEvent","Event",new { mask = item.MASK })'">edit</span>
                                                     </button>
                                     </td>
                                     
@@ -86,7 +86,7 @@
                 
                     </tbody>
                 </table>
-                <button class="add add-nv" onclick="location.href = '@Url.Action("ThemSK","FunctionSK")'">
+                <button class="add add-nv" onclick="location.href = '@Url.Action("AddEvent","Event")'">
                     <span class="material-symbols-outlined">person_add</span> Thêm Mới
                 </button>
 
@@ -129,13 +129,13 @@
                                     <td>@item.IMAGEPATH</td>
                                     <td>@item.MOTA</td>
                                     <td>
-                                        <form asp-action="ChangeStatusSK" asp-controller="FunctionSK" method="post">
+                                        <form asp-action="ChangeStatusSK" asp-controller="Event" method="post">
                                                 <input type="hidden" name="mask" asp-for="@item.MASK" value="@item.MASK" />
                                                 <input type="checkbox" @(item.TRANGTHAI ? "checked" : "") onchange="this.form.submit()"/>
                                         </form>
                                     </td>
                                     <td class="action-buttons">
-                                                    @using (Html.BeginForm("XoaSK", "FunctionSK", new { mask = item.MASK }, FormMethod.Post))
+                                                    @using (Html.BeginForm("DeleteEvent", "Event", new { mask = item.MASK }, FormMethod.Post))
                                                     {
                                                         @Html.AntiForgeryToken()
                                                         <button type="submit" class="remove" onclick="return confirm('Bạn có chắc chắn muốn xóa sự kiện này không?')">
@@ -148,7 +148,7 @@
                                                         <span class="material-symbols-outlined">do_not_disturb_on</span>
                                                     </button> *@
                                                     <button class="edit">
-                                                        <span class="material-symbols-outlined" onclick="location.href = '@Url.Action("CapNhatSK","FunctionSK",new { mask = item.MASK })'">edit</span>
+                                                        <span class="material-symbols-outlined" onclick="location.href = '@Url.Action("UpdateEvent","Event",new { mask = item.MASK })'">edit</span>
                                                     </button>
                                     </td>
                                     
@@ -195,13 +195,13 @@
                                     <td>@item.IMAGEPATH</td>
                                     <td>@item.MOTA</td>
                                     <td>
-                                        <form asp-action="ChangeStatusSK" asp-controller="FunctionSK" method="post">
+                                        <form asp-action="ChangeStatusSK" asp-controller="Event" method="post">
                                                 <input type="hidden" name="mask" asp-for="@item.MASK" value="@item.MASK" />
                                                 <input type="checkbox" @(item.TRANGTHAI ? "checked" : "") onchange="this.form.submit()"/>
                                         </form>
                                     </td>
                                     <td class="action-buttons">
-                                                    @using (Html.BeginForm("XoaSK", "FunctionSK", new { mask = item.MASK }, FormMethod.Post))
+                                                    @using (Html.BeginForm("DeleteEvent", "Event", new { mask = item.MASK }, FormMethod.Post))
                                                     {
                                                         @Html.AntiForgeryToken()
                                                         <button type="submit" class="remove" onclick="return confirm('Bạn có chắc chắn muốn xóa sự kiện này không?')">
@@ -214,7 +214,7 @@
                                                         <span class="material-symbols-outlined">do_not_disturb_on</span>
                                                     </button> *@
                                                     <button class="edit">
-                                                        <span class="material-symbols-outlined" onclick="location.href = '@Url.Action("CapNhatSK","FunctionSK",new { mask = item.MASK })'">edit</span>
+                                                        <span class="material-symbols-outlined" onclick="location.href = '@Url.Action("UpdateEvent","Event",new { mask = item.MASK })'">edit</span>
                                                     </button>
                                     </td>
                                     
@@ -264,13 +264,13 @@
                                     <td>@item.IMAGEPATH</td>
                                     <td>@item.MOTA</td>
                                     <td>
-                                        <form asp-action="ChangeStatusSK" asp-controller="FunctionSK" method="post">
+                                        <form asp-action="ChangeStatusSK" asp-controller="Event" method="post">
                                                 <input type="hidden" name="mask" asp-for="@item.MASK" value="@item.MASK" />
                                                 <input type="checkbox" @(item.TRANGTHAI ? "checked" : "") onchange="this.form.submit()"/>
                                         </form>
                                     </td>
                                     <td class="action-buttons">
-                                                    @using (Html.BeginForm("XoaSK", "FunctionSK", new { mask = item.MASK }, FormMethod.Post))
+                                                    @using (Html.BeginForm("DeleteEvent", "Event", new { mask = item.MASK }, FormMethod.Post))
                                                     {
                                                         @Html.AntiForgeryToken()
                                                         <button type="submit" class="remove" onclick="return confirm('Bạn có chắc chắn muốn xóa sự kiện này không?')">
@@ -283,7 +283,7 @@
                                                         <span class="material-symbols-outlined">do_not_disturb_on</span>
                                                     </button> *@
                                                     <button class="edit">
-                                                        <span class="material-symbols-outlined" onclick="location.href = '@Url.Action("CapNhatSK","FunctionSK",new { mask = item.MASK })'">edit</span>
+                                                        <span class="material-symbols-outlined" onclick="location.href = '@Url.Action("UpdateEvent","Event",new { mask = item.MASK })'">edit</span>
                                                     </button>
                                     </td>
                                     

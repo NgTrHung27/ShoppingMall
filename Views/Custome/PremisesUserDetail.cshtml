@@ -19,7 +19,7 @@
             <p>Giá: @(Model.GIATIEN + " VNĐ")</p>
             <p>Vị Trí: @Model.VITRI</p>
             <p>Mô tả: @Model.MOTA</p>
-            <a href="@Url.Action("ThemLH","FunctionKH" , new {MAMB = Model.MAMB})" class="contact-button">Liên Hệ
+            <a href="@Url.Action("AddContact","Client" , new {MAMB = Model.MAMB})" class="contact-button">Liên Hệ
                 Ngay</a>
         </div>
     </section>

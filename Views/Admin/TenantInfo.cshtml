@@ -60,7 +60,7 @@
                             <td>@item.SDT</td>
                             <td>@item.DIACHI</td>
                             <td>
-                                <form asp-action="ChangeStatusKH" asp-controller="FunctionKH" method="post">
+                                <form asp-action="ChangeStatusKH" asp-controller="Client" method="post">
                                     <input type="hidden" name="makh" value="@item.MAKH" />
                                     <input type="checkbox" @(item.TRANGTHAI ? "checked" : "") onchange="this.form.submit()" />
                                 </form>
@@ -69,7 +69,7 @@
 
 
                             <td class="action-buttons">
-                                @using (Html.BeginForm("XoaKT", "FunctionKH", new { makh = item.MAKH }, FormMethod.Post))
+                                @using (Html.BeginForm("XoaKT", "Client", new { makh = item.MAKH }, FormMethod.Post))
                                 {
                                     @Html.AntiForgeryToken()
                                     <button type="submit" class="remove"
@@ -137,14 +137,14 @@
                             <td>@("Bắt đầu có hiệu lực từ ngày " + hd.HIEULUC)</td>
 
                             <td>
-                                <form asp-action="ChangeStatusKH" asp-controller="FunctionKH" method="post">
+                                <form asp-action="ChangeStatusKH" asp-controller="Client" method="post">
                                     <input type="hidden" name="makh" asp-for="@item.MAKH" value="@item.MAKH" />
                                     <input type="checkbox" @(KH.TRANGTHAI ? "checked" : "") onchange="this.form.submit()" />
                                 </form>
                             </td>
 
                             <td class="action-buttons">
-                                @using (Html.BeginForm("XoaHDKH", "FunctionKH", new { mahdkh = item.MAHD }, FormMethod.Post))
+                                @using (Html.BeginForm("XoaHDKH", "Client", new { mahdkh = item.MAHD }, FormMethod.Post))
                                 {
                                     @Html.AntiForgeryToken()
                                     <button type="submit" class="remove"
@@ -158,7 +158,7 @@
 
                                 <button class="edit">
                                     <span class="material-symbols-outlined"
-                                        onclick="location.href = '@Url.Action("CapNhatHDKH","FunctionKH",new { mahdkh = item.MAHD})'">edit</span>
+                                        onclick="location.href = '@Url.Action("CapNhatHDKH","Client",new { mahdkh = item.MAHD})'">edit</span>
                                 </button>
                             </td>
 

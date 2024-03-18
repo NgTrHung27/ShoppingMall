@@ -3,20 +3,6 @@
 }
 @using QLTTTM.models
 @model QLTTTM.models.KhachHangAndHopDong
-@* @{
-    if (ViewBag.kh != null)
-    {
-        var kh = ViewBag.kh as KhachHang;
-        if (kh != null)
-        {
-            Model.KHModels = kh;
-        }
-        else
-        {
-            <p>Đối tượng kh không hợp lệ.</p>
-        }
-    }
-} *@
 
 
 
@@ -30,15 +16,15 @@
     </div> *@
 
     <div class="form_add_update">
-        <h2>Thêm Hợp Đồng Khách Thuê</h2>   
+        <h2>Cập Nhật Hợp Đồng Khách Thuê</h2>   
         
-        <form asp-action="ThemKT" asp-controller="FunctionKH" method="post" enctype="multipart/form-data">
+        <form asp-action="CapNhatHDKH" asp-controller="Client" method="post" enctype="multipart/form-data">
 
            
             @Html.ValidationSummary()
 
             <div class="form-group">
-                <input type="hidden" id="address" name="KHModels.MAKH" asp-for="KHModels.MAKH" value="@Model.KHModels.MAKH">
+                <input type="hidden" id="address" name="MAKH" asp-for="KHModels.MAKH" value="@Model.KHModels.MAKH">
                 <span asp-validation-for="KHModels.MAKH" class="text-danger"></span>
             </div>
 
@@ -116,16 +102,17 @@
 
 
             <div class="form-group">
-                <input type="hidden" id="address" name="KHModels.MAMB" asp-for="KHModels.MAMB" value="@Model.KHModels.MAMB">
+                <input type="hidden" id="address" name="MAMB" asp-for="KHModels.MAMB" value="@Model.KHModels.MAMB">
                 <span asp-validation-for="KHModels.MAMB" class="text-danger"></span>
             </div>
 
 
 
-            @* <div class="form-group">
-                <input type="hidden" id="address" name="HDModels.MAHD" asp-for="HDModels.MAHD" value="HDModels.MAHD">
+
+            <div class="form-group">
+                <input type="hidden" id="address" name="MAHD" asp-for="HDModels.MAHD" value="@Model.HDModels.MAHD">
                 <span asp-validation-for="HDModels.MAHD" class="text-danger"></span>
-            </div> *@
+            </div>
 
 
 
@@ -188,9 +175,8 @@
            
 
 
-
             <div class="cover_submit">
-                <button type="submit" class="btn-submit">Thêm</button>
+                <button type="submit" class="btn-submit">Cập Nhật</button>
             </div>
 
 

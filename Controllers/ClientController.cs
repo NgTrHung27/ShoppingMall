@@ -8,11 +8,11 @@ using QLTTTM.models;
 
 namespace DAPM.Controllers
 {
-    public class FunctionKHController : Controller
+    public class ClientController : Controller
     {
         private DataSQLContext dbContext;
         private readonly IWebHostEnvironment webHostEnvironment;
-        public FunctionKHController(DataSQLContext context, IWebHostEnvironment _webHostEnvironment)
+        public ClientController(DataSQLContext context, IWebHostEnvironment _webHostEnvironment)
         {
             dbContext = context;
             webHostEnvironment = _webHostEnvironment;
@@ -21,8 +21,8 @@ namespace DAPM.Controllers
 
 
         [HttpGet]
-        [ActionName("ThemLH")]
-        public IActionResult ThemLH(int MAMB)
+        [ActionName("AddContact")]
+        public IActionResult AddContact(int MAMB)
         {
             TempData["MAMB"] = MAMB;
             return View();
@@ -31,8 +31,8 @@ namespace DAPM.Controllers
 
 
         [HttpPost]
-        [ActionName("ThemLH")]
-        public async Task<IActionResult> ThemLH(KhachHang model, int mamb)
+        [ActionName("AddContact")]
+        public async Task<IActionResult> AddContact(KhachHang model, int mamb)
         {
 
             if (ModelState.IsValid)
@@ -66,7 +66,7 @@ namespace DAPM.Controllers
                         matBang.TRANGTHAI = oppositeCheck;
                         dbContext.MatBangs.Update(matBang);
                         await dbContext.SaveChangesAsync();
-                        return RedirectToAction("ThemKT", "FunctionKH", new { makh = makh });
+                        return RedirectToAction("AddTenants", "Client", new { makh = makh });
                     }
                 }
                 else
@@ -98,8 +98,8 @@ namespace DAPM.Controllers
 
 
         [HttpGet]
-        [ActionName("ThemKT")]
-        public IActionResult ThemKT(int makh)
+        [ActionName("AddTenants")]
+        public IActionResult AddTenants(int makh)
         {
             if (makh != 0)
             {
@@ -116,9 +116,9 @@ namespace DAPM.Controllers
 
 
         [HttpPost]
-        [ActionName("ThemKT")]
+        [ActionName("AddTenants")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ThemKT(KhachHangAndHopDong hdktModel)
+        public async Task<IActionResult> AddTenants(KhachHangAndHopDong hdktModel)
         {
             if (ModelState.IsValid)
             {
@@ -166,9 +166,9 @@ namespace DAPM.Controllers
 
         //Thuc hien xoa doi tac : 
         [HttpPost]
-        [ActionName("XoaKT")]
+        [ActionName("DeleteTenants")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> XoaKT(int? makh)
+        public async Task<IActionResult> DeleteTenants(int? makh)
         {
             if (makh != null)
             {
@@ -225,8 +225,8 @@ namespace DAPM.Controllers
 
         //Chuc nang cap nhat DT : 
         [HttpGet]
-        [ActionName("CapNhatHDKH")]
-        public async Task<IActionResult> CapNhatHDKH(int? mahdkh)
+        [ActionName("UpdateContract")]
+        public async Task<IActionResult> UpdateContract(int? mahdkh)
         {
             if (mahdkh != null)
             {
@@ -250,9 +250,9 @@ namespace DAPM.Controllers
 
 
         [HttpPost]
-        [ActionName("CapNhatHDKH")]
+        [ActionName("UpdateContract")]
         [ValidateAntiForgeryToken]
-        public IActionResult CapNhatHDKH(KhachHangAndHopDong model, int MAKH, int MAHD, int MAMB)
+        public IActionResult UpdateContract(KhachHangAndHopDong model, int MAKH, int MAHD, int MAMB)
         {
             if (ModelState.IsValid)
             {

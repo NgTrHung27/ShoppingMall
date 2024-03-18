@@ -4,25 +4,25 @@ using QLTTTM.models;
 
 
 namespace DAPM.Controllers{
-    public class FunctionSKController: Controller{
+    public class EventController: Controller{
         private DataSQLContext dbContext;
         private readonly IWebHostEnvironment webHostEnvironment;
-        public FunctionSKController(DataSQLContext context, IWebHostEnvironment _webHostEnvironment ){
+        public EventController(DataSQLContext context, IWebHostEnvironment _webHostEnvironment ){
             dbContext = context;
             webHostEnvironment = _webHostEnvironment;
         } 
 
 
         [HttpGet]
-        [ActionName("ThemSK")]
-        public async Task<IActionResult> ThemSK(){
+        [ActionName("AddEvent")]
+        public async Task<IActionResult> AddEvent(){
             return View();
         }
 
         [HttpPost]
-        [ActionName("ThemSK")]
+        [ActionName("AddEvent")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ThemSK(SuKien skModel, IFormFile tieude, IFormFile chudao, List<IFormFile> noidung)
+        public async Task<IActionResult> AddEvent(SuKien skModel, IFormFile tieude, IFormFile chudao, List<IFormFile> noidung)
         {
             if (ModelState.IsValid)
             {
@@ -61,9 +61,9 @@ namespace DAPM.Controllers{
 
         //Thuc hien xoa mat bang : 
         [HttpPost]
-        [ActionName("XoaSK")]
+        [ActionName("DeleteEvent")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> XoaSK(int? mask){
+        public async Task<IActionResult> DeleteEvent(int? mask){
             if(mask != null){
                 SuKien? suKien = dbContext.SuKiens.SingleOrDefault(x=>x.MASK == mask);
                 if(suKien != null){
@@ -114,8 +114,8 @@ namespace DAPM.Controllers{
 
         //Chuc nang cap nhat MB : 
         [HttpGet]
-        [ActionName("CapNhatSK")]
-        public async Task<IActionResult> CapNhatSK(int? mask){
+        [ActionName("UpdateEvent")]
+        public async Task<IActionResult> UpdateEvent(int? mask){
             if(mask != null){
                 SuKien? suKien = dbContext.SuKiens.SingleOrDefault(x => x.MASK == mask);
                 if(suKien != null){
@@ -128,9 +128,9 @@ namespace DAPM.Controllers{
 
 
         [HttpPost]
-        [ActionName("CapNhatSK")]
+        [ActionName("UpdateEvent")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CapNhatSK(SuKien model, IFormFile tieude, IFormFile chudao , List<IFormFile> noidung)
+        public async Task<IActionResult> UpdateEvent(SuKien model, IFormFile tieude, IFormFile chudao , List<IFormFile> noidung)
         {
             if (ModelState.IsValid)
             {   

@@ -4,13 +4,15 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using QLTTTM.models;
 using Microsoft.AspNetCore.Http;
+using DAPM.Interfaces;
+using DAPM.Repository;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 
 builder.Services.AddDbContext<DataSQLContext>(options =>
 {
@@ -44,10 +46,6 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
-
-
-
 
 
 app.UseAuthentication();

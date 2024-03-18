@@ -34,7 +34,7 @@ namespace DAPM.Controllers
         [ActionName("AddContact")]
         public async Task<IActionResult> AddContact(KhachHang model, int mamb)
         {
-            
+
             if (ModelState.IsValid)
             {
                 await dbContext.KhachHangs.AddAsync(model);
@@ -77,7 +77,8 @@ namespace DAPM.Controllers
                         MatBang? matBang = dbContext.MatBangs.SingleOrDefault(x => x.MAMB == khachHang.MAMB);
                         HopDong? hopDong = dbContext.HopDongs.SingleOrDefault(x => x.MAHD == hopDongMatBang.MAHD);
 
-                        if (matBang != null && hopDong != null){
+                        if (matBang != null && hopDong != null)
+                        {
                             khachHang.TRANGTHAI = false;
                             matBang.TRANGTHAI = false;
                             dbContext.MatBangs.Update(matBang);
@@ -290,17 +291,5 @@ namespace DAPM.Controllers
             // Xử lý khi ModelState không hợp lệ (có lỗi nhập liệu)
             return View(model);
         }
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

@@ -16,8 +16,9 @@ namespace DAPM.Controllers
 {
     public class AdminController : Controller
     {
-        private readonly IAdminRepository adminRepository;
+        DataSQLContext data = SingletonDbContext.Instance;
 
+        private readonly IAdminRepository adminRepository;
         public AdminController(IAdminRepository adminRepository)
         {
             this.adminRepository = adminRepository;
@@ -40,11 +41,10 @@ namespace DAPM.Controllers
             int? manv = HttpContext.Session.GetInt32("MANV");
             if (manv != null)
             {
-                return View(adminRepository);
+                return View(data);
             }
             return RedirectToAction("Login", "Admin");
         }
-
 
         public async Task<IActionResult> PremisesInfo()
         {
@@ -70,23 +70,32 @@ namespace DAPM.Controllers
 
         }
 
-        public IActionResult Partner()
+        //public IActionResult Partner()
+        //{
+        //    int? manv = HttpContext.Session.GetInt32("MANV");
+        //    if (manv != null)
+        //    {
+        //        List <DoiTac> list_partner = adminRepository.GetDoiTac();
+        //        return View(list_partner);
+        //    }
+        //    return RedirectToAction("Login", "Admin");
+        //}
+        public async  Task<IActionResult> Partner()
         {
             int? manv = HttpContext.Session.GetInt32("MANV");
             if (manv != null)
             {
-                return View(adminRepository);
+                return View(data);
             }
             return RedirectToAction("Login", "Admin");
         }
-
 
         public IActionResult TenantInfo()
         {
             int? manv = HttpContext.Session.GetInt32("MANV");
             if (manv != null)
             {
-                return View(adminRepository);
+                return View(data);
             }
             return RedirectToAction("Login", "Admin");
         }
@@ -97,7 +106,7 @@ namespace DAPM.Controllers
             int? manv = HttpContext.Session.GetInt32("MANV");
             if (manv != null && manv == 1)
             {
-                return View(adminRepository);
+                return View(data);
             }
             return RedirectToAction("Login", "Admin");
         }

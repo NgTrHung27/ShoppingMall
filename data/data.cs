@@ -18,7 +18,6 @@ namespace QLTTTM.Datas
                 {
                     var options = new DbContextOptionsBuilder<DataSQLContext>()
                         .UseSqlServer("Server=LAPTOP-FDR7M9C3;Database=QLTTTM;User ID=SA;Password=123456aA@$;Encrypt=true;TrustServerCertificate=true;Integrated Security=True;MultipleActiveResultSets=true;")
-
                         .Options;
 
                     instance = new DataSQLContext(options);

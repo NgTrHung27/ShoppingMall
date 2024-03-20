@@ -9,6 +9,8 @@ namespace DAPM.Interfaces
         public PhanQuyen? GetPhanQuyenById(int maquyen);
         public List<MatBang> GetMatBangs();
         public List<SuKien> GetSuKiens();
+        public List<DoiTac> GetDoiTac();
+        public List<HopDongDoiTac> GetHopDongDoiTacs();
         public Account? Login(string username, string password);
         public bool AddQuyen(PhanQuyen phanQuyen);
         public bool DeleteQuyen(int id);

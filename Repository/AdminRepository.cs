@@ -61,7 +61,14 @@ namespace DAPM.Repository
         {
             return  _context.SuKiens.ToList();
         }
-
+        public List<DoiTac> GetDoiTac()
+        {
+            return _context.DoiTacs.ToList();
+        }
+        public List<HopDongDoiTac> GetHopDongDoiTacs()
+        {
+            return _context.HopDongDoiTacs.ToList();
+        }
         public Account? Login(string username, string password)
         {
             return  _context.Accounts.FirstOrDefault(x => x.TAIKHOAN == username && x.MATKHAU == password);

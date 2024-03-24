@@ -14,11 +14,10 @@
     </div> *@
 
     <div class="form_add_update">
-        <h2>Thêm Nhân Viên</h2>
-        
-        <form asp-action="ThemNV" asp-controller="FunctionNV" method="post" enctype="multipart/form-data">
-
+        <h2>Cập Nhật Nhân Viên</h2>
+        <form asp-action="UpdateEmployee" asp-controller="Employee" method="post" enctype="multipart/form-data">
             @Html.ValidationSummary()
+            <input name="MANV" type="hidden" value="@Model.MANV" asp-for="MANV">
             <div class="form-group">
                 <label asp-for="HOTEN">Họ và Tên:</label>
                 <input type="text" id="name" name="HOTEN" asp-for="HOTEN">
@@ -29,17 +28,21 @@
             <div class="form-group">
                 <label asp-for="GIOITINH">Giới Tính:</label>
                 <select id="gender" name="GIOITINH" asp-for="GIOITINH">
-                    <option value="">Chọn giới tính</option>
+                    <option value="">Chọn giới tính</option>
+                    <option value="false">Nữ</option>
                     <option value="true">Nam</option>
-                    <option value="false">Nữ</option>
                 </select>
                 <span asp-validation-for="GIOITINH" class="text-danger"></span>
             </div>
+
+
             <div class="form-group">
                 <label asp-for="SDT">Số Điện Thoại:</label>
                 <input id="phone" name="SDT" asp-for="SDT" type="tel" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                 <span asp-validation-for="SDT" class="text-danger"></span>
             </div>
+
+
             <div class="form-group">
                 <label asp-for="NGAYSINH">Ngày Sinh:</label>
                 <input type="date" id="ngaysinh" name="NGAYSINH" asp-for="NGAYSINH"> 
@@ -72,10 +75,10 @@
 
             <div class="form-group">
                 <label asp-for="AVATAR">Hình Ảnh:</label>
-                <input type="file" id="image" accept="image/*" name="file" asp-for="AVATAR">
+                <input type="file" accept="image/*" name="newAvatar" asp-for="AVATAR" id="image">
                 <span asp-validation-for="AVATAR" class="text-danger"></span>
             </div>
-
+     
             @if (ViewBag.cvs != null)
             {
                 
@@ -103,9 +106,12 @@
 
             
             <div class="cover_submit">
-                <button type="submit" class="btn-submit">Thêm</button>
+                <button type="submit" class="btn-submit">Cập Nhật</button>
             </div>
         </form>
+
+
+
 
 
     </div>

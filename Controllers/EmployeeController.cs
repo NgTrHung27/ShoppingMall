@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace QLTTTM.Controllers
 {
-    public class FunctionNVController : Controller
+    public class EmployeeController : Controller
     {
         private readonly DataSQLContext dbContext;
         private readonly IWebHostEnvironment webHostEnvironment;
 
-        public FunctionNVController(DataSQLContext context, IWebHostEnvironment hostEnvironment)
+        public EmployeeController(DataSQLContext context, IWebHostEnvironment hostEnvironment)
         {
             dbContext = context;
             webHostEnvironment = hostEnvironment;
@@ -22,8 +22,8 @@ namespace QLTTTM.Controllers
 
 
         [HttpGet]
-        [ActionName("ThemNV")]
-        public async Task<IActionResult> ThemNV(){
+        [ActionName("AddEmployee")]
+        public async Task<IActionResult> AddEmployee(){
             List<ChucVu> list_cv = dbContext.ChucVus.ToList();
             ViewBag.cvs = list_cv;
 
@@ -35,8 +35,8 @@ namespace QLTTTM.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [ActionName("ThemNV")]
-        public async Task<IActionResult> ThemNV(NhanVien nvModel, IFormFile file)
+        [ActionName("AddEmployee")]
+        public async Task<IActionResult> AddEmployee(NhanVien nvModel, IFormFile file)
         {
 
             if (ModelState.IsValid)
@@ -87,8 +87,8 @@ namespace QLTTTM.Controllers
 
 
         [HttpPost]
-        [ActionName("XoaNV")]
-        public async Task<IActionResult> XoaNV(int? manv){
+        [ActionName("DeleletEmployee")]
+        public async Task<IActionResult> DeleteEmployee(int? manv){
             if(manv != null){
                 NhanVien? nhanVien = dbContext.NhanViens.SingleOrDefault(x=>x.MANV == manv);
                 if(nhanVien != null){
@@ -116,8 +116,8 @@ namespace QLTTTM.Controllers
 
 
         [HttpGet]
-        [ActionName("CapNhatNV")]
-        public async Task<IActionResult> CapNhatNV(int? manv){
+        [ActionName("UpdateEmployee")]
+        public async Task<IActionResult> UpdateEmployee(int? manv){
             if(manv != null){
                 NhanVien? nv = dbContext.NhanViens.SingleOrDefault(x=> x.MANV == manv);
                 if(nv != null){
@@ -132,9 +132,9 @@ namespace QLTTTM.Controllers
         }
 
         [HttpPost]
-        [ActionName("CapNhatNV")]
+        [ActionName("UpdateEmployee")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CapNhatNV(NhanVien model, IFormFile newAvatar)
+        public async Task<IActionResult> UpdateEmployee(NhanVien model, IFormFile newAvatar)
         {
             if (ModelState.IsValid)
             {
@@ -207,8 +207,8 @@ namespace QLTTTM.Controllers
 
 
         [HttpGet]
-        [ActionName("CapNhatAcc")]
-        public async Task<IActionResult> CapNhatAcc(int? id){
+        [ActionName("UpdateAccount")]
+        public async Task<IActionResult> UpdateAccount(int? id){
             if(id != null){
                 Account? account = dbContext.Accounts.SingleOrDefault(x => x.ID == id);
                 if(account != null){
@@ -220,8 +220,8 @@ namespace QLTTTM.Controllers
 
 
         [HttpPost]
-        [ActionName("CapNhatAcc")]
-        public async Task<IActionResult> CapNhatAcc(Account model){
+        [ActionName("UpdateAccount")]
+        public async Task<IActionResult> UpdateAccount(Account model){
             if(ModelState.IsValid){
                 Account? account = dbContext.Accounts.SingleOrDefault(x => x.ID == model.ID);
                 if(account != null){

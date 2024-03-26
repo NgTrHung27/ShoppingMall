@@ -65,6 +65,11 @@ namespace DAPM.Controllers
             return View(hddtModel);
         }
         // //Thuc hien xoa doi tac : 
+        /// <summary>
+        /// Xóa một đối tác dựa trên mã đối tác được cung cấp.
+        /// </summary>
+        /// <param name="madt">Mã đối tác cần xóa.</param>
+        /// <returns>Chuyển hướng đến trang "Partner" nếu xóa thành công, ngược lại chuyển hướng đến trang "HomeAdmin".</returns>
         [HttpPost]
         [ActionName("DeletePartner")]
         [ValidateAntiForgeryToken]

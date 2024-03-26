@@ -1,6 +1,9 @@
 using System.Data.Entity;
+using DAPM.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR.Protocol;
+using Microsoft.EntityFrameworkCore;
+using QLTTTM.Datas;
 using QLTTTM.models;
 
 
@@ -8,20 +11,19 @@ namespace DAPM.Controllers
 {
     public class PartnerController : Controller
     {
-        private DataSQLContext dbContext;
+        private DataSQLContext _context = SingletonDbContext.Instance ;
         private readonly IWebHostEnvironment webHostEnvironment;
         public PartnerController(DataSQLContext context, IWebHostEnvironment _webHostEnvironment)
         {
-            dbContext = context;
+            _context = context;
             webHostEnvironment = _webHostEnvironment;
-
         }
 
         [HttpGet]
         [ActionName("AddPartner")]
         public IActionResult AddPartner()
         {
-            ViewBag.loaidts = dbContext.LoaiDoiTacs.ToList();
+            ViewBag.loaidts = _context.LoaiDoiTacs.ToList();
             return View();
         }
 
@@ -45,22 +47,21 @@ namespace DAPM.Controllers
                     hddtModel.DTModels.IMAGEPATH = "/uploads/DoiTac/" + uniqueFileName;
                 }
                 // Lưu dữ liệu vào cơ sở dữ liệu
-                await dbContext.DoiTacs.AddAsync(hddtModel.DTModels);
-                await dbContext.HopDongs.AddAsync(hddtModel.HDModels);
-                await dbContext.SaveChangesAsync();
+                _context.DoiTacs.AddAsync(hddtModel.DTModels);
+                _context.HopDongs.AddAsync(hddtModel.HDModels);
+                _context.SaveChangesAsync();
 
-                var hopdongIDMAX = dbContext.HopDongs.Max(x => x.MAHD);
-                var doitacIDMAX = dbContext.DoiTacs.Max(x => x.MADT);
+                var hopdongIDMAX = _context.HopDongs.Max(x => x.MAHD);
+                var doitacIDMAX = _context.DoiTacs.Max(x => x.MADT);
                 HopDongDoiTac hopDongDoiTac = new HopDongDoiTac();
                 hopDongDoiTac.MAHD = hopdongIDMAX;
                 hopDongDoiTac.MADT = hddtModel.DTModels.MADT;
 
-                dbContext.HopDongDoiTacs.Add(hopDongDoiTac);
-                dbContext.SaveChanges();
-
+                _context.HopDongDoiTacs.Add(hopDongDoiTac);
+                _context.SaveChanges();
                 return RedirectToAction("Partner", "Admin");
             }
-            ViewBag.loaidts = dbContext.LoaiDoiTacs.ToList();
+            ViewBag.loaidts = _context.LoaiDoiTacs.ToList();
             return View(hddtModel);
         }
         // //Thuc hien xoa doi tac : 
@@ -71,7 +72,7 @@ namespace DAPM.Controllers
         {
             if (madt != null)
             {
-                DoiTac? doiTac = dbContext.DoiTacs.SingleOrDefault(x => x.MADT == madt);
+                DoiTac? doiTac = _context.DoiTacs.SingleOrDefault(x => x.MADT == madt);
                 if (doiTac != null)
                 {
                     // Xóa hình ảnh cũ nếu có
@@ -83,12 +84,12 @@ namespace DAPM.Controllers
                         System.IO.File.Delete(absolutePath);
                     }
 
-                    HopDongDoiTac? hopDongDoiTac = dbContext.HopDongDoiTacs.SingleOrDefault(x => x.MADT == madt);
-                    HopDong? hopDong = dbContext.HopDongs.SingleOrDefault(x => x.MAHD == hopDongDoiTac.MAHD);
-                    dbContext.HopDongDoiTacs.Remove(hopDongDoiTac);
-                    dbContext.HopDongs.Remove(hopDong);
-                    dbContext.DoiTacs.Remove(doiTac);
-                    dbContext.SaveChanges();
+                    HopDongDoiTac? hopDongDoiTac = _context.HopDongDoiTacs.SingleOrDefault(x => x.MADT == madt);
+                    HopDong? hopDong = _context.HopDongs.SingleOrDefault(x => x.MAHD == hopDongDoiTac.MAHD);
+                    _context.HopDongDoiTacs.Remove(hopDongDoiTac);
+                    _context.HopDongs.Remove(hopDong);
+                    _context.DoiTacs.Remove(doiTac);
+                    _context.SaveChanges();
                     return RedirectToAction("Partner", "Admin");
                 }
             }
@@ -101,17 +102,17 @@ namespace DAPM.Controllers
         {
             if (madt != null)
             {
-                DoiTac? doiTac = dbContext.DoiTacs.SingleOrDefault(x => x.MADT == madt);
+                DoiTac? doiTac = _context.DoiTacs.SingleOrDefault(x => x.MADT == madt);
                 if (doiTac != null)
                 {
-                    HopDongDoiTac? hopDongDoiTac = dbContext.HopDongDoiTacs.SingleOrDefault(x => x.MADT == madt);
+                    HopDongDoiTac? hopDongDoiTac = _context.HopDongDoiTacs.SingleOrDefault(x => x.MADT == madt);
                     if (hopDongDoiTac != null)
                     {
-                        HopDong? hopDong = dbContext.HopDongs.SingleOrDefault(x => x.MAHD == hopDongDoiTac.MAHD);
+                        HopDong? hopDong = _context.HopDongs.SingleOrDefault(x => x.MAHD == hopDongDoiTac.MAHD);
                         HopDongAndDoiTac hopDongAndDoiTac = new HopDongAndDoiTac();
                         hopDongAndDoiTac.DTModels = doiTac;
                         hopDongAndDoiTac.HDModels = hopDong;
-                        ViewBag.loaidts = dbContext.LoaiDoiTacs.ToList();
+                        ViewBag.loaidts = _context.LoaiDoiTacs.ToList();
                         return View(hopDongAndDoiTac);
                     }
                 }
@@ -124,8 +125,8 @@ namespace DAPM.Controllers
         {
             if (ModelState.IsValid)
             {
-                HopDong? existingHopdong = dbContext.HopDongs.SingleOrDefault(x => x.MAHD == MAHD);
-                DoiTac? existingDoitac = dbContext.DoiTacs.SingleOrDefault(x => x.MADT == MADT);
+                HopDong? existingHopdong = _context.HopDongs.SingleOrDefault(x => x.MAHD == MAHD);
+                DoiTac? existingDoitac = _context.DoiTacs.SingleOrDefault(x => x.MADT == MADT);
 
                 if (existingDoitac == null || existingHopdong == null)
                 {
@@ -150,14 +151,14 @@ namespace DAPM.Controllers
                 // Kiểm tra xem có file hình ảnh mới được tải lên không
                 existingDoitac.IMAGEPATH = ImagePath(image_dt, existingDoitac.IMAGEPATH);
 
-                dbContext.DoiTacs.Update(existingDoitac);
-                dbContext.HopDongs.Update(existingHopdong);
-                dbContext.SaveChangesAsync();
+                _context.DoiTacs.Update(existingDoitac);
+                _context.HopDongs.Update(existingHopdong);
+                _context.SaveChangesAsync();
 
                 return RedirectToAction("Partner", "Admin");
             }
             // Xử lý khi ModelState không hợp lệ (có lỗi nhập liệu)
-            ViewBag.loaidts = dbContext.LoaiDoiTacs.ToList();
+            ViewBag.loaidts = _context.LoaiDoiTacs.ToList();
             return View(model);
         }
 

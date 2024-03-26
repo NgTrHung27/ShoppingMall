@@ -6,7 +6,7 @@
 @model QLTTTM.models.DataSQLContext
 @{
     List<DoiTac> list_dt = Model.DoiTacs.OrderByDescending(x => x.MADT).ToList();
-    List<HopDongDoiTac> list_hddt = Model.HopDongDoiTacs.OrderByDescending(x => x.MADT).ToList();  
+    List<HopDongDoiTac> list_hddt = Model.HopDongDoiTacs.OrderByDescending(x => x.MADT).ToList();
 }
 
 <div class="content-wrapper">

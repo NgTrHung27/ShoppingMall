@@ -1,5 +1,6 @@
 using System.Data.Entity;
 using DAPM.Services;
+using DAPM.StatePattern;
 using Microsoft.AspNetCore.Mvc;
 using QLTTTM.Datas;
 using QLTTTM.models;
@@ -22,7 +23,14 @@ namespace DAPM.Controllers{
         public async Task<IActionResult> AddEvent(){
             return View();
         }
-
+        /// <summary>
+        /// Thêm 1 sự kiện mới
+        /// </summary>
+        /// <param name="skModel">Đối tượng SuKien chứa thông tin về sự kiện.</param>
+        /// <param name="tieude">File chứa hình  tiêu đề của sự kiện.</param>
+        /// <param name="chudao">File chứa hình chủ đạo của sự kiện.</param>
+        /// <param name="noidung">Danh sách các file chứa nội dung của sự kiện.</param>
+        /// <returns>Chuyển hướng đến trang EventInfo nếu thêm thành công ngược lại trả về View với model skModel.</returns>
         [HttpPost]
         [ActionName("AddEvent")]
         [ValidateAntiForgeryToken]
@@ -40,20 +48,23 @@ namespace DAPM.Controllers{
         [HttpPost]
         [ActionName("ChangeStatusSK")]
         [ValidateAntiForgeryToken]
-        public async Task <IActionResult> ChangeStatusSK(int mask)
+        public async Task<IActionResult> ChangeStatusSK(int mask)
         {
             SuKien? suKien = dbContext.SuKiens.SingleOrDefault(x => x.MASK == mask);
-            if(suKien != null){
-                bool check = suKien.TRANGTHAI;
-                bool oppositeCheck = !check;
-                suKien.TRANGTHAI = oppositeCheck;
+            if (suKien != null)
+            {
+                if (suKien.State == null)
+                {
+                    suKien.State = suKien.TRANGTHAI ? (IEventState)new ApprovedState() : new UnapprovedState();
+                }
+                suKien.State.Handle(suKien);
+                suKien.TRANGTHAI = !suKien.TRANGTHAI; // Update the TRANGTHAI after Handle is called
                 dbContext.SuKiens.Update(suKien);
                 await dbContext.SaveChangesAsync();
-                return RedirectToAction("EventInfo" , "Admin");
+                return RedirectToAction("EventInfo", "Admin");
             }
             return RedirectToAction("HomeAdmin", "Admin");
         }
-
 
         //Thuc hien xoa mat bang : 
         [HttpPost]
@@ -64,8 +75,6 @@ namespace DAPM.Controllers{
             return RedirectToAction("EventInfo", "Admin");
 
         }
-
-
 
         //Chuc nang cap nhat MB : 
         [HttpGet]
@@ -79,8 +88,6 @@ namespace DAPM.Controllers{
             }
             return RedirectToAction("HomeAdmin", "Admin");
         }
-
-
 
         [HttpPost]
         [ActionName("UpdateEvent")]

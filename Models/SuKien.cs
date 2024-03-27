@@ -39,7 +39,7 @@ namespace QLTTTM.models{
     [ForeignKey("NhanVien")]
     public int MANV { get; set; }
      [NotMapped]
-    public IEventState State { get; set; }
+    public IEventState? State { get; set; }
     }
 
 }

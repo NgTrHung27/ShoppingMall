@@ -6,7 +6,7 @@
 @model QLTTTM.models.DataSQLContext
 @{
     List<DoiTac> list_dt = Model.DoiTacs.OrderByDescending(x => x.MADT).ToList();
-    List<HopDongDoiTac> list_hddt = Model.HopDongDoiTacs.OrderByDescending(x => x.MADT).ToList();  
+    List<HopDongDoiTac> list_hddt = Model.HopDongDoiTacs.OrderByDescending(x => x.MADT).ToList();
 }
 
 <div class="content-wrapper">
@@ -62,7 +62,7 @@
                                                     </span>
                                                 </button>
                                             }
-                                            @* <button class="remove" onclick="return confirm('Bạn có chắc chắn muốn xóa nhân viên này không?') ? window.location.href = '@Url.Action("XoaNV", "Function")' : false;">
+                                            @* <button class="remove" onclick="return confirm('Bạn có chắc chắn muốn xóa nhân viên này không?') ? window.location.href = '@Url.Action("DeleteEmployee", "Function")' : false;">
                                                 <span class="material-symbols-outlined">do_not_disturb_on</span>
                                             </button> *@
                                             <button class="edit">

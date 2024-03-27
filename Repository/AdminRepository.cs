@@ -44,7 +44,7 @@ namespace DAPM.Repository
 
         public List<MatBang> GetMatBangs()
         {
-            return  _context.MatBangs.ToList();
+            return  _context.MatBangs.AsNoTracking().ToList();
         }
 
         public NhanVien? GetNhanVienById(int manv)

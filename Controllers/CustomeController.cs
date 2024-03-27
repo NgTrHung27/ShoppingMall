@@ -64,7 +64,6 @@ namespace DAPM.Controllers
                     return RedirectToAction("HomeUser");
                 }
             }
-
             return RedirectToAction("LoginUser");
         }
 

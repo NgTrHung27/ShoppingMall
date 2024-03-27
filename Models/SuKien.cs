@@ -1,11 +1,12 @@
+using DAPM.StatePattern;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QLTTTM.models{
     public class SuKien
-{
+    {
     [Key]
-    public int MASK { get; set; }
+    [Required]public int MASK { get; set; }
     [StringLength(500)]
     [Required(ErrorMessage = "Vui lòng nhập tên sự kiện")]
     public string TENSK { get; set; }
@@ -37,7 +38,8 @@ namespace QLTTTM.models{
     public bool TRANGTHAI { get; set; }
     [ForeignKey("NhanVien")]
     public int MANV { get; set; }
-
-}
+     [NotMapped]
+    public IEventState State { get; set; }
+    }
 
 }

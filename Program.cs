@@ -1,25 +1,48 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using QLTTTM.models;
-using Microsoft.AspNetCore.Http;
 using DAPM.Interfaces;
 using DAPM.Repository;
-
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
+using DAPM.StrategyConcreteClasses;
+using Microsoft.AspNetCore.Authentication.Facebook;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
+builder.Services.AddScoped<IAuthenticationStrategy, FacebookAuthenticationStrategy>();
+builder.Services.AddScoped<IAuthenticationStrategy, GoogleAuthenticationStrategy>();
+
+
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+})
+    .AddCookie()
+    .AddFacebook(facebookOptions =>
+    {
+        facebookOptions.AppId = builder.Configuration.GetSection("FacebookKeys").GetValue<string>("AppId");
+        facebookOptions.AppSecret = builder.Configuration.GetSection("FacebookKeys").GetValue<string>("AppSecret");
+        //facebookOptions.CallbackPath = "/Custome/HomeUser";
+    })
+    .AddGoogle(GoogleDefaults.AuthenticationScheme,googleOptions =>
+    {
+        googleOptions.ClientId = builder.Configuration.GetSection("GoogleKeys").GetValue<string>("ClientId");
+        googleOptions.ClientSecret = builder.Configuration.GetSection("GoogleKeys").GetValue<string>("ClientSecret");
+        //googleOptions.CallbackPath = "/Custome/HomeUser";
+    });
+
 
 builder.Services.AddDbContext<DataSQLContext>(options =>
 {
 options.UseSqlServer(builder.Configuration.GetConnectionString("DATABASESQL"), 
     options => options.EnableRetryOnFailure());
 });
-
 
 
 builder.Services.AddSession(options =>
@@ -54,7 +77,7 @@ app.UseAuthorization();
 
 app.UseSession();
 
-app.UseMiddleware<SessionTimeoutMiddleware>();
+//app.UseMiddleware<SessionTimeoutMiddleware>();
 
 app.MapControllerRoute(
     name: "default",

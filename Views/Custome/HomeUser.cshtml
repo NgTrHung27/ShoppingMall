@@ -3,10 +3,6 @@
 @{
     Layout = "_CustomeLayout";
 }
-@inject DataSQLContext dbContext
-@model QLTTTM.models.DataSQLContext
-
-
 
 <div class="main">
     <div id="banner">
@@ -66,7 +62,7 @@
                     </span>
                 </div>
                 <div class="row" data-aos="zoom-in-up" data-aos-duration="3000" data-aos-deplay="3000">
-                    @{
+                    @* @{
                         var noibat = Model.SuKiens.Where(x => x.LOAISK == "NB" && x.TRANGTHAI == true).OrderByDescending(x => x.MASK);
                         foreach (var item in noibat)
                             {
@@ -89,14 +85,8 @@
                                             </a>
                                     </div>
                             }
-                    }
-
-
-
+                    } *@
                 </div>
-
-
-
             </div>
             <div class="icon_lien_he" data-aos="fade-right" data-aos-offset="300" data-aos-easing="ease-in-sine"
                 data-aos-duration="500">
@@ -202,15 +192,8 @@
                                 </li>
                             </ul>
                         </div>
-
-
-
-
-
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>

@@ -4,26 +4,93 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QLTTTM.models;
 using System.Linq; // Đảm bảo bạn đã thêm using này
+using System.Security.Claims;
+using QLTTTM.Datas;
+using Microsoft.AspNetCore.Authentication.Facebook;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using DAPM.Interfaces;
+using DAPM.StrategyConcreteClasses;
 
 
 namespace DAPM.Controllers
 {
     public class CustomeController : Controller
     {
-
-
         private DataSQLContext dataSQLContext;
+        private readonly IAuthenticationStrategy _googleAuthenticationStrategy;
+        private readonly IAuthenticationStrategy _facebookAuthenticationStrategy;
 
-        public CustomeController(DataSQLContext data)
+        public CustomeController()
         {
-            dataSQLContext = data;
+            _googleAuthenticationStrategy = new GoogleAuthenticationStrategy();
+            _facebookAuthenticationStrategy = new FacebookAuthenticationStrategy();
+            dataSQLContext = SingletonDbContext.Instance;
         }
 
+        public async Task GoogleLogin(string returnUrl)
+        {
+            var redirectUri = Url.Action("GoogleLoginCallback");
+            if (redirectUri != null)
+            {
+                await _googleAuthenticationStrategy.ChallengeAsync(HttpContext, redirectUri);
+            }
+        }
+
+        public async Task FacebookLogin(string returnUrl)
+        {
+            await _facebookAuthenticationStrategy.ChallengeAsync(HttpContext, returnUrl);
+        }
+
+        public async Task<IActionResult> GoogleLoginCallback()
+        {
+            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var identity = result.Principal.Identities.FirstOrDefault();
+            if (identity != null)
+            {
+                var claims = identity.Claims.Select(claim => new
+                {
+                    claim.Issuer,
+                    claim.OriginalIssuer,
+                    claim.Type,
+                    claim.Value
+                });
+
+                if (claims.Any())
+                {
+                    return RedirectToAction("HomeUser");
+                }
+            }
+
+            return RedirectToAction("LoginUser");
+        }
+
+        public IActionResult LoginUser()
+        {
+            return View();
+        }
+
+        public IActionResult GoogleRedirect()
+        {
+            var claims = User.Claims.ToList();
+            var emailClaim = claims?.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Email));
+            var nameClaim = claims?.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Name));
+
+            if (emailClaim != null && nameClaim != null)
+            {
+
+                return RedirectToAction("HomeUser", "Custome");
+            }
+
+            return RedirectToAction("HomeUser");
+        }
 
         public IActionResult HomeUser()
         {
-            var data = dataSQLContext;
-            return View(data);
+            return View();
         }
 
         public IActionResult Brand(int maloai)
@@ -33,14 +100,13 @@ namespace DAPM.Controllers
                 List<DoiTac> doiTacs = dataSQLContext.DoiTacs.OrderByDescending(x => x.MALOAIDOITAC).ToList();
                 ViewBag.tenloadt = "";
                 return View(doiTacs);
-
             }
             else
             {
                 List<DoiTac> doiTacs = dataSQLContext.DoiTacs.Where(x => x.MALOAIDOITAC == maloai).OrderByDescending(x => x.MADT).ToList();
                 LoaiDoiTac? loaiDoiTac = dataSQLContext.LoaiDoiTacs.SingleOrDefault(x => x.MALOAIDT == maloai);
 
-                ViewBag.tenloadt = loaiDoiTac.TENLOAI;
+                ViewBag.tenloadt = loaiDoiTac?.TENLOAI;
 
                 return View(doiTacs);
             }
@@ -127,26 +193,13 @@ namespace DAPM.Controllers
                 )
                 .ToList();
 
-
-
-
             // Kết hợp kết quả từ cả ba loại :
             var combinedResults = new List<object>();
             combinedResults.AddRange(eventResults);
             combinedResults.AddRange(partnerResults);
             combinedResults.AddRange(premisesResults);
 
-
             return PartialView("_SearchResults", combinedResults);
         }
-
-
-
-
-
-
     }
-
-
-
 }

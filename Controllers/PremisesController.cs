@@ -44,10 +44,8 @@ namespace DAPM.Controllers{
         [ActionName("DeletePremises")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeletePremises(int? mamb){
-            
             factoryServices.Delete(mamb, webHostEnvironment);
             return RedirectToAction("PremisesInfo", "Admin");
-
         }
 
 

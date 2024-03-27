@@ -56,7 +56,6 @@ namespace DAPM.Controllers
                 HopDongDoiTac hopDongDoiTac = new HopDongDoiTac();
                 hopDongDoiTac.MAHD = hopdongIDMAX;
                 hopDongDoiTac.MADT = hddtModel.DTModels.MADT;
-
                 _context.HopDongDoiTacs.Add(hopDongDoiTac);
                 _context.SaveChanges();
                 return RedirectToAction("Partner", "Admin");
@@ -88,7 +87,6 @@ namespace DAPM.Controllers
                     {
                         System.IO.File.Delete(absolutePath);
                     }
-
                     HopDongDoiTac? hopDongDoiTac = _context.HopDongDoiTacs.SingleOrDefault(x => x.MADT == madt);
                     HopDong? hopDong = _context.HopDongs.SingleOrDefault(x => x.MAHD == hopDongDoiTac.MAHD);
                     _context.HopDongDoiTacs.Remove(hopDongDoiTac);
@@ -132,7 +130,6 @@ namespace DAPM.Controllers
             {
                 HopDong? existingHopdong = _context.HopDongs.SingleOrDefault(x => x.MAHD == MAHD);
                 DoiTac? existingDoitac = _context.DoiTacs.SingleOrDefault(x => x.MADT == MADT);
-
                 if (existingDoitac == null || existingHopdong == null)
                 {
                     // Xử lý khi không tìm thấy Nhân Viên cần cập nhật
@@ -159,7 +156,7 @@ namespace DAPM.Controllers
                 _context.DoiTacs.Update(existingDoitac);
                 _context.HopDongs.Update(existingHopdong);
                 _context.SaveChangesAsync();
-
+                
                 return RedirectToAction("Partner", "Admin");
             }
             // Xử lý khi ModelState không hợp lệ (có lỗi nhập liệu)

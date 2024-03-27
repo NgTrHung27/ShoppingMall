@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using QLTTTM.models;
 using Microsoft.AspNetCore.Http;
@@ -8,8 +5,8 @@ using DAPM.Interfaces;
 using DAPM.Repository;
 using DAPM.Services;
 
-
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -20,7 +17,6 @@ builder.Services.AddDbContext<DataSQLContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DATABASESQL"), 
     options => options.EnableRetryOnFailure());
 });
-
 
 
 builder.Services.AddSession(options =>
@@ -55,7 +51,7 @@ app.UseAuthorization();
 
 app.UseSession();
 
-app.UseMiddleware<SessionTimeoutMiddleware>();
+//app.UseMiddleware<SessionTimeoutMiddleware>();
 
 app.MapControllerRoute(
     name: "default",

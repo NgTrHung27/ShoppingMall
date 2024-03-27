@@ -1,4 +1,5 @@
 using System.Data.Entity;
+using Microsoft.AspNetCore.Mvc;
 using DAPM.Services;
 using DAPM.StatePattern;
 using Microsoft.AspNetCore.Mvc;
@@ -44,6 +45,7 @@ namespace DAPM.Controllers{
 
             return View(skModel);
         }
+
         //Xu ly chuc nang thay doi trang thai : 
         [HttpPost]
         [ActionName("ChangeStatusSK")]
@@ -75,7 +77,6 @@ namespace DAPM.Controllers{
             return RedirectToAction("EventInfo", "Admin");
 
         }
-
         //Chuc nang cap nhat MB : 
         [HttpGet]
         [ActionName("UpdateEvent")]
@@ -88,7 +89,7 @@ namespace DAPM.Controllers{
             }
             return RedirectToAction("HomeAdmin", "Admin");
         }
-
+      
         [HttpPost]
         [ActionName("UpdateEvent")]
         [ValidateAntiForgeryToken]

@@ -38,12 +38,14 @@ namespace DAPM.Controllers
                 await _googleAuthenticationStrategy.ChallengeAsync(HttpContext, redirectUri);
             }
         }
-
         public async Task FacebookLogin(string returnUrl)
         {
             await _facebookAuthenticationStrategy.ChallengeAsync(HttpContext, returnUrl);
         }
-
+        /// <summary>
+        /// GoogleLoginCallback handles the callback from the Google authentication process.
+        /// </summary>
+        /// <returns>Redirects to the HomeUser view if authentication is successful, otherwise redirects to the LoginUser view.</returns>
         public async Task<IActionResult> GoogleLoginCallback()
         {
             var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -112,7 +114,10 @@ namespace DAPM.Controllers
         {
             return View();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public IActionResult GoogleRedirect()
         {
             var claims = User.Claims.ToList();

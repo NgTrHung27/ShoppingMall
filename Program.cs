@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using DAPM.Interfaces;
 using DAPM.Repository;
 using DAPM.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,27 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+})
+.AddCookie(options =>
+{
+    options.LoginPath = "/Admin/Login";
+})
+.AddGoogle(options =>
+{
+    options.ClientId = builder.Configuration["GoogleKeys:ClientId"];
+    options.ClientSecret = builder.Configuration["GoogleKeys:ClientSecret"];
+})
+.AddFacebook(options =>
+{
+    options.AppId = builder.Configuration["FacebookKeys:AppId"];
+    options.AppSecret = builder.Configuration["FacebookKeys:AppSecret"];
+});
 
 builder.Services.AddDbContext<DataSQLContext>(options =>
 {

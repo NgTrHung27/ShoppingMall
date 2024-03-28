@@ -67,15 +67,15 @@ namespace DAPM.Facade
 
         public async Task UpdateAccount(Account model)
         {
-            Account? existingAccount = dbContext.Accounts.SingleOrDefault(x => x.USERNAME == model.USERNAME);
+            Account? existingAccount = dbContext.Accounts.SingleOrDefault(x => x.TAIKHOAN == model.TAIKHOAN);
 
             if (existingAccount == null)
             {
                 throw new Exception("Tài khoản không tồn tại");
             }
-            
+
             // Cập nhật thông tin từ model vào Tài khoản đã tồn tại
-            existingAccount.PASSWORDPASSWORD;
+            existingAccount.MATKHAU = model.MATKHAU;
 
             dbContext.Update(existingAccount);
             await dbContext.SaveChangesAsync();

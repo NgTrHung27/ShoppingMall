@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using DAPM.Interfaces;
 using DAPM.StrategyConcreteClasses;
-
+using Microsoft.AspNetCore.Http;
 
 namespace DAPM.Controllers
 {
@@ -63,6 +63,47 @@ namespace DAPM.Controllers
 
                 if (claims.Any())
                 {
+                    var emailClaim = claims.FirstOrDefault(x => x.Type == ClaimTypes.Email);
+                    var nameClaim = claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+
+                    if (emailClaim != null && nameClaim != null)
+                    {
+                        HttpContext.Session.SetString("Email", emailClaim.Value);
+                        HttpContext.Session.SetString("Name", nameClaim.Value);
+                    }
+
+                    return RedirectToAction("HomeUser");
+                }
+            }
+            return RedirectToAction("LoginUser");
+        }
+
+        public async Task<IActionResult> FacebookLoginCallback()
+        {
+            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var identity = result.Principal.Identities.FirstOrDefault();
+            if (identity != null)
+            {
+                var claims = identity.Claims.Select(claim => new
+                {
+                    claim.Issuer,
+                    claim.OriginalIssuer,
+                    claim.Type,
+                    claim.Value
+                });
+
+                if (claims.Any())
+                {
+                    var emailClaim = claims.FirstOrDefault(x => x.Type == ClaimTypes.Email);
+                    var nameClaim = claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+
+                    if (emailClaim != null && nameClaim != null)
+                    {
+                        HttpContext.Session.SetString("Email", emailClaim.Value);
+                        HttpContext.Session.SetString("Name", nameClaim.Value);
+                    }
+
                     return RedirectToAction("HomeUser");
                 }
             }

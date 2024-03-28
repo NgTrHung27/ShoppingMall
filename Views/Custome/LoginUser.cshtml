@@ -12,15 +12,35 @@
     <title>Login Page</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .home-button {
+            display: inline-block;
+            background: linear-gradient(to right, #ff9966 0%, #ff5e62 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: background 0.5s;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+            .home-button:hover {
+                background: linear-gradient(to right, #ff5e62 0%, #ff9966 100%);
+            }
+    </style>
 </head>
 <body>
     <div class="container">
         <div class="row mt-5">
             <div class="col-md-6 offset-md-3">
-                <h2 class="text-center mb-4">Login</h2>
+                <h2 class="text-center mb-4">Đăng nhập</h2>
                 <div class="text-center">
                     <a href="@Url.Action("FacebookLogin", "Custome", new { returnUrl = Url.Content("https://localhost:7005/Custome/HomeUser") })" type="button" class="btn btn-primary mr-2" id="login-facebook">Login with Facebook</a>
                     <a asp-controller="Custome" asp-action="GoogleLogin" type="button" class="btn btn-danger" id="login-google">Login with Google</a>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="@Url.Action("Login","Admin")" class="home-button">ADMIN</a>
                 </div>
             </div>
         </div>

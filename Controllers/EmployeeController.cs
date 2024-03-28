@@ -2,6 +2,7 @@ using DAPM.Facade;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using QLTTTM.Datas;
 using QLTTTM.models;
 using System;
 using System.Data.Entity;
@@ -14,6 +15,7 @@ namespace QLTTTM.Controllers
     public class EmployeeController : Controller
     {
         private readonly EmployeeFacade employeeFacade;
+        DataSQLContext dbContext = SingletonDbContext.Instance;
 
         public EmployeeController(EmployeeFacade _employeeFacade)
         {
